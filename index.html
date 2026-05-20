@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shop Visit Tracker</title>
+    <title>Shop Visit Tracker - Fast</title>
     <style>
         * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
         body { background: #e9f0f5; margin: 0; padding-bottom: 70px; }
@@ -39,25 +39,23 @@
         .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
         .pagination button { background: #e2e8f0; color: #1e293b; padding: 4px 8px; font-size: 11px; }
         .pagination button.active { background: #2c5f8a; color: white; }
-        .loading { text-align: center; padding: 20px; color: #666; font-size: 13px; }
         hr { margin: 12px 0; }
         h3, h4 { margin: 0 0 8px 0; }
     </style>
 </head>
 <body>
 <div id="app">
-    <!-- LOGIN SCREEN (Shows instantly, no freezing) -->
+    <!-- LOGIN SCREEN (Loads INSTANTLY - no loops) -->
     <div id="loginContainer" class="login-container">
         <h2>🔐 Shop Tracker</h2>
-        <p style="font-size:12px; color:#666;">Enter your name to continue</p>
-        <input type="text" id="loginUser" placeholder="Username (e.g., AHMED, ALI, admin)" autocomplete="off">
+        <p style="font-size:12px; color:#666;">Click your name to login</p>
+        <input type="text" id="loginUser" placeholder="Or type username" autocomplete="off">
         <input type="password" id="loginPass" placeholder="Password (123)">
         <button id="loginBtn" style="width:100%; margin-top:5px;">Sign In</button>
         
-        <div style="margin: 15px 0 8px; font-size: 11px; color: #666;">Quick Login (Click your name):</div>
+        <div style="margin: 15px 0 8px; font-size: 11px; color: #666;">Quick Login:</div>
         <div class="booker-list" id="bookerList">
-            <!-- Dynamic booker buttons will appear here -->
-            <span style="color:#999;">Loading bookers...</span>
+            <!-- These buttons load instantly - no data processing -->
         </div>
         <p style="font-size:10px; margin-top:15px;">All passwords: <strong>123</strong> | Admin: admin/123</p>
     </div>
@@ -70,10 +68,9 @@
         </div>
         <div class="tabs" id="tabs"></div>
         
-        <!-- Visit Tab -->
         <div id="tab-visit" class="tab-content">
             <div class="search-bar">
-                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop by name or phone..." onkeyup="debounceSearch()"></div>
+                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop..." onkeyup="debounceSearch()"></div>
                 <div class="filter-group">
                     <button id="filterAll">All</button>
                     <button id="filterVisited">Visited Today</button>
@@ -90,13 +87,12 @@
             <div class="pagination" id="pagination"></div>
         </div>
         
-        <!-- Reports Tab -->
         <div id="tab-report" class="tab-content">
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center;">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
                 <input type="date" id="reportFrom" style="width:auto;"> to 
                 <input type="date" id="reportTo" style="width:auto;">
                 <button id="applyReport">Filter</button>
-                <button id="exportExcel">📎 Export Excel</button>
+                <button id="exportExcel">📎 Export</button>
             </div>
             <div style="overflow-x: auto; max-height: 60vh; overflow-y: auto;">
                 <table id="reportTable">
@@ -106,7 +102,6 @@
             </div>
         </div>
         
-        <!-- Admin Tab -->
         <div id="tab-admin" class="tab-content">
             <div class="admin-panel">
                 <h3>👑 Admin Controls</h3>
@@ -115,8 +110,8 @@
                     👥 <strong>Bookers:</strong> <span id="totalBookerCount">0</span>
                 </div>
                 <h4>➕ Add Shop</h4>
-                <input type="text" id="newShopName" placeholder="Shop name / address">
-                <input type="text" id="newShopPhone" placeholder="Phone number">
+                <input type="text" id="newShopName" placeholder="Shop name">
+                <input type="text" id="newShopPhone" placeholder="Phone">
                 <select id="newShopBooker"></select>
                 <button id="addShopBtn" class="success">Add Shop</button>
                 <hr>
@@ -124,11 +119,11 @@
                 <input type="text" id="newBookerName" placeholder="New booker name">
                 <button id="addBookerBtn">Add Booker</button>
                 <select id="removeBookerSelect" style="margin-top:8px;"></select>
-                <button id="removeBookerBtn" class="danger">Remove Booker</button>
+                <button id="removeBookerBtn" class="danger">Remove</button>
                 <hr>
                 <h4>🔄 Admin Override</h4>
                 <select id="resetShopSelect"></select>
-                <button id="resetVisitBtn" class="warning">Mark as NOT Visited Today</button>
+                <button id="resetVisitBtn" class="warning">Mark as NOT Visited</button>
             </div>
         </div>
     </div>
@@ -136,13 +131,22 @@
 
 <script>
     // ============================================================
-    // 🔴🔴🔴 PASTE YOUR SHOP DATA HERE (After CSV to JSON conversion) 🔴🔴🔴
+    // 🔴 ALL BOOKERS (Hardcoded - loads INSTANTLY, no loops) 🔴
     // ============================================================
-    // Go to https://csvjson.com/csv2json → Select "JSON Array of Arrays"
-    // Copy the result and paste it below, replacing the example data
+    const ALL_BOOKERS = [
+        "admin", "AHMED", "ALI", "AQIB", "BEHZAD", "BILAWAL", 
+        "DANISH", "FARHAN", "HANNAN", "SAJID", "SALMAN", "SAMI", 
+        "SAQIB", "TRB", "WAQAR", "WAQAS", "WASIB", "ZEESHAN"
+    ];
+    
+    // ============================================================
+    // 🔴🔴🔴 PASTE YOUR 2800+ SHOPS HERE (from CSV to JSON) 🔴🔴🔴
+    // ============================================================
+    // Go to https://csvjson.com/csv2json → "JSON Array of Arrays"
+    // Copy the result and paste it below, replacing the example
     // ============================================================
     const RAW_SHOPS = [
-        // Example format - REPLACE THIS WITH YOUR ACTUAL 2800+ SHOPS
+        // ⬇️⬇️⬇️ REPLACE THIS WITH YOUR ACTUAL DATA ⬇️⬇️⬇️
        [
   {
     "Shop": "Al Falah Com Liaqatabad Al Karam Square - 0309 2894296",
@@ -11516,36 +11520,25 @@
     function todayStr() { return new Date().toISOString().slice(0,10); }
     function extractPhone(text) { let m = text.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().substring(0,12) : "N/A"; }
     
-    // Load bookers list FIRST (lightweight, no freezing)
+    // Load bookers - INSTANT (no loops, pre-defined)
     function loadBookersList() {
-        let uniqueBookers = [];
-        for(let row of RAW_SHOPS) {
-            let booker = row[1] ? row[1].toUpperCase() : "";
-            if(booker && !uniqueBookers.includes(booker)) uniqueBookers.push(booker);
-        }
-        uniqueBookers.sort();
-        
         let container = document.getElementById('bookerList');
         container.innerHTML = '';
-        // Add admin button
-        let adminBtn = document.createElement('button');
-        adminBtn.className = 'booker-btn';
-        adminBtn.innerText = 'admin';
-        adminBtn.onclick = () => { document.getElementById('loginUser').value = 'admin'; document.getElementById('loginPass').value = '123'; };
-        container.appendChild(adminBtn);
-        
-        // Add all bookers
-        for(let bk of uniqueBookers) {
+        for(let bk of ALL_BOOKERS) {
             let btn = document.createElement('button');
             btn.className = 'booker-btn';
             btn.innerText = bk;
-            btn.onclick = () => { document.getElementById('loginUser').value = bk; document.getElementById('loginPass').value = '123'; };
+            btn.onclick = () => { 
+                document.getElementById('loginUser').value = bk; 
+                document.getElementById('loginPass').value = '123'; 
+            };
             container.appendChild(btn);
         }
     }
     
     // Load shops ONLY after login
     function loadShops() {
+        if(shops.length > 0) return shops.length;
         let id = 1;
         for(let row of RAW_SHOPS) {
             if(row[0] && row[1]) {
@@ -11561,7 +11554,6 @@
         localStorage.setItem('shopTracker_users', JSON.stringify(users));
     }
     
-    // Initialize users (called after login)
     function initUsers() {
         let savedUsers = localStorage.getItem('shopTracker_users');
         if(savedUsers) {
@@ -11614,7 +11606,7 @@
         let pageShops = filtered.slice(start, start + ITEMS_PER_PAGE);
         let visitedCount = shops.filter(s => isVisitedToday(s.id)).length;
         
-        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops shown | Today: ${visitedCount} visits | Page ${currentPage}/${totalPages || 1}`;
+        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops | Today: ${visitedCount} visits | Page ${currentPage}/${totalPages || 1}`;
         document.getElementById('shopCountDisplay').innerHTML = `📊 ${shops.length} Shops`;
         
         let tbody = document.getElementById('shopsBody');
@@ -11626,7 +11618,6 @@
             tbody.innerHTML += `<tr><td style="max-width:220px; word-break:break-word;">${escapeHtml(shop.name)}</td><td style="font-size:10px;">${shop.phone}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not'}</span></td><td>${action}</td></tr>`;
         }
         
-        // Pagination
         let paginationDiv = document.getElementById('pagination');
         paginationDiv.innerHTML = '';
         if(totalPages > 1) {
@@ -11696,7 +11687,11 @@
         
         // Load shops and users ONLY on first login
         if(shops.length === 0) {
-            loadShops();
+            let shopCount = loadShops();
+            if(shopCount === 0) {
+                alert("No shop data found! Please add shops to the RAW_SHOPS array.");
+                return;
+            }
             let savedVisits = localStorage.getItem('shopTracker_visits');
             if(savedVisits) visits = JSON.parse(savedVisits);
             initUsers();
@@ -11718,7 +11713,6 @@
         currentUser = null; 
         document.getElementById('loginContainer').style.display = 'block'; 
         document.getElementById('mainApp').style.display = 'none'; 
-        // Clear sensitive data from memory (optional)
         document.getElementById('loginUser').value = '';
         document.getElementById('loginPass').value = '';
     }
@@ -11726,7 +11720,7 @@
     function renderUI() {
         let tabsDiv = document.getElementById('tabs');
         tabsDiv.innerHTML = '';
-        let tabs = [{id:'tab-visit',label:'📍 Visit Shops'},{id:'tab-report',label:'📊 My Reports'}];
+        let tabs = [{id:'tab-visit',label:'📍 Visit Shops'},{id:'tab-report',label:'📊 Reports'}];
         if(currentUser.role === 'admin') tabs.push({id:'tab-admin',label:'⚙️ Admin'});
         for(let tab of tabs) { 
             let btn = document.createElement('button'); 
@@ -11763,7 +11757,7 @@
         }
     }
     
-    // Initialize - load bookers list only (lightweight)
+    // Initialize - load bookers list INSTANTLY (no loops)
     loadBookersList();
     
     // Event listeners
