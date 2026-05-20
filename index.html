@@ -37,11 +37,12 @@
         
         .stats { background: #eef2ff; padding: 8px 12px; border-radius: 12px; margin-bottom: 12px; font-size: 0.7rem; }
         
-        .login-container { max-width: 320px; margin: 80px auto; background: white; padding: 25px; border-radius: 32px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .login-container { max-width: 320px; margin: 60px auto; background: white; padding: 25px; border-radius: 32px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .login-container input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 30px; font-size: 14px; text-align: center; }
-        .login-container button { width: 100%; padding: 12px; font-size: 16px; }
+        .login-container button { width: 100%; padding: 12px; font-size: 16px; margin-top: 10px; }
         .booker-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; justify-content: center; max-height: 250px; overflow-y: auto; }
-        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 6px 12px; font-size: 11px; border-radius: 25px; }
+        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 8px 14px; font-size: 12px; border-radius: 25px; cursor: pointer; border: none; margin: 2px; }
+        .booker-btn:hover { background: #2c5f8a; color: white; }
         
         .pagination { display: flex; justify-content: center; gap: 5px; margin-top: 15px; flex-wrap: wrap; }
         .page-btn { background: #e2e8f0; color: #1e293b; padding: 4px 10px; font-size: 11px; }
@@ -55,6 +56,7 @@
         @media (max-width: 600px) {
             th, td { font-size: 10px; padding: 5px 3px; }
             .tab { padding: 8px 12px; font-size: 0.7rem; }
+            .booker-btn { padding: 5px 10px; font-size: 10px; }
         }
     </style>
 </head>
@@ -64,16 +66,34 @@
     <div id="loginContainer" class="login-container">
         <h2>📋 Shop Visit Tracker</h2>
         <p style="font-size:12px; color:#666;">Enter your name to login</p>
-        <input type="text" id="loginUser" placeholder="Username" autocomplete="off">
-        <input type="password" id="loginPass" placeholder="Password (123)">
+        <input type="text" id="loginUser" placeholder="Username" autocomplete="off" value="MOMIN">
+        <input type="password" id="loginPass" placeholder="Password (123)" value="123">
         <button id="loginBtn">Sign In</button>
         
         <div style="margin: 15px 0 8px; font-size: 11px; color: #666;">Quick Login:</div>
         <div class="booker-list" id="bookerList">
-            <span style="color:#999;">Loading...</span>
+            <!-- Hardcoded booker buttons - loads instantly -->
+            <button class="booker-btn" data-user="MOMIN">MOMIN</button>
+            <button class="booker-btn" data-user="AHMED">AHMED</button>
+            <button class="booker-btn" data-user="ALI">ALI</button>
+            <button class="booker-btn" data-user="AQIB">AQIB</button>
+            <button class="booker-btn" data-user="BEHZAD">BEHZAD</button>
+            <button class="booker-btn" data-user="BILAWAL">BILAWAL</button>
+            <button class="booker-btn" data-user="DANISH">DANISH</button>
+            <button class="booker-btn" data-user="FARHAN">FARHAN</button>
+            <button class="booker-btn" data-user="HANNAN">HANNAN</button>
+            <button class="booker-btn" data-user="SAJID">SAJID</button>
+            <button class="booker-btn" data-user="SALMAN">SALMAN</button>
+            <button class="booker-btn" data-user="SAMI">SAMI</button>
+            <button class="booker-btn" data-user="SAQIB">SAQIB</button>
+            <button class="booker-btn" data-user="TRB">TRB</button>
+            <button class="booker-btn" data-user="WAQAR">WAQAR</button>
+            <button class="booker-btn" data-user="WAQAS">WAQAS</button>
+            <button class="booker-btn" data-user="WASIB">WASIB</button>
+            <button class="booker-btn" data-user="ZEESHAN">ZEESHAN</button>
         </div>
         <p style="font-size:10px; margin-top:15px;">Password: <strong>123</strong> for all users</p>
-        <p style="font-size:10px; color:#888;">👑 MOMIN has special powers: cancel visits, change passwords, see all reports</p>
+        <p style="font-size:10px; color:#888;">👑 MOMIN: cancel visits, change passwords, see all reports</p>
     </div>
 
     <!-- MAIN APP -->
@@ -95,7 +115,7 @@
                 <table id="shopsTable">
                     <thead><tr><th>Shop Name</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead>
                     <tbody id="shopsBody"></tbody>
-                </table>
+                追赶
             </div>
             <div class="pagination" id="pagination"></div>
         </div>
@@ -110,7 +130,7 @@
                 <table id="mominShopsTable">
                     <thead><tr><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Visited On</th><th>Action</th></tr></thead>
                     <tbody id="mominShopsBody"></tbody>
-                </table>
+                追赶
             </div>
             <div class="pagination" id="mominPagination"></div>
         </div>
@@ -127,7 +147,7 @@
                 <table id="reportTable">
                     <thead><tr><th>Date</th><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Time</th></tr></thead>
                     <tbody id="reportBody"></tbody>
-                </table>
+                追赶
             </div>
         </div>
         
@@ -146,7 +166,7 @@
                 <table id="myShopsTable">
                     <thead><tr><th>Shop Name</th><th>Phone</th></tr></thead>
                     <tbody id="myShopsBody"></tbody>
-                </table>
+                追赶
             </div>
         </div>
         
@@ -183,12 +203,9 @@
     // ============================================================
     // 🔴🔴🔴 PASTE YOUR SHOP DATA HERE (From CSV to JSON) 🔴🔴🔴
     // ============================================================
-    // Each row: ["Shop Name with phone", "BOOKER_NAME"]
-    // All bookers must be in UPPERCASE (AHMED, ALI, AQIB, etc.)
-    // ============================================================
     const RAW_SHOPS = [
-        // ⬇️⬇️⬇️ REPLACE THIS WITH YOUR ACTUAL SHOPS ⬇️⬇️⬇️
-        [
+        // Example shops - REPLACE WITH YOUR ACTUAL 2800+ SHOPS
+       [
   {
     "Shop": "Al Falah Com Liaqatabad Al Karam Square - 0309 2894296",
     "Booker": "AHMED"
@@ -11550,18 +11567,13 @@
     "Booker": "SAMI"
   }
 ]
-        // ⬆️⬆️⬆️ REPLACE ABOVE WITH YOUR ACTUAL SHOPS ⬆️⬆️⬆️
     ];
-    
-    // All bookers (including MOMIN as super user)
-    const ALL_BOOKERS_LIST = ["MOMIN", "AHMED", "ALI", "AQIB", "BEHZAD", "BILAWAL", "DANISH", "FARHAN", "HANNAN", "SAJID", "SALMAN", "SAMI", "SAQIB", "TRB", "WAQAR", "WAQAS", "WASIB", "ZEESHAN"];
     
     // ============ APP STATE ============
     let shops = [];
     let visits = [];
     let users = [];
     let currentUser = null;
-    let currentTab = 'visit';
     let searchTerm = '';
     let mominSearchTerm = '';
     let currentPage = 1;
@@ -11573,6 +11585,7 @@
     
     // Load shops from RAW_SHOPS
     function loadShops() {
+        if(shops.length > 0) return shops.length;
         let id = 1;
         for(let row of RAW_SHOPS) {
             if(row[0] && row[1]) {
@@ -11606,8 +11619,6 @@
     }
     
     function isVisitedToday(shopId) { return visits.some(v => v.shopId === shopId && v.dateStr === todayStr()); }
-    
-    function getShopVisitRecord(shopId) { return visits.find(v => v.shopId === shopId && v.dateStr === todayStr()); }
     
     // Mark visit
     function markVisit(shopId) {
@@ -11646,7 +11657,7 @@
         }
     }
     
-    // Get shops for current booker (for Visit tab)
+    // Get shops for current booker
     function getBookerShops() {
         if(currentUser.role === 'super') return [];
         return shops.filter(shop => shop.bookerAssigned === currentUser.username);
@@ -11668,7 +11679,7 @@
         let pageShops = filtered.slice(start, start + ITEMS_PER_PAGE);
         
         let visitedCount = getBookerShops().filter(s => isVisitedToday(s.id)).length;
-        document.getElementById('visitStats').innerHTML = `📊 Total Shops: ${getBookerShops().length} | Visited Today: ${visitedCount} | Page ${currentPage}/${totalPages || 1}`;
+        document.getElementById('visitStats').innerHTML = `📊 Total: ${getBookerShops().length} | Visited Today: ${visitedCount} | Page ${currentPage}/${totalPages || 1}`;
         
         let tbody = document.getElementById('shopsBody');
         tbody.innerHTML = '';
@@ -11694,7 +11705,7 @@
         }
     }
     
-    // MOMIN: Show ONLY visited shops from ALL bookers
+    // MOMIN: Show ONLY visited shops
     function getMominVisitedShops() {
         let visitedShops = [];
         for(let visit of visits) {
@@ -11711,7 +11722,7 @@
                 });
             }
         }
-        // Remove duplicates (same shop visited multiple times? keep latest)
+        // Remove duplicates (keep latest)
         let unique = [];
         let seen = new Set();
         for(let v of visitedShops.reverse()) {
@@ -11743,13 +11754,7 @@
         let tbody = document.getElementById('mominShopsBody');
         tbody.innerHTML = '';
         for(let visit of pageVisits) {
-            tbody.innerHTML += `<tr>
-                <td style="max-width:180px; word-break:break-word;">${escapeHtml(visit.shopName)}</td>
-                <td>${visit.shopPhone}</td>
-                <td><strong>${visit.booker}</strong></td>
-                <td>${visit.dateStr}</td>
-                <td><button class="danger small" data-id="${visit.id}">🗑️ Cancel</button></td>
-            </tr>`;
+            tbody.innerHTML += `<tr><td style="max-width:180px; word-break:break-word;">${escapeHtml(visit.shopName)}</td><td>${visit.shopPhone}</td><td><strong>${visit.booker}</strong></td><td>${visit.dateStr}</td><td><button class="danger small" data-id="${visit.id}">🗑️ Cancel</button></td></tr>`;
         }
         
         document.querySelectorAll('[data-id]').forEach(btn => btn.addEventListener('click', () => cancelVisit(parseInt(btn.dataset.id))));
@@ -11832,7 +11837,7 @@
         document.getElementById('totalVisitCount').innerText = visits.length;
     }
     
-    // Admin functions (MOMIN only)
+    // Admin functions
     function refreshAdmin() {
         if(!currentUser || currentUser.role !== 'super') return;
         let bookers = users.filter(u => u.role === 'booker').map(u => u.username);
@@ -11887,7 +11892,6 @@
     
     // Tab switching
     function switchTab(tabId) {
-        currentTab = tabId;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
@@ -11904,6 +11908,10 @@
     function login() {
         let u = document.getElementById('loginUser').value.trim().toUpperCase();
         let p = document.getElementById('loginPass').value;
+        
+        // Load shops first
+        loadShops();
+        
         let user = users.find(x => x.username.toUpperCase() === u && x.password === p);
         if(user){
             currentUser = user;
@@ -11918,17 +11926,19 @@
             tabsDiv.innerHTML = '';
             
             if(user.role === 'super') {
-                tabsDiv.innerHTML += `<div class="tab active" data-tab="momin-visits">✅ Visited Shops</div>`;
-                tabsDiv.innerHTML += `<div class="tab" data-tab="report">📊 Full Reports</div>`;
-                tabsDiv.innerHTML += `<div class="tab" data-tab="admin">⚙️ Admin</div>`;
-                currentTab = 'momin-visits';
+                tabsDiv.innerHTML = `
+                    <div class="tab active" data-tab="momin-visits">✅ Visited Shops</div>
+                    <div class="tab" data-tab="report">📊 Full Reports</div>
+                    <div class="tab" data-tab="admin">⚙️ Admin</div>
+                `;
                 document.getElementById('tab-momin-visits').classList.add('active');
                 renderMominVisits();
             } else {
-                tabsDiv.innerHTML += `<div class="tab active" data-tab="visit">📍 My Shops</div>`;
-                tabsDiv.innerHTML += `<div class="tab" data-tab="report">📊 My Visits</div>`;
-                tabsDiv.innerHTML += `<div class="tab" data-tab="addshop">➕ Add Shop</div>`;
-                currentTab = 'visit';
+                tabsDiv.innerHTML = `
+                    <div class="tab active" data-tab="visit">📍 My Shops</div>
+                    <div class="tab" data-tab="report">📊 My Visits</div>
+                    <div class="tab" data-tab="addshop">➕ Add Shop</div>
+                `;
                 document.getElementById('tab-visit').classList.add('active');
                 renderShops();
             }
@@ -11942,27 +11952,20 @@
             document.getElementById('reportTo').value = todayStr();
             renderReports();
             
-        } else { alert("Invalid credentials! Use username from list, password: 123"); }
-    }
-    
-    function logout() { currentUser = null; document.getElementById('loginContainer').style.display = 'block'; document.getElementById('mainApp').style.display = 'none'; }
-    
-    // Load bookers list on login screen
-    function loadBookersList() {
-        let container = document.getElementById('bookerList');
-        container.innerHTML = '';
-        for(let bk of ALL_BOOKERS_LIST) {
-            let btn = document.createElement('button');
-            btn.className = 'booker-btn';
-            btn.innerText = bk;
-            btn.onclick = () => { document.getElementById('loginUser').value = bk; document.getElementById('loginPass').value = '123'; };
-            container.appendChild(btn);
+        } else { 
+            alert("Invalid credentials! Use username from list, password: 123"); 
         }
     }
     
+    function logout() { 
+        currentUser = null; 
+        document.getElementById('loginContainer').style.display = 'block'; 
+        document.getElementById('mainApp').style.display = 'none'; 
+        document.getElementById('loginUser').value = 'MOMIN';
+        document.getElementById('loginPass').value = '123';
+    }
+    
     // Initialize
-    loadShops();
-    loadBookersList();
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
     document.getElementById('applyReport').onclick = () => renderReports();
@@ -11972,6 +11975,18 @@
     document.getElementById('addBookerBtn').onclick = addBooker;
     document.getElementById('removeBookerBtn').onclick = removeBooker;
     document.getElementById('exportFullReportBtn').onclick = exportFullReport;
+    
+    // Quick login buttons
+    document.querySelectorAll('.booker-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('loginUser').value = btn.getAttribute('data-user');
+            document.getElementById('loginPass').value = '123';
+            login();
+        });
+    });
+    
+    // Pre-load shops
+    loadShops();
 </script>
 </body>
 </html>
