@@ -2,85 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shop Tracker - Fast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Tracker - Full Version</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #e9f0f5; padding: 10px; }
+        body { background: #e9f0f5; padding: 15px; }
         
-        /* Login Screen */
-        .login-box { max-width: 320px; margin: 60px auto; background: white; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .login-box h2 { margin-bottom: 15px; }
-        .login-box input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; font-size: 14px; text-align: center; }
-        .login-box button { width: 100%; padding: 12px; background: #2c5f8a; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        .booker-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 15px; max-height: 200px; overflow-y: auto; }
-        .booker-btn { background: #e2e8f0; border: none; padding: 8px 14px; border-radius: 25px; font-size: 12px; cursor: pointer; margin: 2px; }
+        /* Login Box */
+        .login-box { max-width: 350px; margin: 60px auto; background: white; padding: 25px; border-radius: 20px; text-align: center; }
+        .login-box input, .login-box button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 25px; border: 1px solid #ccc; font-size: 14px; }
+        .login-box button { background: #2c5f8a; color: white; border: none; cursor: pointer; }
         
         /* Main App */
-        .header { background: #1e2b3c; color: white; padding: 12px; text-align: center; border-radius: 12px 12px 0 0; }
-        .user-bar { background: #0f1a24; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 12px 12px; margin-bottom: 10px; }
+        .app-box { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; overflow: hidden; }
+        .header { background: #1e2b3c; color: white; padding: 15px; text-align: center; }
+        .user-bar { background: #0f1a24; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .user-bar button { background: #b91c1c; border: none; color: white; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
         
         /* Tabs */
-        .tabs { display: flex; background: #f1f5f9; border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
-        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; font-size: 12px; background: #f1f5f9; }
+        .tabs { display: flex; background: #f1f5f9; }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; font-size: 13px; background: #f1f5f9; }
         .tab.active { background: white; color: #2c5f8a; border-bottom: 2px solid #2c5f8a; }
         
         /* Content */
-        .content { display: none; background: white; border-radius: 12px; padding: 12px; min-height: 400px; }
+        .content { display: none; padding: 15px; }
         .content.active { display: block; }
-        
-        /* Search */
-        .search-box { margin-bottom: 12px; }
-        .search-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 25px; font-size: 14px; }
         
         /* Shop Cards */
         .shop-card { background: #f8fafc; border-radius: 10px; margin-bottom: 8px; padding: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; }
-        .shop-name { font-size: 12px; font-weight: bold; word-break: break-word; max-width: 200px; }
+        .shop-name { font-size: 12px; font-weight: bold; }
         .shop-phone { font-size: 10px; color: #666; margin-top: 3px; }
         .visit-btn { background: #2b6e3c; border: none; color: white; padding: 6px 12px; border-radius: 20px; font-size: 11px; cursor: pointer; }
         .cancel-btn { background: #b91c1c; border: none; color: white; padding: 6px 12px; border-radius: 20px; font-size: 11px; cursor: pointer; }
         .visited-badge { background: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 20px; font-size: 11px; }
         
+        /* Stats */
         .stats { background: #eef2ff; padding: 8px; border-radius: 10px; margin-bottom: 12px; font-size: 12px; text-align: center; }
+        
+        /* Search */
+        .search-box { margin-bottom: 12px; }
+        .search-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 25px; font-size: 13px; }
+        
+        /* Pagination */
         .pagination { display: flex; justify-content: center; gap: 5px; margin-top: 12px; flex-wrap: wrap; }
         .page-btn { background: #e2e8f0; border: none; padding: 5px 10px; border-radius: 15px; font-size: 11px; cursor: pointer; }
         .page-btn.active { background: #2c5f8a; color: white; }
         
+        /* Forms */
         .add-form { background: #fef9e3; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
-        .add-form input { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 20px; }
-        .add-form button { width: 100%; padding: 8px; background: #2b6e3c; color: white; border: none; border-radius: 20px; cursor: pointer; }
+        .add-form input, .add-form button { width: 100%; padding: 8px; margin: 5px 0; border-radius: 20px; border: 1px solid #ccc; }
+        .add-form button { background: #2b6e3c; color: white; border: none; cursor: pointer; }
         
-        .report-item { background: #f8fafc; border-radius: 8px; margin-bottom: 6px; padding: 8px; font-size: 11px; border-left: 3px solid #2b6e3c; }
-        .report-date { font-weight: bold; color: #2c5f8a; }
-        
-        .admin-panel { background: #fef9e3; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
+        .admin-panel { background: #fef9e3; padding: 12px; border-radius: 12px; }
         .admin-panel select, .admin-panel input { width: 100%; padding: 8px; margin: 5px 0; border-radius: 20px; border: 1px solid #ccc; }
-        .admin-panel button { width: 100%; padding: 8px; margin-top: 5px; cursor: pointer; border-radius: 20px; border: none; }
+        .admin-panel button { width: 100%; padding: 8px; margin-top: 5px; border-radius: 20px; border: none; cursor: pointer; }
         
-        hr { margin: 12px 0; }
-        h3 { font-size: 16px; margin-bottom: 10px; }
-        h4 { font-size: 14px; margin: 10px 0 5px; }
+        .report-item { background: #f8fafc; padding: 8px; margin: 5px 0; border-radius: 8px; border-left: 3px solid #2b6e3c; font-size: 11px; }
+        h3, h4 { margin-bottom: 8px; font-size: 14px; }
+        hr { margin: 10px 0; }
     </style>
 </head>
 <body>
-<div id="app">
     <!-- LOGIN SCREEN -->
     <div id="loginScreen" class="login-box">
         <h2>📋 Shop Tracker</h2>
-        <input type="text" id="loginName" placeholder="Username" value="MOMIN">
+        <input type="text" id="loginUser" placeholder="Username" value="MOMIN">
         <input type="password" id="loginPass" placeholder="Password" value="123">
-        <button id="doLogin">Sign In</button>
-        
-        <div style="margin: 15px 0 5px; font-size: 12px;">Quick Login:</div>
-        <div class="booker-buttons" id="quickLoginBtns"></div>
-        <p style="font-size: 11px; margin-top: 12px;">Password: 123 for all</p>
+        <button id="loginBtn">Sign In</button>
+        <div style="margin-top: 15px;">
+            <button class="quick-login" data-user="MOMIN" style="width:auto; padding:5px 10px; background:#e2e8f0; color:black;">MOMIN</button>
+            <button class="quick-login" data-user="AHMED" style="width:auto; padding:5px 10px; background:#e2e8f0; color:black;">AHMED</button>
+            <button class="quick-login" data-user="ALI" style="width:auto; padding:5px 10px; background:#e2e8f0; color:black;">ALI</button>
+        </div>
+        <p style="font-size:11px; margin-top:15px;">Password for all: 123</p>
     </div>
 
     <!-- MAIN APP -->
-    <div id="mainApp" style="display: none;">
+    <div id="mainApp" class="app-box" style="display:none;">
         <div class="header">
-            <h2>📋 Shop Visit Tracker</h2>
+            <h2>📋 Shop Tracker</h2>
         </div>
         <div class="user-bar">
             <span>👤 <span id="currentUserName">MOMIN</span></span>
@@ -97,9 +97,9 @@
             <div class="pagination" id="visitPagination"></div>
         </div>
         
-        <!-- Visited Tab (MOMIN only) -->
+        <!-- Visited Tab -->
         <div id="visitedTab" class="content">
-            <div class="search-box"><input type="text" id="searchVisited" placeholder="Search visited shops..." onkeyup="searchVisited()"></div>
+            <div class="search-box"><input type="text" id="searchVisited" placeholder="Search visited..." onkeyup="searchVisited()"></div>
             <div class="stats" id="visitedStats">Loading...</div>
             <div id="visitedList"></div>
             <div class="pagination" id="visitedPagination"></div>
@@ -107,12 +107,12 @@
         
         <!-- Reports Tab -->
         <div id="reportsTab" class="content">
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+            <div style="display:flex; gap:8px; margin-bottom:10px;">
                 <input type="date" id="reportFrom" style="flex:1;">
                 <input type="date" id="reportTo" style="flex:1;">
-                <button id="applyReport" style="padding:8px 12px;">Go</button>
+                <button id="applyReport" style="width:auto; padding:8px 12px;">Go</button>
             </div>
-            <button id="exportReports" style="width:100%; padding:8px; margin-bottom:12px; background:#2c5f8a; border:none; border-radius:20px; color:white; cursor:pointer;">📎 Export Excel</button>
+            <button id="exportBtn" style="width:100%; padding:8px; margin-bottom:10px; background:#2c5f8a; color:white; border:none; border-radius:20px;">📎 Export Excel</button>
             <div id="reportsList"></div>
         </div>
         
@@ -121,9 +121,9 @@
             <div class="add-form">
                 <h4>➕ Add New Shop</h4>
                 <p style="font-size:11px;">Assigned to: <span id="addBookerName"></span></p>
-                <input type="text" id="newShopName" placeholder="Shop name / address">
-                <input type="text" id="newShopPhone" placeholder="Phone number">
-                <button id="addNewShopBtn">Add Shop</button>
+                <input type="text" id="newShopName" placeholder="Shop name">
+                <input type="text" id="newShopPhone" placeholder="Phone">
+                <button id="addShopBtn">Add Shop</button>
             </div>
             <h4>📋 Your Shops</h4>
             <div id="myShopsList"></div>
@@ -132,30 +132,26 @@
         <!-- Admin Tab -->
         <div id="adminTab" class="content">
             <div class="admin-panel">
-                <h3>👑 Admin Controls</h3>
+                <h3>👑 Admin</h3>
                 <div class="stats" id="adminStats"></div>
-                <h4>🔑 Change Password</h4>
-                <select id="changePwUser"></select>
+                <h4>Change Password</h4>
+                <select id="pwUserSelect"></select>
                 <input type="password" id="newPassword" placeholder="New password">
-                <button id="changePwBtn" style="background:#2c5f8a; color:white;">Update</button>
+                <button id="changePwBtn">Update</button>
                 <hr>
-                <h4>📋 Add Booker</h4>
-                <input type="text" id="newBookerName" placeholder="New booker name">
-                <button id="addBookerBtn" style="background:#2b6e3c; color:white;">Add Booker</button>
+                <h4>Add Booker</h4>
+                <input type="text" id="newBookerName" placeholder="Booker name">
+                <button id="addBookerBtn">Add</button>
                 <hr>
-                <button id="fullReportBtn" style="background:#b45309; color:white;">📎 Export All Visits</button>
+                <button id="fullReportBtn">📎 Export All Visits</button>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    // ============================================================
-    // 🔴🔴🔴 REPLACE THIS WITH YOUR ACTUAL SHOP DATA 🔴🔴🔴
-    // Format: ["Shop Name with phone", "BOOKER_NAME"]
-    // ============================================================
-    const SHOP_DATA = [
-        [
+    <script>
+        // ============ SHOP DATA - REPLACE WITH YOUR ACTUAL DATA ============
+        const RAW_SHOPS = [
+          [
   {
     "Shop": "Al Falah Com Liaqatabad Al Karam Square - 0309 2894296",
     "Booker": "AHMED"
@@ -11516,396 +11512,269 @@
     "Shop": "Ameen Com Aj Mobile Market Lassi Goth N Karachi - 03000036890",
     "Booker": "SAMI"
   }
-]   ];
-    
-    // List of all bookers (for quick login buttons)
-    const ALL_BOOKERS = ["MOMIN", "AHMED", "ALI", "AQIB", "BEHZAD", "BILAWAL", "DANISH", "FARHAN", "HANNAN", "SAJID", "SALMAN", "SAMI", "SAQIB", "TRB", "WAQAR", "WAQAS", "WASIB", "ZEESHAN"];
-    
-    // ============ APP STATE ============
-    let shops = [];
-    let visits = [];
-    let users = [];
-    let currentUser = null;
-    let currentPage = 1;
-    let visitedPage = 1;
-    let searchTerm = '';
-    let visitedSearchTerm = '';
-    const PER_PAGE = 20;
-    
-    function today() { let d = new Date(); return d.toISOString().slice(0,10); }
-    function getPhone(text) { let m = text.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().slice(0,10) : "N/A"; }
-    
-    // Initialize data
-    function initData() {
-        // Load shops
-        if(shops.length === 0) {
-            let id = 1;
-            for(let row of SHOP_DATA) {
-                if(row[0] && row[1]) {
+        ];
+        
+        // ============ GLOBAL VARIABLES ============
+        let shops = [];
+        let visits = [];
+        let users = [];
+        let currentUser = null;
+        let visitPage = 1, visitedPage = 1;
+        let visitSearch = '', visitedSearch = '';
+        const PER_PAGE = 20;
+        
+        function getToday() { let d = new Date(); return d.toISOString().slice(0,10); }
+        function getPhone(t) { let m = t.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().slice(0,10) : "N/A"; }
+        function escapeHtml(s) { return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+        
+        // Initialize data
+        function initData() {
+            if(shops.length === 0) {
+                let id = 1;
+                for(let row of RAW_SHOPS) {
                     shops.push({ id: id++, name: row[0], phone: getPhone(row[0]), booker: row[1].toUpperCase() });
                 }
             }
-        }
-        
-        // Load visits from storage
-        let savedVisits = localStorage.getItem('st_visits');
-        if(savedVisits) visits = JSON.parse(savedVisits);
-        
-        // Load users
-        let savedUsers = localStorage.getItem('st_users');
-        if(savedUsers) {
-            users = JSON.parse(savedUsers);
-        } else {
-            users = [{ name: "MOMIN", pass: "123", role: "super" }];
-            let bookers = [...new Set(shops.map(s => s.booker))];
-            for(let b of bookers) {
-                if(b !== "MOMIN") users.push({ name: b, pass: "123", role: "booker" });
+            
+            let savedVisits = localStorage.getItem('st_visits');
+            if(savedVisits) visits = JSON.parse(savedVisits);
+            
+            let savedUsers = localStorage.getItem('st_users');
+            if(savedUsers) {
+                users = JSON.parse(savedUsers);
+            } else {
+                users = [{ name: "MOMIN", pass: "123", role: "super" }];
+                let bookers = [...new Set(shops.map(s => s.booker))];
+                for(let b of bookers) if(b !== "MOMIN") users.push({ name: b, pass: "123", role: "booker" });
+                saveAll();
             }
-            saveData();
         }
         
-        // Create quick login buttons
-        let btnsHtml = '';
-        for(let b of ALL_BOOKERS) {
-            btnsHtml += `<button class="booker-btn" data-user="${b}">${b}</button>`;
+        function saveAll() {
+            localStorage.setItem('st_visits', JSON.stringify(visits));
+            localStorage.setItem('st_users', JSON.stringify(users));
         }
-        document.getElementById('quickLoginBtns').innerHTML = btnsHtml;
         
-        // Add click handlers
-        document.querySelectorAll('.booker-btn').forEach(btn => {
+        function isVisitedToday(shopId) { return visits.some(v => v.shopId === shopId && v.date === getToday()); }
+        
+        function markVisit(shopId) {
+            if(isVisitedToday(shopId)) { alert("Already visited!"); return; }
+            let shop = shops.find(s => s.id === shopId);
+            visits.push({ id: Date.now(), shopId, shopName: shop.name, shopPhone: shop.phone, booker: shop.booker, date: getToday(), time: new Date().toLocaleString() });
+            saveAll();
+            if(currentUser.role === 'super') renderVisitedTab();
+            else renderVisitTab();
+            renderReports();
+            alert("✓ Marked!");
+        }
+        
+        function cancelVisit(visitId) {
+            if(currentUser.role !== 'super') { alert("Only MOMIN can cancel!"); return; }
+            let idx = visits.findIndex(v => v.id === visitId);
+            if(idx === -1) return;
+            if(confirm("Cancel this visit?")) { visits.splice(idx, 1); saveAll(); renderVisitedTab(); renderReports(); alert("✓ Cancelled!"); }
+        }
+        
+        // Render Visit Tab (for bookers)
+        function renderVisitTab() {
+            if(currentUser.role === 'super') return;
+            let myShops = shops.filter(s => s.booker === currentUser.name);
+            let filtered = myShops.filter(s => s.name.toLowerCase().includes(visitSearch) || s.phone.includes(visitSearch));
+            let total = filtered.length, pages = Math.ceil(total / PER_PAGE);
+            if(visitPage > pages) visitPage = 1;
+            let pageShops = filtered.slice((visitPage-1)*PER_PAGE, visitPage*PER_PAGE);
+            let visitedToday = myShops.filter(s => isVisitedToday(s.id)).length;
+            document.getElementById('visitStats').innerHTML = `📊 Total: ${myShops.length} | Today: ${visitedToday} | Page ${visitPage}/${pages||1}`;
+            let html = '';
+            for(let s of pageShops) {
+                let visited = isVisitedToday(s.id);
+                html += `<div class="shop-card"><div><div class="shop-name">${escapeHtml(s.name)}</div><div class="shop-phone">${s.phone}</div></div><div>${visited ? '<span class="visited-badge">✓ Visited</span>' : `<button class="visit-btn" data-id="${s.id}">✅ Mark</button>`}</div></div>`;
+            }
+            document.getElementById('visitList').innerHTML = html || '<div style="text-align:center;padding:20px;">No shops</div>';
+            document.querySelectorAll('.visit-btn').forEach(btn => btn.addEventListener('click', () => markVisit(parseInt(btn.dataset.id))));
+            let pg = ''; for(let i=1;i<=Math.min(pages,8);i++) pg += `<button class="page-btn ${i===visitPage?'active':''}" data-page="${i}">${i}</button>`;
+            document.getElementById('visitPagination').innerHTML = pg;
+            document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { visitPage = parseInt(btn.dataset.page); renderVisitTab(); }));
+        }
+        
+        // Render Visited Tab (MOMIN sees only visited shops)
+        function renderVisitedTab() {
+            if(currentUser.role !== 'super') return;
+            let visitedMap = new Map();
+            for(let v of visits) if(!visitedMap.has(v.shopId)) visitedMap.set(v.shopId, v);
+            let visitedList = Array.from(visitedMap.values());
+            let filtered = visitedList.filter(v => v.shopName.toLowerCase().includes(visitedSearch) || v.shopPhone.includes(visitedSearch) || v.booker.toLowerCase().includes(visitedSearch));
+            let total = filtered.length, pages = Math.ceil(total / PER_PAGE);
+            if(visitedPage > pages) visitedPage = 1;
+            let pageVisits = filtered.slice((visitedPage-1)*PER_PAGE, visitedPage*PER_PAGE);
+            document.getElementById('visitedStats').innerHTML = `📊 Visited: ${total} | Total Visits: ${visits.length} | Page ${visitedPage}/${pages||1}`;
+            let html = '';
+            for(let v of pageVisits) {
+                html += `<div class="shop-card"><div><div class="shop-name">${escapeHtml(v.shopName)}</div><div class="shop-phone">${v.shopPhone}</div><div style="font-size:10px;">👤 ${v.booker} | 📅 ${v.date}</div></div><div><button class="cancel-btn" data-id="${v.id}">🗑️ Cancel</button></div></div>`;
+            }
+            document.getElementById('visitedList').innerHTML = html || '<div style="text-align:center;padding:20px;">No visits</div>';
+            document.querySelectorAll('.cancel-btn').forEach(btn => btn.addEventListener('click', () => cancelVisit(parseInt(btn.dataset.id))));
+            let pg = ''; for(let i=1;i<=Math.min(pages,8);i++) pg += `<button class="page-btn ${i===visitedPage?'active':''}" data-page="${i}">${i}</button>`;
+            document.getElementById('visitedPagination').innerHTML = pg;
+            document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { visitedPage = parseInt(btn.dataset.page); renderVisitedTab(); }));
+        }
+        
+        // Reports
+        function renderReports() {
+            let from = document.getElementById('reportFrom').value, to = document.getElementById('reportTo').value;
+            let filtered = visits.filter(v => (!from || v.date >= from) && (!to || v.date <= to));
+            if(currentUser.role !== 'super') filtered = filtered.filter(v => v.booker === currentUser.name);
+            filtered.sort((a,b) => b.id - a.id);
+            let html = '';
+            for(let v of filtered.slice(0,200)) {
+                html += `<div class="report-item"><div><strong>📅 ${v.date} | ${v.time}</strong></div><div>🏪 ${escapeHtml(v.shopName)}</div><div><small>${v.shopPhone} | 👤 ${v.booker}</small></div></div>`;
+            }
+            document.getElementById('reportsList').innerHTML = html || '<div style="text-align:center;padding:20px;">No visits</div>';
+        }
+        
+        function exportExcel() {
+            let from = document.getElementById('reportFrom').value, to = document.getElementById('reportTo').value;
+            let filtered = visits.filter(v => (!from || v.date >= from) && (!to || v.date <= to));
+            if(currentUser.role !== 'super') filtered = filtered.filter(v => v.booker === currentUser.name);
+            let rows = [["Date","Shop Name","Phone","Booker","Timestamp"]];
+            for(let v of filtered) rows.push([v.date, v.shopName, v.shopPhone, v.booker, v.time]);
+            let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+            let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv"})); a.download = `visits_${getToday()}.csv`; a.click();
+        }
+        
+        function exportFull() {
+            let rows = [["Date","Shop Name","Phone","Booker","Timestamp"]];
+            for(let v of visits) rows.push([v.date, v.shopName, v.shopPhone, v.booker, v.time]);
+            let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+            let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv"})); a.download = `all_visits_${getToday()}.csv`; a.click();
+        }
+        
+        // Add shop
+        function addShop() {
+            let name = document.getElementById('newShopName').value.trim();
+            let phone = document.getElementById('newShopPhone').value.trim() || getPhone(name);
+            if(!name) { alert("Enter shop name"); return; }
+            let newId = shops.length ? Math.max(...shops.map(s=>s.id)) + 1 : 1;
+            shops.push({ id: newId, name: name, phone: phone, booker: currentUser.name });
+            saveAll();
+            renderMyShops();
+            document.getElementById('newShopName').value = '';
+            document.getElementById('newShopPhone').value = '';
+            alert("Shop added!");
+            if(currentUser.role !== 'super') renderVisitTab();
+        }
+        
+        function renderMyShops() {
+            let myShops = shops.filter(s => s.booker === currentUser.name);
+            let html = '';
+            for(let s of myShops) html += `<div class="shop-card"><div><div class="shop-name">${escapeHtml(s.name)}</div><div class="shop-phone">${s.phone}</div></div></div>`;
+            document.getElementById('myShopsList').innerHTML = html || '<div style="text-align:center;padding:20px;">No shops yet</div>';
+        }
+        
+        // Admin
+        function populateUsers() {
+            let select = document.getElementById('pwUserSelect');
+            select.innerHTML = '<option value="">Select user</option>';
+            for(let u of users) select.innerHTML += `<option value="${u.name}">${u.name} (${u.role})</option>`;
+            document.getElementById('adminStats').innerHTML = `📊 Shops: ${shops.length} | Visits: ${visits.length}`;
+        }
+        
+        function changePassword() {
+            let user = document.getElementById('pwUserSelect').value;
+            let newPw = document.getElementById('newPassword').value.trim();
+            if(!user || !newPw) { alert("Select user and enter password"); return; }
+            let u = users.find(u => u.name === user);
+            if(u) { u.pass = newPw; saveAll(); alert(`Password for ${user} updated to "${newPw}"`); }
+        }
+        
+        function addBooker() {
+            let name = document.getElementById('newBookerName').value.trim().toUpperCase();
+            if(!name) return;
+            if(users.find(u => u.name === name)) { alert("Exists"); return; }
+            users.push({ name: name, pass: "123", role: "booker" });
+            saveAll();
+            alert(`Booker ${name} added with password 123`);
+            document.getElementById('newBookerName').value = '';
+            populateUsers();
+        }
+        
+        // Search
+        function searchShops() { visitSearch = document.getElementById('searchVisit').value.toLowerCase(); visitPage = 1; renderVisitTab(); }
+        function searchVisited() { visitedSearch = document.getElementById('searchVisited').value.toLowerCase(); visitedPage = 1; renderVisitedTab(); }
+        
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(`${tabId}Tab`).classList.add('active');
+            if(tabId === 'visit' && currentUser.role !== 'super') renderVisitTab();
+            if(tabId === 'visited' && currentUser.role === 'super') renderVisitedTab();
+            if(tabId === 'reports') renderReports();
+            if(tabId === 'add') renderMyShops();
+            if(tabId === 'admin') populateUsers();
+        }
+        
+        // Login
+        function login() {
+            let name = document.getElementById('loginUser').value.trim().toUpperCase();
+            let pass = document.getElementById('loginPass').value;
+            initData();
+            let user = users.find(u => u.name === name && u.pass === pass);
+            if(!user) { alert("Invalid credentials! Use MOMIN/123"); return; }
+            currentUser = user;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('currentUserName').innerHTML = user.name;
+            document.getElementById('addBookerName').innerHTML = user.name;
+            
+            let tabsHtml = '';
+            if(user.role === 'super') {
+                tabsHtml = `<div class="tab active" data-tab="visited">✅ Visited</div><div class="tab" data-tab="reports">📊 Reports</div><div class="tab" data-tab="admin">⚙️ Admin</div>`;
+                document.getElementById('visitedTab').classList.add('active');
+                renderVisitedTab();
+            } else {
+                tabsHtml = `<div class="tab active" data-tab="visit">📍 My Shops</div><div class="tab" data-tab="reports">📊 My Visits</div><div class="tab" data-tab="add">➕ Add Shop</div>`;
+                document.getElementById('visitTab').classList.add('active');
+                renderVisitTab();
+            }
+            document.getElementById('tabsContainer').innerHTML = tabsHtml;
+            document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+            document.getElementById('reportFrom').value = getToday();
+            document.getElementById('reportTo').value = getToday();
+            renderReports();
+            if(user.role === 'super') populateUsers();
+        }
+        
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginUser').value = 'MOMIN';
+            document.getElementById('loginPass').value = '123';
+        }
+        
+        // Quick login buttons
+        document.querySelectorAll('.quick-login').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.getElementById('loginName').value = btn.dataset.user;
+                document.getElementById('loginUser').value = btn.dataset.user;
                 document.getElementById('loginPass').value = '123';
                 login();
             });
         });
-    }
-    
-    function saveData() {
-        localStorage.setItem('st_visits', JSON.stringify(visits));
-        localStorage.setItem('st_users', JSON.stringify(users));
-    }
-    
-    function isVisitedToday(shopId) {
-        return visits.some(v => v.shopId === shopId && v.date === today());
-    }
-    
-    function markVisit(shopId) {
-        if(isVisitedToday(shopId)) { alert("Already visited today!"); return; }
-        let shop = shops.find(s => s.id === shopId);
-        visits.push({
-            id: Date.now(),
-            shopId: shopId,
-            shopName: shop.name,
-            shopPhone: shop.phone,
-            booker: shop.booker,
-            date: today(),
-            time: new Date().toLocaleString()
-        });
-        saveData();
         
-        if(currentUser.role === 'super') {
-            renderVisitedTab();
-        } else {
-            renderVisitTab();
-        }
-        renderReportsTab();
-        updateAdminStats();
-        alert("✓ Visit marked!");
-    }
-    
-    function cancelVisit(visitId) {
-        if(currentUser.role !== 'super') { alert("Only MOMIN can cancel visits!"); return; }
-        let idx = visits.findIndex(v => v.id === visitId);
-        if(idx === -1) return;
-        let visit = visits[idx];
-        if(confirm(`Cancel visit for "${visit.shopName}"?`)) {
-            visits.splice(idx, 1);
-            saveData();
-            renderVisitedTab();
-            renderReportsTab();
-            updateAdminStats();
-            alert("✓ Visit cancelled!");
-        }
-    }
-    
-    // Get shops for current booker
-    function getMyShops() {
-        if(currentUser.role === 'super') return [];
-        return shops.filter(s => s.booker === currentUser.name);
-    }
-    
-    // Render Visit Tab (bookers see their shops)
-    function renderVisitTab() {
-        if(currentUser.role === 'super') return;
+        // Event listeners
+        document.getElementById('loginBtn').onclick = login;
+        document.getElementById('logoutBtn').onclick = logout;
+        document.getElementById('applyReport').onclick = () => renderReports();
+        document.getElementById('exportBtn').onclick = exportExcel;
+        document.getElementById('addShopBtn').onclick = addShop;
+        document.getElementById('changePwBtn').onclick = changePassword;
+        document.getElementById('addBookerBtn').onclick = addBooker;
+        document.getElementById('fullReportBtn').onclick = exportFull;
         
-        let myShops = getMyShops();
-        let filtered = myShops.filter(s => s.name.toLowerCase().includes(searchTerm) || s.phone.includes(searchTerm));
-        let total = filtered.length;
-        let pages = Math.ceil(total / PER_PAGE);
-        if(currentPage > pages) currentPage = 1;
-        let start = (currentPage-1) * PER_PAGE;
-        let pageShops = filtered.slice(start, start + PER_PAGE);
-        
-        let visitedToday = myShops.filter(s => isVisitedToday(s.id)).length;
-        document.getElementById('visitStats').innerHTML = `📊 Total: ${myShops.length} | Today: ${visitedToday} | Page ${currentPage}/${pages || 1}`;
-        
-        let html = '';
-        for(let s of pageShops) {
-            let visited = isVisitedToday(s.id);
-            html += `<div class="shop-card">
-                <div><div class="shop-name">${escapeHtml(s.name)}</div><div class="shop-phone">${s.phone}</div></div>
-                <div>${visited ? '<span class="visited-badge">✓ Visited</span>' : `<button class="visit-btn" data-id="${s.id}">✅ Mark</button>`}</div>
-            </div>`;
-        }
-        document.getElementById('visitList').innerHTML = html || '<div style="text-align:center;padding:20px;">No shops found</div>';
-        
-        document.querySelectorAll('.visit-btn').forEach(btn => btn.addEventListener('click', () => markVisit(parseInt(btn.dataset.id))));
-        
-        // Pagination
-        let pgHtml = '';
-        for(let i=1; i<=Math.min(pages, 8); i++) {
-            pgHtml += `<button class="page-btn ${i===currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-        }
-        document.getElementById('visitPagination').innerHTML = pgHtml;
-        document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { currentPage = parseInt(btn.dataset.page); renderVisitTab(); }));
-    }
-    
-    // Render Visited Tab (MOMIN sees only visited shops)
-    function renderVisitedTab() {
-        if(currentUser.role !== 'super') return;
-        
-        // Get unique visited shops
-        let visitedMap = new Map();
-        for(let v of visits) {
-            if(!visitedMap.has(v.shopId)) visitedMap.set(v.shopId, v);
-        }
-        let visitedList = Array.from(visitedMap.values());
-        
-        let filtered = visitedList.filter(v => 
-            v.shopName.toLowerCase().includes(visitedSearchTerm) || 
-            v.shopPhone.includes(visitedSearchTerm) || 
-            v.booker.toLowerCase().includes(visitedSearchTerm)
-        );
-        
-        let total = filtered.length;
-        let pages = Math.ceil(total / PER_PAGE);
-        if(visitedPage > pages) visitedPage = 1;
-        let start = (visitedPage-1) * PER_PAGE;
-        let pageVisits = filtered.slice(start, start + PER_PAGE);
-        
-        document.getElementById('visitedStats').innerHTML = `📊 Visited Shops: ${total} | Total Visits: ${visits.length} | Page ${visitedPage}/${pages || 1}`;
-        
-        let html = '';
-        for(let v of pageVisits) {
-            html += `<div class="shop-card">
-                <div><div class="shop-name">${escapeHtml(v.shopName)}</div><div class="shop-phone">${v.shopPhone}</div><div style="font-size:10px; color:#666;">👤 ${v.booker} | 📅 ${v.date}</div></div>
-                <div><button class="cancel-btn" data-id="${v.id}">🗑️ Cancel</button></div>
-            </div>`;
-        }
-        document.getElementById('visitedList').innerHTML = html || '<div style="text-align:center;padding:20px;">No visits yet</div>';
-        
-        document.querySelectorAll('.cancel-btn').forEach(btn => btn.addEventListener('click', () => cancelVisit(parseInt(btn.dataset.id))));
-        
-        let pgHtml = '';
-        for(let i=1; i<=Math.min(pages, 8); i++) {
-            pgHtml += `<button class="page-btn ${i===visitedPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-        }
-        document.getElementById('visitedPagination').innerHTML = pgHtml;
-        document.querySelectorAll('.page-btn').forEach(btn => btn.addEventListener('click', () => { visitedPage = parseInt(btn.dataset.page); renderVisitedTab(); }));
-    }
-    
-    // Render Reports Tab
-    function renderReportsTab() {
-        let from = document.getElementById('reportFrom').value;
-        let to = document.getElementById('reportTo').value;
-        let filtered = visits.filter(v => (!from || v.date >= from) && (!to || v.date <= to));
-        if(currentUser.role !== 'super') filtered = filtered.filter(v => v.booker === currentUser.name);
-        filtered.sort((a,b) => b.id - a.id);
-        
-        let html = '';
-        for(let v of filtered.slice(0, 200)) {
-            html += `<div class="report-item">
-                <div class="report-date">📅 ${v.date} | ${v.time}</div>
-                <div>🏪 ${escapeHtml(v.shopName)}</div>
-                <div style="font-size:10px; color:#666;">📞 ${v.shopPhone} | 👤 ${v.booker}</div>
-            </div>`;
-        }
-        document.getElementById('reportsList').innerHTML = html || '<div style="text-align:center;padding:20px;">No visits</div>';
-    }
-    
-    // Export functions
-    function exportReports() {
-        let from = document.getElementById('reportFrom').value;
-        let to = document.getElementById('reportTo').value;
-        let filtered = visits.filter(v => (!from || v.date >= from) && (!to || v.date <= to));
-        if(currentUser.role !== 'super') filtered = filtered.filter(v => v.booker === currentUser.name);
-        
-        let rows = [["Date","Shop Name","Phone","Booker","Timestamp"]];
-        for(let v of filtered) rows.push([v.date, v.shopName, v.shopPhone, v.booker, v.time]);
-        let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
-        let a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob(["\uFEFF"+csv], {type:"text/csv"}));
-        a.download = `visits_${today()}.csv`;
-        a.click();
-    }
-    
-    function exportFullReport() {
-        let rows = [["Date","Shop Name","Phone","Booker","Timestamp"]];
-        for(let v of visits) rows.push([v.date, v.shopName, v.shopPhone, v.booker, v.time]);
-        let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
-        let a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob(["\uFEFF"+csv], {type:"text/csv"}));
-        a.download = `all_visits_${today()}.csv`;
-        a.click();
-    }
-    
-    // Add shop
-    function addShop() {
-        let name = document.getElementById('newShopName').value.trim();
-        let phone = document.getElementById('newShopPhone').value.trim() || getPhone(name);
-        if(!name) { alert("Enter shop name"); return; }
-        let newId = shops.length ? Math.max(...shops.map(s=>s.id)) + 1 : 1;
-        shops.push({ id: newId, name: name, phone: phone, booker: currentUser.name });
-        saveData();
-        renderMyShops();
-        document.getElementById('newShopName').value = '';
-        document.getElementById('newShopPhone').value = '';
-        alert("Shop added!");
-        if(currentUser.role !== 'super') renderVisitTab();
-    }
-    
-    function renderMyShops() {
-        let myShops = shops.filter(s => s.booker === currentUser.name);
-        let html = '';
-        for(let s of myShops.slice(0, 100)) {
-            html += `<div class="shop-card"><div><div class="shop-name">${escapeHtml(s.name)}</div><div class="shop-phone">${s.phone}</div></div></div>`;
-        }
-        document.getElementById('myShopsList').innerHTML = html || '<div style="text-align:center;padding:20px;">No shops yet. Add some!</div>';
-    }
-    
-    // Admin functions
-    function updateAdminStats() {
-        document.getElementById('adminStats').innerHTML = `📊 Shops: ${shops.length} | Visits: ${visits.length}`;
-    }
-    
-    function populateUserSelect() {
-        let select = document.getElementById('changePwUser');
-        select.innerHTML = '<option value="">Select user</option>';
-        for(let u of users) {
-            select.innerHTML += `<option value="${u.name}">${u.name} (${u.role})</option>`;
-        }
-    }
-    
-    function changePassword() {
-        let user = document.getElementById('changePwUser').value;
-        let newPw = document.getElementById('newPassword').value.trim();
-        if(!user || !newPw) { alert("Select user and enter new password"); return; }
-        let u = users.find(u => u.name === user);
-        if(u) { u.pass = newPw; saveData(); alert(`Password for ${user} updated to "${newPw}"`); }
-    }
-    
-    function addBooker() {
-        let name = document.getElementById('newBookerName').value.trim().toUpperCase();
-        if(!name) return;
-        if(users.find(u => u.name === name)) { alert("Already exists"); return; }
-        users.push({ name: name, pass: "123", role: "booker" });
-        saveData();
-        alert(`Booker ${name} added with password 123`);
-        document.getElementById('newBookerName').value = '';
-        populateUserSelect();
-    }
-    
-    function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
-    
-    // Search functions
-    function searchShops() { searchTerm = document.getElementById('searchVisit').value.toLowerCase(); currentPage = 1; renderVisitTab(); }
-    function searchVisited() { visitedSearchTerm = document.getElementById('searchVisited').value.toLowerCase(); visitedPage = 1; renderVisitedTab(); }
-    
-    // Tab switching
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        let tabBtn = document.querySelector(`.tab[data-tab="${tabId}"]`);
-        if(tabBtn) tabBtn.classList.add('active');
-        let contentDiv = document.getElementById(`${tabId}Tab`);
-        if(contentDiv) contentDiv.classList.add('active');
-        
-        if(tabId === 'visit' && currentUser.role !== 'super') renderVisitTab();
-        if(tabId === 'visited' && currentUser.role === 'super') renderVisitedTab();
-        if(tabId === 'reports') renderReportsTab();
-        if(tabId === 'add') renderMyShops();
-        if(tabId === 'admin') { populateUserSelect(); updateAdminStats(); }
-    }
-    
-    // Login
-    function login() {
-        let name = document.getElementById('loginName').value.trim().toUpperCase();
-        let pass = document.getElementById('loginPass').value;
-        
-        let user = users.find(u => u.name === name && u.pass === pass);
-        if(!user) { alert("Invalid username or password"); return; }
-        
-        currentUser = user;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('mainApp').style.display = 'block';
-        document.getElementById('currentUserName').innerHTML = user.name;
-        document.getElementById('addBookerName').innerHTML = user.name;
-        
-        // Build tabs
-        let tabsHtml = '';
-        if(user.role === 'super') {
-            tabsHtml = `<div class="tab active" data-tab="visited">✅ Visited</div>
-                        <div class="tab" data-tab="reports">📊 Reports</div>
-                        <div class="tab" data-tab="admin">⚙️ Admin</div>`;
-            document.getElementById('visitedTab').classList.add('active');
-        } else {
-            tabsHtml = `<div class="tab active" data-tab="visit">📍 My Shops</div>
-                        <div class="tab" data-tab="reports">📊 My Visits</div>
-                        <div class="tab" data-tab="add">➕ Add Shop</div>`;
-            document.getElementById('visitTab').classList.add('active');
-        }
-        document.getElementById('tabsContainer').innerHTML = tabsHtml;
-        
-        // Add tab click handlers
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-        });
-        
-        // Set dates
-        document.getElementById('reportFrom').value = today();
-        document.getElementById('reportTo').value = today();
-        
-        // Render initial content
-        if(user.role === 'super') {
-            renderVisitedTab();
-        } else {
-            renderVisitTab();
-        }
-        renderReportsTab();
-        if(user.role === 'super') { populateUserSelect(); updateAdminStats(); }
-    }
-    
-    function logout() {
-        currentUser = null;
-        document.getElementById('loginScreen').style.display = 'block';
-        document.getElementById('mainApp').style.display = 'none';
-        document.getElementById('loginName').value = 'MOMIN';
-        document.getElementById('loginPass').value = '123';
-    }
-    
-    // Initialize
-    initData();
-    
-    // Event listeners
-    document.getElementById('doLogin').onclick = login;
-    document.getElementById('logoutBtn').onclick = logout;
-    document.getElementById('applyReport').onclick = () => renderReportsTab();
-    document.getElementById('exportReports').onclick = exportReports;
-    document.getElementById('addNewShopBtn').onclick = addShop;
-    document.getElementById('changePwBtn').onclick = changePassword;
-    document.getElementById('addBookerBtn').onclick = addBooker;
-    document.getElementById('fullReportBtn').onclick = exportFullReport;
-</script>
+        // Initial load
+        initData();
+    </script>
 </body>
 </html>
