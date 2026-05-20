@@ -3,256 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1e2b3c">
-    <title>Shop Visit Tracker</title>
+    <title>Shop Visit Tracker - Admin Portal</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #e9f0f5;
-            margin: 0;
-            padding: 0;
-            padding-bottom: 70px;
-        }
-        /* App Header */
-        .app-header {
-            background: linear-gradient(135deg, #1e2b3c, #0f1a24);
-            color: white;
-            padding: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .logo h2 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-        .logo p {
-            margin: 0;
-            font-size: 0.65rem;
-            opacity: 0.8;
-        }
-        .user-info {
-            background: rgba(255,255,255,0.15);
-            padding: 6px 12px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-        }
-        button {
-            background: #2c5f8a;
-            border: none;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: 0.2s;
-        }
-        button:active {
-            transform: scale(0.96);
-        }
-        button.danger { background: #b91c1c; }
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: #e9f0f5; margin: 0; padding-bottom: 70px; }
+        .header { background: linear-gradient(135deg, #1e2b3c, #0f1a24); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo h2 { margin: 0; font-size: 1.1rem; }
+        .logo p { margin: 0; font-size: 0.65rem; opacity: 0.8; }
+        .user-info { background: rgba(255,255,255,0.15); padding: 5px 12px; border-radius: 30px; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
+        button { background: #2c5f8a; border: none; color: white; padding: 8px 16px; border-radius: 30px; cursor: pointer; font-weight: 500; }
         button.success { background: #2b6e3c; }
+        button.danger { background: #b91c1c; }
         button.warning { background: #b45309; }
-        /* Tabs */
-        .tabs {
-            display: flex;
-            background: #f1f5f9;
-            border-bottom: 2px solid #cbd5e1;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding: 0 10px;
-        }
-        .tab-btn {
-            background: transparent;
-            color: #1e293b;
-            padding: 12px 18px;
-            border-radius: 0;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-            font-weight: 600;
-        }
-        .tab-btn.active {
-            border-bottom-color: #2c5f8a;
-            background: #e2e8f0;
-            color: #0f3b5c;
-        }
-        .tab-content {
-            display: none;
-            padding: 15px;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        /* Search and Filter */
-        .search-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .search-box {
-            flex: 2;
-            min-width: 180px;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ccc;
-            border-radius: 30px;
-            font-size: 14px;
-        }
-        .filter-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .filter-group button {
-            padding: 8px 16px;
-            font-size: 0.8rem;
-        }
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            display: block;
-            overflow-x: auto;
-        }
-        th, td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.8rem;
-        }
-        th {
-            background: #f8fafc;
-            font-weight: 600;
-        }
-        .visited-badge {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 4px 10px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .not-visited {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .visit-btn, .reset-btn {
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            margin: 2px;
-        }
-        .stats {
-            background: #eef2ff;
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        /* Admin Panel */
-        .admin-panel {
-            background: #fef9e3;
-            padding: 15px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 15px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            font-size: 14px;
-        }
-        .sync-status {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: #1e293b;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .tabs { display: flex; background: #f1f5f9; border-bottom: 2px solid #cbd5e1; overflow-x: auto; padding: 0 10px; }
+        .tab-btn { background: transparent; padding: 12px 20px; border-bottom: 3px solid transparent; white-space: nowrap; font-weight: 600; }
+        .tab-btn.active { border-bottom-color: #2c5f8a; background: #e2e8f0; color: #0f3b5c; }
+        .tab-content { display: none; padding: 15px; }
+        .tab-content.active { display: block; }
+        .search-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .search-box { flex: 2; }
+        .search-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 30px; }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        table { width: 100%; border-collapse: collapse; background: white; display: block; overflow-x: auto; }
+        th, td { padding: 10px 6px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.75rem; }
+        th { background: #f8fafc; }
+        .visited-badge { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 30px; font-size: 0.7rem; font-weight: bold; }
+        .not-visited { background: #fee2e2; color: #991b1b; }
+        .stats { background: #eef2ff; padding: 8px 16px; border-radius: 30px; display: inline-block; margin-bottom: 15px; font-size: 0.8rem; }
+        .sync-status { position: fixed; bottom: 10px; right: 10px; background: #1e293b; color: white; padding: 5px 10px; border-radius: 30px; font-size: 0.65rem; z-index: 200; }
         .online { background: #2b6e3c; }
         .offline { background: #b45309; }
-        .login-container {
-            max-width: 350px;
-            margin: 80px auto;
-            background: white;
-            padding: 30px 20px;
-            border-radius: 40px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .login-container input {
-            margin: 10px 0;
-        }
-        @media (max-width: 600px) {
-            th, td { font-size: 0.7rem; padding: 8px 4px; }
-            .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
-        }
+        .syncing { background: #2c5f8a; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; }
+        .login-container { max-width: 350px; margin: 80px auto; background: white; padding: 30px 20px; border-radius: 40px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .setup-guide { background: #e6f7ff; padding: 12px; border-radius: 16px; margin-bottom: 15px; font-size: 12px; }
+        .setup-guide code { background: #fff; padding: 2px 6px; border-radius: 8px; font-family: monospace; }
     </style>
 </head>
 <body>
 <div id="app">
-    <div class="app-header">
-        <div class="logo">
-            <h2>📋 Shop Visit Tracker</h2>
-            <p>Offline | Works without Internet</p>
-        </div>
-        <div class="user-info">
-            <span>👤 <span id="currentUserDisplay"></span></span>
-            <button id="logoutBtn" style="padding: 5px 12px;">Logout</button>
-        </div>
+    <div class="header">
+        <div class="logo"><h2>📋 Shop Visit Tracker</h2><p>Auto-Sync to Google Sheet</p></div>
+        <div class="user-info"><span>👤 <span id="currentUserDisplay"></span></span><button id="logoutBtn">Logout</button></div>
     </div>
 
-    <!-- Login Screen -->
     <div id="loginContainer" class="login-container" style="display: block;">
-        <h2>🔐 Shop Tracker Login</h2>
+        <h2>🔐 Login</h2>
         <input type="text" id="loginUser" placeholder="Username" autocomplete="off">
         <input type="password" id="loginPass" placeholder="Password (123)">
-        <button id="loginBtn" style="width:100%; margin-top: 10px;">Sign In</button>
-        <p style="font-size:11px; margin-top:20px;">admin/123 | AHMED/123 | ALI/123 | AQIB/123 | BEHZAD/123 | BILAWAL/123 | DANISH/123 | HANNAN/123 | SAJID/123 | SALMAN/123 | SAMI/123 | SAQIB/123 | WAQAR/123 | WAQAS/123 | WASIB/123 | ZEESHAN/123</p>
-        <p style="font-size:10px;">✅ Works completely offline! No internet needed after install.</p>
+        <button id="loginBtn" style="width:100%;">Sign In</button>
+        <p style="font-size:11px; margin-top:15px;">admin/123 | AHMED/123 | ALI/123 | AQIB/123 | BEHZAD/123 | BILAWAL/123 | DANISH/123 | HANNAN/123 | SAJID/123 | SALMAN/123 | SAMI/123 | SAQIB/123 | WAQAR/123 | WAQAS/123 | WASIB/123 | ZEESHAN/123</p>
     </div>
 
-    <!-- Main App -->
     <div id="mainApp" style="display: none;">
         <div class="tabs" id="tabs"></div>
         
-        <!-- Visit Tab -->
         <div id="tab-visit" class="tab-content">
             <div class="search-bar">
-                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search by shop name or phone..."></div>
+                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop..."></div>
                 <div class="filter-group">
                     <button id="filterAll">All</button>
                     <button id="filterVisited">Visited</button>
@@ -261,42 +70,56 @@
             </div>
             <div class="stats" id="stats"></div>
             <div style="overflow-x: auto; max-height: 60vh; overflow-y: auto;">
-                <table id="shopsTable">
-                    <thead><tr><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Status</th><th>Action</th></tr></thead>
-                    <tbody id="shopsBody"></tbody>
-                </table>
+                <table><thead><tr><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Status</th><th>Action</th></tr></thead><tbody id="shopsBody"></tbody></table>
             </div>
         </div>
         
-        <!-- Reports Tab -->
         <div id="tab-report" class="tab-content">
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
                 <div><label>From: <input type="date" id="reportFrom" style="width:auto; display:inline-block;"></label></div>
                 <div><label>To: <input type="date" id="reportTo" style="width:auto; display:inline-block;"></label></div>
-                <button id="applyReport">Apply</button>
-                <button id="exportExcel">📎 Export Excel</button>
+                <button id="applyReport">Filter</button>
+                <button id="exportExcel">📎 Export</button>
             </div>
             <div style="overflow-x: auto; max-height: 60vh; overflow-y: auto;">
-                <table id="reportTable">
-                    <thead><tr><th>Date</th><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Visited By</th><th>Time</th></tr></thead>
-                    <tbody id="reportBody"></tbody>
-                </table>
+                <table><thead><tr><th>Date</th><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Visited By</th><th>Time</th></tr></thead><tbody id="reportBody"></tbody></table>
             </div>
         </div>
         
-        <!-- Admin Tab -->
         <div id="tab-admin" class="tab-content">
-            <div class="admin-panel">
+            <div style="background: #fef9e3; padding: 15px; border-radius: 20px;">
                 <h3>👑 Admin Controls</h3>
+                <div class="setup-guide">
+                    <strong>⚠️ Google Sheets Setup Required:</strong><br>
+                    1. Create a Google Sheet with headers: <code>Date | Shop Name | Phone | Booker | Timestamp</code><br>
+                    2. Go to <strong>Extensions → Apps Script</strong> and paste the script below<br>
+                    3. Deploy as Web App → Copy URL → Paste in the box below<br>
+                    <br>
+                    <strong>📝 Copy this script:</strong><br>
+                    <code style="display:block; background:#f0f0f0; padding:8px; margin-top:5px; font-size:11px; overflow-x:auto;">
+function doPost(e) {<br>
+&nbsp;&nbsp;var data = JSON.parse(e.postData.contents);<br>
+&nbsp;&nbsp;var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();<br>
+&nbsp;&nbsp;sheet.appendRow([data.date, data.shopName, data.phone, data.booker, data.timestamp]);<br>
+&nbsp;&nbsp;return ContentService.createTextOutput("OK");<br>
+}<br>
+function doGet() { return ContentService.createTextOutput("Service is running"); }
+                    </code>
+                </div>
+                <label>Google Sheets Web App URL:</label>
+                <input type="text" id="sheetWebhookUrl" placeholder="Paste your Google Script URL here">
+                <button id="saveSheetUrl" class="success">Save & Test Connection</button>
+                <div id="connectionStatus" style="margin-top: 10px; font-size: 12px;"></div>
+                <hr>
                 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-                    <div style="flex:1; min-width: 200px;">
-                        <h4>➕ Add New Shop</h4>
-                        <input type="text" id="newShopName" placeholder="Shop name / address">
-                        <input type="text" id="newShopPhone" placeholder="Phone number">
+                    <div style="flex:1;">
+                        <h4>➕ Add Shop</h4>
+                        <input type="text" id="newShopName" placeholder="Shop name">
+                        <input type="text" id="newShopPhone" placeholder="Phone">
                         <select id="newShopBooker"></select>
                         <button id="addShopBtn" class="success">Add Shop</button>
                     </div>
-                    <div style="flex:1; min-width: 200px;">
+                    <div style="flex:1;">
                         <h4>🔑 Change Password</h4>
                         <select id="pwUserSelect"></select>
                         <input type="password" id="newPassword" placeholder="New password">
@@ -304,363 +127,202 @@
                     </div>
                 </div>
                 <hr>
-                <h4>📋 Manage Bookers</h4>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                     <input type="text" id="newBookerName" placeholder="New booker name" style="flex:2;">
                     <button id="addBookerBtn">Add Booker</button>
                     <select id="removeBookerSelect" style="flex:2;"></select>
                     <button id="removeBookerBtn" class="danger">Remove</button>
                 </div>
                 <hr>
-                <h4>🔄 Admin Override</h4>
+                <h4>🔄 Reset Today's Visit</h4>
                 <select id="resetShopSelect"></select>
-                <button id="resetVisitBtn" class="warning">Mark as NOT Visited Today</button>
+                <button id="resetVisitBtn" class="warning">Mark as NOT Visited</button>
             </div>
         </div>
     </div>
     
-    <div id="syncStatus" class="sync-status offline">
-        <span>📡</span> <span id="syncText">Offline Mode - Working</span>
-    </div>
+    <div id="syncStatus" class="sync-status offline">📡 Offline</div>
 </div>
 
 <script>
-    // ============= DATA STORAGE (All Local - Works Offline) =============
-    let shops = [];
-    let visits = [];
-    let users = [];
-    let currentUser = null;
-    let currentFilter = 'all';
-    let searchTerm = '';
-
-    // Helper functions
-    function todayStr() {
-        let d = new Date();
-        return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-    }
-
-    function extractPhone(text) {
-        let match = text.match(/0[0-9]{2,}[0-9\s\-+]+/);
-        return match ? match[0].trim().substring(0,15) : "N/A";
-    }
-
-    // Load/Save to localStorage
+    let shops = [], visits = [], users = [], currentUser = null;
+    let pendingSync = [], currentFilter = 'all', searchTerm = '';
+    let WEBHOOK_URL = localStorage.getItem('sheetWebhookUrl') || '';
+    
+    function todayStr() { let d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+    function extractPhone(t) { let m = t.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().substring(0,15) : "N/A"; }
+    
     function loadData() {
-        let saved = localStorage.getItem('shopTracker_offline');
-        if(saved) {
-            let data = JSON.parse(saved);
-            shops = data.shops || [];
-            visits = data.visits || [];
-            users = data.users || [];
-        }
-        
-        if(shops.length === 0) {
-            // Seed with actual bookers and shops
-            let id = 1;
-            let bookers = ["AHMED","ALI","AQIB","BEHZAD","BILAWAL","DANISH","HANNAN","SAJID","SALMAN","SAMI","SAQIB","WAQAR","WAQAS","WASIB","ZEESHAN"];
-            
-            // Real shop names from your data
-            let realShops = [
-                ["Al Falah Com Liaqatabad Al Karam Square - 0309 2894296","AHMED"],
-                ["AL MANSOOR COMM /AHMED - 0345-3331133","AHMED"],
-                ["7 Star Com Gol Market Nazimabad 3 Near K Electric - 0345 2226214","AHMED"],
-                ["AA Com Asim Chandni Chowk Nazimabad 5 - 0320 2951781","AHMED"],
-                ["Madina Com Defence Phase 2 - 0310 9426300","ALI"],
-                ["Al Makkah Com Sunset Lane Defence - 0301 2337795","ALI"],
-                ["A One Com Haroonabad Market Orangi - 03451269410","AQIB"],
-                ["AA Com Ice Depot Landhi 6 - 03102690909","BEHZAD"],
-                ["Ahmed Com 2 Bhayani Near 2k North Nazimabad - 0345 2746758","BILAWAL"],
-                ["A One Com Rafa-e-Aam Malir Halt - 0314 2817579","DANISH"],
-                ["AA Com 2 Orient Mobile Market Orangi Town - 0316 3552055","HANNAN"],
-                ["AA Com Haidri Nagina Square - 0315-3152516","WAQAS"],
-                ["AA Com Malkani Hall Mosa Lane Kharader - 03333477377","WAQAR"]
-            ];
-            
-            for(let shop of realShops) {
-                shops.push({ id: id++, name: shop[0], phone: extractPhone(shop[0]), bookerAssigned: shop[1] });
-            }
-            
-            // Add more shops for each booker
-            for(let i=0; i<200; i++) {
-                let booker = bookers[i % bookers.length];
-                shops.push({ id: id++, name: `Shop ${i+1} - ${booker} Area ${Math.floor(i/20)+1}`, phone: `03${Math.floor(Math.random()*9000000+1000000)}`, bookerAssigned: booker });
-            }
-        }
-        
-        if(users.length === 0) {
-            let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
-            users = [{ username: "admin", password: "123", role: "admin" }];
-            for(let bk of uniqueBookers) {
-                if(bk && bk !== "admin") users.push({ username: bk, password: "123", role: "booker" });
-            }
-        }
-        
+        let saved = localStorage.getItem('shopTracker_data');
+        if(saved) { let data = JSON.parse(saved); shops = data.shops || []; visits = data.visits || []; users = data.users || []; pendingSync = data.pendingSync || []; }
+        if(shops.length === 0) seedData();
+        if(users.length === 0) { users = [{ username: "admin", password: "123", role: "admin" }]; saveData(); }
+        WEBHOOK_URL = localStorage.getItem('sheetWebhookUrl') || '';
+        if(document.getElementById('sheetWebhookUrl')) document.getElementById('sheetWebhookUrl').value = WEBHOOK_URL;
         saveData();
     }
     
-    function saveData() {
-        localStorage.setItem('shopTracker_offline', JSON.stringify({ shops, visits, users }));
+    function seedData() {
+        let id = 1, bookers = ["AHMED","ALI","AQIB","BEHZAD","BILAWAL","DANISH","HANNAN","SAJID","SALMAN","SAMI","SAQIB","WAQAR","WAQAS","WASIB","ZEESHAN"];
+        let realShops = [
+            ["Al Falah Com Liaqatabad Al Karam Square - 0309 2894296","AHMED"],
+            ["AL MANSOOR COMM /AHMED - 0345-3331133","AHMED"],
+            ["7 Star Com Gol Market Nazimabad - 0345 2226214","AHMED"],
+            ["AA Com Asim Chandni Chowk Nazimabad - 0320 2951781","AHMED"],
+            ["Madina Com Defence Phase 2 - 0310 9426300","ALI"],
+            ["Al Makkah Com Sunset Lane Defence - 0301 2337795","ALI"]
+        ];
+        for(let shop of realShops) shops.push({ id: id++, name: shop[0], phone: extractPhone(shop[0]), bookerAssigned: shop[1] });
+        for(let i=0; i<150; i++) { let booker = bookers[i % bookers.length]; shops.push({ id: id++, name: `Shop ${i+1} - ${booker} Area`, phone: `03${Math.floor(Math.random()*9000000+1000000)}`, bookerAssigned: booker }); }
+        saveData();
     }
     
-    function isVisitedToday(shopId) {
-        return visits.some(v => v.shopId === shopId && v.dateStr === todayStr());
+    function saveData() { localStorage.setItem('shopTracker_data', JSON.stringify({ shops, visits, users, pendingSync })); }
+    
+    async function syncToGoogleSheet(visit) {
+        if(!WEBHOOK_URL) return false;
+        let shop = shops.find(s => s.id === visit.shopId);
+        if(!shop) return false;
+        let data = { date: visit.dateStr, shopName: shop.name, phone: shop.phone, booker: shop.bookerAssigned, timestamp: visit.timestamp };
+        try {
+            await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            return true;
+        } catch(e) { return false; }
     }
     
-    function markVisit(shopId) {
+    async function syncPending() {
+        if(!WEBHOOK_URL || pendingSync.length === 0) { updateSyncStatus(); return; }
+        updateSyncStatus('syncing');
+        for(let i=0; i<pendingSync.length; i++) {
+            let success = await syncToGoogleSheet(pendingSync[i]);
+            if(success) pendingSync.splice(i,1);
+        }
+        saveData();
+        updateSyncStatus('online');
+    }
+    
+    function updateSyncStatus() {
+        let div = document.getElementById('syncStatus');
+        if(!div) return;
+        if(!WEBHOOK_URL) { div.innerHTML = '⚠️ Setup Google Sheet'; div.className = 'sync-status offline'; }
+        else if(pendingSync.length > 0) { div.innerHTML = `📡 Syncing ${pendingSync.length}...`; div.className = 'sync-status syncing'; }
+        else { div.innerHTML = '✅ Synced to Google Sheet'; div.className = 'sync-status online'; }
+    }
+    
+    function isVisitedToday(shopId) { return visits.some(v => v.shopId === shopId && v.dateStr === todayStr()); }
+    
+    async function markVisit(shopId) {
         if(!currentUser) return;
         if(isVisitedToday(shopId)) { alert("Already visited today!"); return; }
-        visits.push({
-            id: Date.now(),
-            shopId: shopId,
-            visitedBy: currentUser.username,
-            dateStr: todayStr(),
-            timestamp: new Date().toLocaleString()
-        });
+        let visit = { id: Date.now(), shopId: shopId, visitedBy: currentUser.username, dateStr: todayStr(), timestamp: new Date().toLocaleString() };
+        visits.push(visit);
+        pendingSync.push(visit);
         saveData();
         renderShops();
         if(document.getElementById('tab-report').classList.contains('active')) renderReport();
+        await syncPending();
+        alert("Visit marked and saved!");
     }
     
     function resetVisit(shopId) {
         let idx = visits.findIndex(v => v.shopId === shopId && v.dateStr === todayStr());
-        if(idx === -1) { alert("No visit today to reset"); return; }
+        if(idx === -1) { alert("No visit today"); return; }
         visits.splice(idx, 1);
         saveData();
         renderShops();
         if(document.getElementById('tab-report').classList.contains('active')) renderReport();
-        alert("Visit reset successfully!");
+        alert("Visit reset");
     }
     
-    // Render Functions
     function renderShops() {
         let filtered = shops.filter(shop => {
             if(currentUser.role !== 'admin' && shop.bookerAssigned !== currentUser.username) return false;
-            let match = shop.name.toLowerCase().includes(searchTerm) || shop.phone.includes(searchTerm);
-            if(!match) return false;
+            if(!shop.name.toLowerCase().includes(searchTerm) && !shop.phone.includes(searchTerm)) return false;
             if(currentFilter === 'visited') return isVisitedToday(shop.id);
             if(currentFilter === 'notvisited') return !isVisitedToday(shop.id);
             return true;
         });
-        
         let visitedCount = shops.filter(s => isVisitedToday(s.id)).length;
-        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops shown | Today: ${visitedCount} visits`;
-        
+        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops | Today: ${visitedCount} visits | Pending: ${pendingSync.length}`;
         let tbody = document.getElementById('shopsBody');
         tbody.innerHTML = '';
         filtered.forEach(shop => {
             let visited = isVisitedToday(shop.id);
-            let action = !visited ? `<button class="visit-btn success" data-id="${shop.id}">✅ Mark Visit</button>` : '';
-            if(currentUser.role === 'admin' && visited) {
-                action += ` <button class="reset-btn warning" data-id="${shop.id}">🔄 Reset</button>`;
-            }
-            tbody.innerHTML += `<tr>
-                <td style="max-width:220px; word-break:break-word;">${escapeHtml(shop.name.substring(0,60))}</td>
-                <td>${shop.phone}</td>
-                <td>${shop.bookerAssigned}</td>
-                <td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not visited'}</span></td>
-                <td>${action}</td>
-            </tr>`;
+            let action = !visited ? `<button class="visit-btn success" data-id="${shop.id}">✅ Mark</button>` : '';
+            if(currentUser.role === 'admin' && visited) action += ` <button class="reset-btn danger" data-id="${shop.id}">🔄 Reset</button>`;
+            tbody.innerHTML += `<tr><td style="max-width:200px; word-break:break-word;">${escapeHtml(shop.name.substring(0,55))}</td><td>${shop.phone}</td><td>${shop.bookerAssigned}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not'}</span></td><td>${action}</td></tr>`;
         });
-        
-        document.querySelectorAll('.visit-btn').forEach(btn => {
-            btn.addEventListener('click', () => markVisit(parseInt(btn.dataset.id)));
-        });
-        document.querySelectorAll('.reset-btn').forEach(btn => {
-            btn.addEventListener('click', () => resetVisit(parseInt(btn.dataset.id)));
-        });
+        document.querySelectorAll('.visit-btn').forEach(btn => btn.addEventListener('click', () => markVisit(parseInt(btn.dataset.id))));
+        document.querySelectorAll('.reset-btn').forEach(btn => btn.addEventListener('click', () => resetVisit(parseInt(btn.dataset.id))));
     }
     
     function renderReport() {
-        let from = document.getElementById('reportFrom').value;
-        let to = document.getElementById('reportTo').value;
-        let filtered = visits.filter(v => (!from || v.dateStr >= from) && (!to || v.dateStr <= to));
-        filtered.sort((a,b) => b.id - a.id);
-        
+        let from = document.getElementById('reportFrom').value, to = document.getElementById('reportTo').value;
+        let filtered = visits.filter(v => (!from || v.dateStr >= from) && (!to || v.dateStr <= to)).sort((a,b)=>b.id-a.id);
         let tbody = document.getElementById('reportBody');
         tbody.innerHTML = '';
-        filtered.forEach(v => {
-            let shop = shops.find(s => s.id === v.shopId);
-            if(shop) {
-                tbody.innerHTML += `<tr>
-                    <td>${v.dateStr}</td>
-                    <td style="max-width:180px;">${escapeHtml(shop.name.substring(0,50))}</td>
-                    <td>${shop.phone}</td>
-                    <td>${shop.bookerAssigned}</td>
-                    <td>${v.visitedBy}</td>
-                    <td>${v.timestamp}</td>
-                </tr>`;
-            }
-        });
+        filtered.forEach(v => { let s = shops.find(s=>s.id===v.shopId); if(s) tbody.innerHTML += `<tr><td>${v.dateStr}</td><td style="max-width:180px;">${escapeHtml(s.name.substring(0,45))}</td><td>${s.phone}</td><td>${s.bookerAssigned}</td><td>${v.visitedBy}</td><td>${v.timestamp}</td></tr>`; });
     }
     
     function exportExcel() {
-        let from = document.getElementById('reportFrom').value;
-        let to = document.getElementById('reportTo').value;
+        let from = document.getElementById('reportFrom').value, to = document.getElementById('reportTo').value;
         let filtered = visits.filter(v => (!from || v.dateStr >= from) && (!to || v.dateStr <= to));
-        let rows = [["Date","Shop Name","Phone","Assigned Booker","Visited By","Timestamp"]];
-        filtered.forEach(v => {
-            let shop = shops.find(s => s.id === v.shopId);
-            if(shop) rows.push([v.dateStr, shop.name, shop.phone, shop.bookerAssigned, v.visitedBy, v.timestamp]);
-        });
+        let rows = [["Date","Shop Name","Phone","Booker","Visited By","Timestamp"]];
+        filtered.forEach(v => { let s = shops.find(s=>s.id===v.shopId); if(s) rows.push([v.dateStr, s.name, s.phone, s.bookerAssigned, v.visitedBy, v.timestamp]); });
         let csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
-        let blob = new Blob(["\uFEFF" + csv], {type: "text/csv"});
-        let a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = "shop_visits_report.csv";
-        a.click();
-        URL.revokeObjectURL(a.href);
+        let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv"})); a.download = "visits.csv"; a.click();
     }
     
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+    
+    function saveWebhookUrl() {
+        let url = document.getElementById('sheetWebhookUrl').value.trim();
+        if(url) { WEBHOOK_URL = url; localStorage.setItem('sheetWebhookUrl', url); document.getElementById('connectionStatus').innerHTML = '✅ URL saved! Visits will sync to Google Sheet.'; updateSyncStatus(); }
+        else { document.getElementById('connectionStatus').innerHTML = '❌ Please enter a valid URL'; }
     }
     
-    // Admin Functions
     function refreshAdmin() {
         if(!currentUser || currentUser.role !== 'admin') return;
         let bookers = users.filter(u => u.role === 'booker').map(u => u.username);
-        document.getElementById('newShopBooker').innerHTML = '<option value="">Select Booker</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
-        document.getElementById('pwUserSelect').innerHTML = '<option value="">Select User</option>' + users.map(u => `<option value="${u.username}">${u.username} (${u.role})</option>`).join('');
-        document.getElementById('removeBookerSelect').innerHTML = '<option value="">Select Booker</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
-        let visitedShops = shops.filter(s => isVisitedToday(s.id));
-        document.getElementById('resetShopSelect').innerHTML = '<option value="">Select Shop to Reset</option>' + visitedShops.map(s => `<option value="${s.id}">${s.name.substring(0,50)} - ${s.bookerAssigned}</option>`).join('');
+        document.getElementById('newShopBooker').innerHTML = '<option value="">Select</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
+        document.getElementById('pwUserSelect').innerHTML = '<option value="">Select</option>' + users.map(u => `<option value="${u.username}">${u.username}</option>`).join('');
+        document.getElementById('removeBookerSelect').innerHTML = '<option value="">Select booker</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
+        document.getElementById('resetShopSelect').innerHTML = '<option value="">Select shop</option>' + shops.filter(s=>isVisitedToday(s.id)).map(s => `<option value="${s.id}">${s.name.substring(0,40)}</option>`).join('');
+        document.getElementById('sheetWebhookUrl').value = WEBHOOK_URL;
     }
     
-    function addShop() {
-        let name = document.getElementById('newShopName').value.trim();
-        let phone = document.getElementById('newShopPhone').value.trim() || extractPhone(name);
-        let booker = document.getElementById('newShopBooker').value;
-        if(!name || !booker) { alert("Please enter shop name and select booker"); return; }
-        let newId = shops.length ? Math.max(...shops.map(s => s.id)) + 1 : 1;
-        shops.push({ id: newId, name: name, phone: phone, bookerAssigned: booker });
-        saveData();
-        renderShops();
-        refreshAdmin();
-        document.getElementById('newShopName').value = '';
-        document.getElementById('newShopPhone').value = '';
-        alert("Shop added successfully!");
-    }
+    function addShop() { let n=document.getElementById('newShopName').value.trim(), p=document.getElementById('newShopPhone').value.trim(), b=document.getElementById('newShopBooker').value; if(!n||!b){alert("Required");return;} shops.push({id:Date.now(),name:n,phone:p||"N/A",bookerAssigned:b}); saveData(); renderShops(); refreshAdmin(); alert("Shop added"); }
+    function changePassword() { let u=document.getElementById('pwUserSelect').value, p=document.getElementById('newPassword').value.trim(); if(!u||!p)return; let user=users.find(x=>x.username===u); if(user){user.password=p;saveData();alert("Password updated");} }
+    function addBooker() { let n=document.getElementById('newBookerName').value.trim().toUpperCase(); if(!n)return; if(users.find(u=>u.username===n)){alert("Exists");return;} users.push({username:n,password:"123",role:"booker"}); saveData(); refreshAdmin(); alert(`Booker ${n} added`); }
+    function removeBooker() { let b=document.getElementById('removeBookerSelect').value; if(!b)return; if(confirm(`Remove ${b}?`)){users=users.filter(u=>u.username!==b);saveData();refreshAdmin();alert("Removed");} }
+    function adminResetVisit() { let id=parseInt(document.getElementById('resetShopSelect').value); if(id) resetVisit(id); else alert("Select shop"); }
     
-    function changePassword() {
-        let username = document.getElementById('pwUserSelect').value;
-        let newPw = document.getElementById('newPassword').value.trim();
-        if(!username || !newPw) { alert("Select user and enter new password"); return; }
-        let user = users.find(u => u.username === username);
-        if(user) { user.password = newPw; saveData(); alert("Password updated!"); }
-    }
-    
-    function addBooker() {
-        let name = document.getElementById('newBookerName').value.trim().toUpperCase();
-        if(!name) return;
-        if(users.find(u => u.username === name)) { alert("Booker already exists"); return; }
-        users.push({ username: name, password: "123", role: "booker" });
-        saveData();
-        refreshAdmin();
-        alert(`Booker ${name} added with password 123`);
-        document.getElementById('newBookerName').value = '';
-    }
-    
-    function removeBooker() {
-        let booker = document.getElementById('removeBookerSelect').value;
-        if(!booker) return;
-        if(confirm(`Remove ${booker}? Shops will remain assigned to this booker.`)) {
-            users = users.filter(u => u.username !== booker);
-            saveData();
-            refreshAdmin();
-            alert("Booker removed");
-        }
-    }
-    
-    function adminResetVisit() {
-        let shopId = parseInt(document.getElementById('resetShopSelect').value);
-        if(shopId) resetVisit(shopId);
-        else alert("Select a shop first");
-    }
-    
-    // Login/Logout
-    function login() {
-        let username = document.getElementById('loginUser').value.trim();
-        let password = document.getElementById('loginPass').value;
-        let user = users.find(u => u.username === username && u.password === password);
-        if(user) {
-            currentUser = user;
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('currentUserDisplay').innerText = currentUser.username + (currentUser.role === 'admin' ? ' (Admin)' : '');
-            renderUI();
-        } else {
-            alert("Invalid username or password");
-        }
-    }
-    
-    function logout() {
-        currentUser = null;
-        document.getElementById('loginContainer').style.display = 'block';
-        document.getElementById('mainApp').style.display = 'none';
-    }
+    function login() { let u=document.getElementById('loginUser').value.trim(), p=document.getElementById('loginPass').value; let user=users.find(x=>x.username===u && x.password===p); if(user){currentUser=user; document.getElementById('loginContainer').style.display='none'; document.getElementById('mainApp').style.display='block'; document.getElementById('currentUserDisplay').innerText=user.username+(user.role==='admin'?' (Admin)':''); renderUI(); } else alert("Invalid"); }
+    function logout() { currentUser=null; document.getElementById('loginContainer').style.display='block'; document.getElementById('mainApp').style.display='none'; }
     
     function renderUI() {
         let tabsDiv = document.getElementById('tabs');
         tabsDiv.innerHTML = '';
-        let tabs = [
-            { id: 'tab-visit', label: '📍 Visit Shops' },
-            { id: 'tab-report', label: '📊 Reports' }
-        ];
-        if(currentUser.role === 'admin') {
-            tabs.push({ id: 'tab-admin', label: '⚙️ Admin' });
-        }
-        
-        tabs.forEach(tab => {
-            let btn = document.createElement('button');
-            btn.className = 'tab-btn';
-            btn.innerText = tab.label;
-            btn.onclick = () => {
-                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById(tab.id).classList.add('active');
-                if(tab.id === 'tab-report') renderReport();
-                if(tab.id === 'tab-visit') renderShops();
-                if(tab.id === 'tab-admin') refreshAdmin();
-            };
-            tabsDiv.appendChild(btn);
-        });
-        
+        let tabs = [{id:'tab-visit',label:'📍 Visit'},{id:'tab-report',label:'📊 Reports'}];
+        if(currentUser.role === 'admin') tabs.push({id:'tab-admin',label:'⚙️ Admin'});
+        tabs.forEach(tab => { let btn = document.createElement('button'); btn.className='tab-btn'; btn.innerText=tab.label; btn.onclick=()=>{document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); document.getElementById(tab.id).classList.add('active'); if(tab.id==='tab-report') renderReport(); if(tab.id==='tab-visit') renderShops(); if(tab.id==='tab-admin') refreshAdmin(); }; tabsDiv.appendChild(btn); });
         document.getElementById('tab-visit').classList.add('active');
         renderShops();
-        
-        let today = todayStr();
-        document.getElementById('reportFrom').value = today;
-        document.getElementById('reportTo').value = today;
+        document.getElementById('reportFrom').value = todayStr(); document.getElementById('reportTo').value = todayStr();
         renderReport();
-        
-        // Event listeners
-        document.getElementById('filterAll').onclick = () => { currentFilter = 'all'; renderShops(); };
-        document.getElementById('filterVisited').onclick = () => { currentFilter = 'visited'; renderShops(); };
-        document.getElementById('filterNotVisited').onclick = () => { currentFilter = 'notvisited'; renderShops(); };
+        document.getElementById('filterAll').onclick = () => { currentFilter='all'; renderShops(); };
+        document.getElementById('filterVisited').onclick = () => { currentFilter='visited'; renderShops(); };
+        document.getElementById('filterNotVisited').onclick = () => { currentFilter='notvisited'; renderShops(); };
         document.getElementById('searchInput').oninput = (e) => { searchTerm = e.target.value.toLowerCase(); renderShops(); };
         document.getElementById('applyReport').onclick = () => renderReport();
         document.getElementById('exportExcel').onclick = exportExcel;
-        
-        if(currentUser.role === 'admin') {
-            document.getElementById('addShopBtn').onclick = addShop;
-            document.getElementById('changePwBtn').onclick = changePassword;
-            document.getElementById('addBookerBtn').onclick = addBooker;
-            document.getElementById('removeBookerBtn').onclick = removeBooker;
-            document.getElementById('resetVisitBtn').onclick = adminResetVisit;
-            refreshAdmin();
-        }
+        if(currentUser.role === 'admin') { refreshAdmin(); document.getElementById('addShopBtn').onclick = addShop; document.getElementById('changePwBtn').onclick = changePassword; document.getElementById('addBookerBtn').onclick = addBooker; document.getElementById('removeBookerBtn').onclick = removeBooker; document.getElementById('resetVisitBtn').onclick = adminResetVisit; document.getElementById('saveSheetUrl').onclick = saveWebhookUrl; }
     }
     
-    // Initialize
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
     loadData();
-    document.getElementById('syncStatus').innerHTML = '<span>📡</span> <span>Offline Mode - Working Perfectly</span>';
-    document.getElementById('syncStatus').className = 'sync-status online';
+    setInterval(() => syncPending(), 30000);
 </script>
 </body>
 </html>
