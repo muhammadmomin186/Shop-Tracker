@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shop Visit Tracker - Fast Version</title>
+    <title>Shop Visit Tracker</title>
     <style>
         * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
         body { background: #e9f0f5; margin: 0; padding-bottom: 70px; }
@@ -30,31 +30,39 @@
         .visited-badge { background: #d1fae5; color: #065f46; padding: 2px 6px; border-radius: 20px; font-size: 0.65rem; font-weight: bold; display: inline-block; }
         .not-visited { background: #fee2e2; color: #991b1b; }
         .stats { background: #eef2ff; padding: 6px 12px; border-radius: 30px; display: inline-block; margin-bottom: 12px; font-size: 0.7rem; }
-        .login-container { max-width: 320px; margin: 60px auto; background: white; padding: 20px; border-radius: 32px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        input, select { width: 100%; padding: 8px; margin: 6px 0; border: 1px solid #ccc; border-radius: 25px; font-size: 13px; }
-        .booker-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; justify-content: center; max-height: 200px; overflow-y: auto; }
-        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 5px 10px; font-size: 11px; }
-        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        .pagination button { background: #e2e8f0; color: #1e293b; padding: 5px 10px; font-size: 11px; }
-        .pagination button.active { background: #2c5f8a; color: white; }
+        .login-container { max-width: 340px; margin: 50px auto; background: white; padding: 25px 20px; border-radius: 32px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; font-size: 14px; }
+        .booker-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; justify-content: center; max-height: 250px; overflow-y: auto; }
+        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 6px 12px; font-size: 12px; border-radius: 25px; cursor: pointer; border: none; }
+        .booker-btn:hover { background: #2c5f8a; color: white; }
         .admin-panel { background: #fef9e3; padding: 12px; border-radius: 16px; margin-bottom: 12px; }
-        .loading { text-align: center; padding: 30px; color: #666; font-size: 13px; }
+        .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
+        .pagination button { background: #e2e8f0; color: #1e293b; padding: 4px 8px; font-size: 11px; }
+        .pagination button.active { background: #2c5f8a; color: white; }
+        .loading { text-align: center; padding: 20px; color: #666; font-size: 13px; }
+        hr { margin: 12px 0; }
+        h3, h4 { margin: 0 0 8px 0; }
     </style>
 </head>
 <body>
 <div id="app">
+    <!-- LOGIN SCREEN (Shows instantly, no freezing) -->
     <div id="loginContainer" class="login-container">
         <h2>🔐 Shop Tracker</h2>
-        <div class="loading" id="loadingIndicator">Loading shops... ⏳</div>
-        <div id="loginForm" style="display:none;">
-            <input type="text" id="loginUser" placeholder="Username">
-            <input type="password" id="loginPass" placeholder="Password (123)">
-            <button id="loginBtn" style="width:100%;">Sign In</button>
-            <div class="booker-list" id="bookerList"></div>
-            <p style="font-size:10px; margin-top:10px;">Password: 123 | Admin: admin</p>
+        <p style="font-size:12px; color:#666;">Enter your name to continue</p>
+        <input type="text" id="loginUser" placeholder="Username (e.g., AHMED, ALI, admin)" autocomplete="off">
+        <input type="password" id="loginPass" placeholder="Password (123)">
+        <button id="loginBtn" style="width:100%; margin-top:5px;">Sign In</button>
+        
+        <div style="margin: 15px 0 8px; font-size: 11px; color: #666;">Quick Login (Click your name):</div>
+        <div class="booker-list" id="bookerList">
+            <!-- Dynamic booker buttons will appear here -->
+            <span style="color:#999;">Loading bookers...</span>
         </div>
+        <p style="font-size:10px; margin-top:15px;">All passwords: <strong>123</strong> | Admin: admin/123</p>
     </div>
 
+    <!-- MAIN APP (Hidden until login) -->
     <div id="mainApp" style="display: none;">
         <div class="header">
             <div class="logo"><h2>📋 Shop Visit Tracker</h2><p id="shopCountDisplay"></p></div>
@@ -62,12 +70,13 @@
         </div>
         <div class="tabs" id="tabs"></div>
         
+        <!-- Visit Tab -->
         <div id="tab-visit" class="tab-content">
             <div class="search-bar">
-                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop..." onkeyup="debounceSearch()"></div>
+                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop by name or phone..." onkeyup="debounceSearch()"></div>
                 <div class="filter-group">
                     <button id="filterAll">All</button>
-                    <button id="filterVisited">Visited</button>
+                    <button id="filterVisited">Visited Today</button>
                     <button id="filterNotVisited">Not Visited</button>
                 </div>
             </div>
@@ -81,12 +90,13 @@
             <div class="pagination" id="pagination"></div>
         </div>
         
+        <!-- Reports Tab -->
         <div id="tab-report" class="tab-content">
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center;">
                 <input type="date" id="reportFrom" style="width:auto;"> to 
                 <input type="date" id="reportTo" style="width:auto;">
                 <button id="applyReport">Filter</button>
-                <button id="exportExcel">📎 Export</button>
+                <button id="exportExcel">📎 Export Excel</button>
             </div>
             <div style="overflow-x: auto; max-height: 60vh; overflow-y: auto;">
                 <table id="reportTable">
@@ -96,28 +106,29 @@
             </div>
         </div>
         
+        <!-- Admin Tab -->
         <div id="tab-admin" class="tab-content">
             <div class="admin-panel">
-                <h3 style="font-size:16px; margin:0 0 10px 0;">👑 Admin Controls</h3>
+                <h3>👑 Admin Controls</h3>
                 <div style="background:#e6f7ff; padding:8px; border-radius:12px; margin-bottom:12px; font-size:12px;">
                     📊 <strong>Total Shops:</strong> <span id="totalShopCount">0</span> &nbsp;|&nbsp;
                     👥 <strong>Bookers:</strong> <span id="totalBookerCount">0</span>
                 </div>
-                <h4 style="font-size:14px; margin:10px 0 5px;">➕ Add Shop</h4>
-                <input type="text" id="newShopName" placeholder="Shop name">
-                <input type="text" id="newShopPhone" placeholder="Phone">
+                <h4>➕ Add Shop</h4>
+                <input type="text" id="newShopName" placeholder="Shop name / address">
+                <input type="text" id="newShopPhone" placeholder="Phone number">
                 <select id="newShopBooker"></select>
                 <button id="addShopBtn" class="success">Add Shop</button>
                 <hr>
-                <h4 style="font-size:14px; margin:10px 0 5px;">📋 Manage Bookers</h4>
+                <h4>📋 Manage Bookers</h4>
                 <input type="text" id="newBookerName" placeholder="New booker name">
                 <button id="addBookerBtn">Add Booker</button>
                 <select id="removeBookerSelect" style="margin-top:8px;"></select>
-                <button id="removeBookerBtn" class="danger">Remove</button>
+                <button id="removeBookerBtn" class="danger">Remove Booker</button>
                 <hr>
-                <h4 style="font-size:14px; margin:10px 0 5px;">🔄 Reset Today's Visit</h4>
+                <h4>🔄 Admin Override</h4>
                 <select id="resetShopSelect"></select>
-                <button id="resetVisitBtn" class="warning">Mark as NOT Visited</button>
+                <button id="resetVisitBtn" class="warning">Mark as NOT Visited Today</button>
             </div>
         </div>
     </div>
@@ -125,14 +136,14 @@
 
 <script>
     // ============================================================
-    // PASTE YOUR SHOP DATA HERE (FROM CSV CONVERSION)
-    // Go to https://csvjson.com/csv2json → JSON Array of Arrays
-    // Then paste the output between the [ ] brackets below
+    // 🔴🔴🔴 PASTE YOUR SHOP DATA HERE (After CSV to JSON conversion) 🔴🔴🔴
+    // ============================================================
+    // Go to https://csvjson.com/csv2json → Select "JSON Array of Arrays"
+    // Copy the result and paste it below, replacing the example data
     // ============================================================
     const RAW_SHOPS = [
-        // 🔴🔴🔴 PASTE YOUR CONVERTED JSON DATA HERE 🔴🔴🔴
-        // Example format: ["Shop Name", "BOOKER"],
-        [
+        // Example format - REPLACE THIS WITH YOUR ACTUAL 2800+ SHOPS
+       [
   {
     "Shop": "Al Falah Com Liaqatabad Al Karam Square - 0309 2894296",
     "Booker": "AHMED"
@@ -11493,7 +11504,8 @@
     "Shop": "Ameen Com Aj Mobile Market Lassi Goth N Karachi - 03000036890",
     "Booker": "SAMI"
   }
-];
+]
+    ];
     
     // ============ APP STATE ============
     let shops = [], visits = [], users = [], currentUser = null;
@@ -11504,7 +11516,35 @@
     function todayStr() { return new Date().toISOString().slice(0,10); }
     function extractPhone(text) { let m = text.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().substring(0,12) : "N/A"; }
     
-    // Load shops from RAW_SHOPS
+    // Load bookers list FIRST (lightweight, no freezing)
+    function loadBookersList() {
+        let uniqueBookers = [];
+        for(let row of RAW_SHOPS) {
+            let booker = row[1] ? row[1].toUpperCase() : "";
+            if(booker && !uniqueBookers.includes(booker)) uniqueBookers.push(booker);
+        }
+        uniqueBookers.sort();
+        
+        let container = document.getElementById('bookerList');
+        container.innerHTML = '';
+        // Add admin button
+        let adminBtn = document.createElement('button');
+        adminBtn.className = 'booker-btn';
+        adminBtn.innerText = 'admin';
+        adminBtn.onclick = () => { document.getElementById('loginUser').value = 'admin'; document.getElementById('loginPass').value = '123'; };
+        container.appendChild(adminBtn);
+        
+        // Add all bookers
+        for(let bk of uniqueBookers) {
+            let btn = document.createElement('button');
+            btn.className = 'booker-btn';
+            btn.innerText = bk;
+            btn.onclick = () => { document.getElementById('loginUser').value = bk; document.getElementById('loginPass').value = '123'; };
+            container.appendChild(btn);
+        }
+    }
+    
+    // Load shops ONLY after login
     function loadShops() {
         let id = 1;
         for(let row of RAW_SHOPS) {
@@ -11513,14 +11553,20 @@
             }
         }
         console.log(`Loaded ${shops.length} shops`);
-        
-        // Load visits and users
-        let savedVisits = localStorage.getItem('shopTracker_visits');
+        return shops.length;
+    }
+    
+    function saveData() {
+        localStorage.setItem('shopTracker_visits', JSON.stringify(visits));
+        localStorage.setItem('shopTracker_users', JSON.stringify(users));
+    }
+    
+    // Initialize users (called after login)
+    function initUsers() {
         let savedUsers = localStorage.getItem('shopTracker_users');
-        if(savedVisits) visits = JSON.parse(savedVisits);
-        if(savedUsers) users = JSON.parse(savedUsers);
-        
-        if(users.length === 0) {
+        if(savedUsers) {
+            users = JSON.parse(savedUsers);
+        } else {
             let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
             users = [{ username: "admin", password: "123", role: "admin" }];
             for(let bk of uniqueBookers) {
@@ -11528,31 +11574,6 @@
             }
             saveData();
         }
-        
-        document.getElementById('loadingIndicator').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('totalShopCount').innerText = shops.length;
-        document.getElementById('shopCountDisplay').innerHTML = `📊 ${shops.length} Shops`;
-        
-        let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
-        document.getElementById('totalBookerCount').innerText = uniqueBookers.length;
-        
-        // Create booker buttons
-        let container = document.getElementById('bookerList');
-        let allUsers = [...uniqueBookers.sort(), 'admin'];
-        container.innerHTML = '';
-        for(let user of allUsers) {
-            let btn = document.createElement('button');
-            btn.className = 'booker-btn';
-            btn.innerText = user;
-            btn.onclick = () => { document.getElementById('loginUser').value = user; document.getElementById('loginPass').value = '123'; login(); };
-            container.appendChild(btn);
-        }
-    }
-    
-    function saveData() {
-        localStorage.setItem('shopTracker_visits', JSON.stringify(visits));
-        localStorage.setItem('shopTracker_users', JSON.stringify(users));
     }
     
     function isVisitedToday(shopId) { return visits.some(v => v.shopId === shopId && v.dateStr === todayStr()); }
@@ -11575,7 +11596,6 @@
         alert("✓ Reset");
     }
     
-    // Get filtered shops based on search and filter
     function getFilteredShops() {
         return shops.filter(shop => {
             if(currentUser.role !== 'admin' && shop.bookerAssigned !== currentUser.username) return false;
@@ -11590,12 +11610,12 @@
         let filtered = getFilteredShops();
         let totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
         if(currentPage > totalPages) currentPage = 1;
-        
         let start = (currentPage - 1) * ITEMS_PER_PAGE;
         let pageShops = filtered.slice(start, start + ITEMS_PER_PAGE);
-        
         let visitedCount = shops.filter(s => isVisitedToday(s.id)).length;
-        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops | Today: ${visitedCount} visits | Page ${currentPage}/${totalPages || 1}`;
+        
+        document.getElementById('stats').innerHTML = `📊 ${filtered.length} shops shown | Today: ${visitedCount} visits | Page ${currentPage}/${totalPages || 1}`;
+        document.getElementById('shopCountDisplay').innerHTML = `📊 ${shops.length} Shops`;
         
         let tbody = document.getElementById('shopsBody');
         tbody.innerHTML = '';
@@ -11603,14 +11623,14 @@
             let visited = isVisitedToday(shop.id);
             let action = !visited ? `<button class="visit-btn success" data-id="${shop.id}">✅ Mark</button>` : '';
             if(currentUser.role === 'admin' && visited) action += ` <button class="reset-btn warning" data-id="${shop.id}">🔄 Reset</button>`;
-            tbody.innerHTML += `<tr><td style="max-width:220px; word-break:break-word;">${escapeHtml(shop.name.substring(0,55))}${shop.name.length > 55 ? '...' : ''}</td><td style="font-size:10px;">${shop.phone}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not'}</span></td><td>${action}</td></tr>`;
+            tbody.innerHTML += `<tr><td style="max-width:220px; word-break:break-word;">${escapeHtml(shop.name)}</td><td style="font-size:10px;">${shop.phone}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not'}</span></td><td>${action}</td></tr>`;
         }
         
         // Pagination
         let paginationDiv = document.getElementById('pagination');
         paginationDiv.innerHTML = '';
         if(totalPages > 1) {
-            for(let i = 1; i <= Math.min(totalPages, 10); i++) {
+            for(let i = 1; i <= Math.min(totalPages, 8); i++) {
                 let btn = document.createElement('button');
                 btn.innerText = i;
                 if(i === currentPage) btn.classList.add('active');
@@ -11632,7 +11652,6 @@
             let s = shops.find(s=>s.id===v.shopId); 
             if(s) tbody.innerHTML += `<tr><td>${v.dateStr}</td><td style="max-width:180px; word-break:break-word;">${escapeHtml(s.name.substring(0,45))}${s.name.length > 45 ? '...' : ''}</td><td>${s.bookerAssigned}</td><td style="font-size:10px;">${v.timestamp}</td></tr>`;
         }
-        if(filtered.length > 200) tbody.innerHTML += `<tr><td colspan="4">Showing last 200 visits only</td></tr>`;
     }
     
     function exportExcel() {
@@ -11662,6 +11681,8 @@
         document.getElementById('newShopBooker').innerHTML = '<option value="">Select</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
         document.getElementById('resetShopSelect').innerHTML = '<option value="">Select shop</option>' + shops.filter(s=>isVisitedToday(s.id)).slice(0,100).map(s => `<option value="${s.id}">${s.name.substring(0,40)}</option>`).join('');
         document.getElementById('removeBookerSelect').innerHTML = '<option value="">Select booker</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
+        document.getElementById('totalShopCount').innerText = shops.length;
+        document.getElementById('totalBookerCount').innerText = bookers.length;
     }
     
     function addShop() { let n=document.getElementById('newShopName').value.trim(), p=document.getElementById('newShopPhone').value.trim(), b=document.getElementById('newShopBooker').value; if(!n||!b){alert("Required");return;} shops.push({id:Date.now(),name:n,phone:p||"N/A",bookerAssigned:b}); saveData(); renderShops(); refreshAdmin(); alert("Shop added"); }
@@ -11672,6 +11693,15 @@
     function login() {
         let u = document.getElementById('loginUser').value.trim().toUpperCase();
         let p = document.getElementById('loginPass').value;
+        
+        // Load shops and users ONLY on first login
+        if(shops.length === 0) {
+            loadShops();
+            let savedVisits = localStorage.getItem('shopTracker_visits');
+            if(savedVisits) visits = JSON.parse(savedVisits);
+            initUsers();
+        }
+        
         let user = users.find(x => x.username.toUpperCase() === u && x.password === p);
         if(user){
             currentUser = user;
@@ -11679,15 +11709,24 @@
             document.getElementById('mainApp').style.display = 'block';
             document.getElementById('currentUserDisplay').innerText = user.username + (user.role === 'admin' ? ' (Admin)' : '');
             renderUI();
-        } else { alert("Invalid credentials! Use username from list, password: 123"); }
+        } else { 
+            alert("Invalid credentials! Use username from list, password: 123"); 
+        }
     }
     
-    function logout() { currentUser = null; document.getElementById('loginContainer').style.display = 'block'; document.getElementById('mainApp').style.display = 'none'; }
+    function logout() { 
+        currentUser = null; 
+        document.getElementById('loginContainer').style.display = 'block'; 
+        document.getElementById('mainApp').style.display = 'none'; 
+        // Clear sensitive data from memory (optional)
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+    }
     
     function renderUI() {
         let tabsDiv = document.getElementById('tabs');
         tabsDiv.innerHTML = '';
-        let tabs = [{id:'tab-visit',label:'📍 Visit'},{id:'tab-report',label:'📊 Reports'}];
+        let tabs = [{id:'tab-visit',label:'📍 Visit Shops'},{id:'tab-report',label:'📊 My Reports'}];
         if(currentUser.role === 'admin') tabs.push({id:'tab-admin',label:'⚙️ Admin'});
         for(let tab of tabs) { 
             let btn = document.createElement('button'); 
@@ -11705,13 +11744,16 @@
         document.getElementById('tab-visit').classList.add('active');
         renderShops();
         let d = todayStr();
-        document.getElementById('reportFrom').value = d; document.getElementById('reportTo').value = d;
+        document.getElementById('reportFrom').value = d; 
+        document.getElementById('reportTo').value = d;
         renderReport();
+        
         document.getElementById('filterAll').onclick = () => { currentFilter='all'; currentPage=1; renderShops(); };
         document.getElementById('filterVisited').onclick = () => { currentFilter='visited'; currentPage=1; renderShops(); };
         document.getElementById('filterNotVisited').onclick = () => { currentFilter='notvisited'; currentPage=1; renderShops(); };
         document.getElementById('applyReport').onclick = () => renderReport();
         document.getElementById('exportExcel').onclick = exportExcel;
+        
         if(currentUser.role === 'admin') { 
             refreshAdmin(); 
             document.getElementById('addShopBtn').onclick = addShop; 
@@ -11721,9 +11763,12 @@
         }
     }
     
+    // Initialize - load bookers list only (lightweight)
+    loadBookersList();
+    
+    // Event listeners
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
-    loadShops();
 </script>
 </body>
 </html>
