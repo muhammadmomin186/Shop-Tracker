@@ -3,73 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Shop Visit Tracker - Complete</title>
+    <title>Shop Visit Tracker</title>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; font-family: system-ui, sans-serif; }
         body { background: #e9f0f5; margin: 0; padding-bottom: 70px; }
         .header { background: linear-gradient(135deg, #1e2b3c, #0f1a24); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         .logo h2 { margin: 0; font-size: 1rem; }
-        .logo p { margin: 0; font-size: 0.6rem; opacity: 0.8; }
         .user-info { background: rgba(255,255,255,0.15); padding: 5px 12px; border-radius: 30px; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; }
-        button { background: #2c5f8a; border: none; color: white; padding: 8px 16px; border-radius: 30px; cursor: pointer; font-weight: 500; font-size: 0.8rem; }
+        button { background: #2c5f8a; border: none; color: white; padding: 8px 16px; border-radius: 30px; cursor: pointer; }
         button.success { background: #2b6e3c; }
         button.danger { background: #b91c1c; }
         button.warning { background: #b45309; }
         .tabs { display: flex; background: #f1f5f9; border-bottom: 2px solid #cbd5e1; overflow-x: auto; padding: 0 10px; }
-        .tab-btn { background: transparent; padding: 12px 16px; border-bottom: 3px solid transparent; white-space: nowrap; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
-        .tab-btn.active { border-bottom-color: #2c5f8a; background: #e2e8f0; color: #0f3b5c; }
+        .tab-btn { background: transparent; padding: 12px 16px; border-bottom: 3px solid transparent; white-space: nowrap; font-weight: 600; cursor: pointer; }
+        .tab-btn.active { border-bottom-color: #2c5f8a; background: #e2e8f0; }
         .tab-content { display: none; padding: 15px; }
         .tab-content.active { display: block; }
         .search-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
-        .search-box { flex: 2; min-width: 180px; }
-        .search-box input { width: 100%; padding: 10px 15px; border: 1px solid #ccc; border-radius: 30px; font-size: 14px; }
+        .search-box { flex: 2; }
+        .search-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 30px; }
         .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .filter-group button { padding: 8px 14px; font-size: 0.75rem; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; display: block; overflow-x: auto; }
-        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.7rem; }
-        th { background: #f8fafc; font-weight: 600; position: sticky; top: 0; }
-        .visited-badge { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 30px; font-size: 0.65rem; font-weight: bold; display: inline-block; }
+        table { width: 100%; border-collapse: collapse; background: white; display: block; overflow-x: auto; }
+        th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.7rem; }
+        th { background: #f8fafc; }
+        .visited-badge { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 30px; font-size: 0.65rem; }
         .not-visited { background: #fee2e2; color: #991b1b; }
-        .visit-btn, .reset-btn { padding: 4px 10px; font-size: 0.65rem; margin: 2px; }
-        .stats { background: #eef2ff; padding: 8px 16px; border-radius: 30px; display: inline-block; margin-bottom: 15px; font-size: 0.75rem; font-weight: 500; }
-        .login-container { max-width: 350px; margin: 80px auto; background: white; padding: 25px 20px; border-radius: 40px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; font-size: 14px; }
+        .stats { background: #eef2ff; padding: 8px 16px; border-radius: 30px; display: inline-block; margin-bottom: 15px; font-size: 0.75rem; }
+        .login-container { max-width: 350px; margin: 80px auto; background: white; padding: 25px; border-radius: 40px; text-align: center; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; }
         .booker-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; justify-content: center; max-height: 250px; overflow-y: auto; }
-        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 6px 12px; font-size: 12px; }
-        .booker-btn:hover { background: #2c5f8a; color: white; }
-        .admin-panel { background: #fef9e3; padding: 15px; border-radius: 20px; margin-bottom: 15px; }
-        .shop-count { font-size: 11px; color: #666; margin-top: 5px; }
-        @media (max-width: 600px) {
-            th, td { font-size: 0.65rem; padding: 6px 4px; }
-            .tab-btn { padding: 8px 10px; font-size: 0.7rem; }
-        }
+        .booker-btn { background: #e2e8f0; color: #1e293b; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+        .loading { text-align: center; padding: 50px; color: #666; }
     </style>
 </head>
 <body>
 <div id="app">
-    <div id="loginContainer" class="login-container" style="display: block;">
+    <div id="loginContainer" class="login-container">
         <h2>🔐 Shop Tracker Login</h2>
-        <input type="text" id="loginUser" placeholder="Username" autocomplete="off">
-        <input type="password" id="loginPass" placeholder="Password (123)">
-        <button id="loginBtn" style="width:100%;">Sign In</button>
-        <div style="margin: 15px 0 10px; font-size: 11px; color: #666;">Quick Login:</div>
-        <div class="booker-list" id="bookerList"></div>
-        <p style="font-size:10px; margin-top:15px;">All passwords: <strong>123</strong> | Admin: admin/123</p>
-        <p style="font-size:9px; color:#888;">Total Shops Loaded: <span id="totalShopCountDisplay">0</span></p>
+        <div class="loading" id="loadingIndicator">
+            Loading shops from Google Sheets... ⏳<br>
+            <small>This may take 10-20 seconds for 2800+ shops</small>
+        </div>
+        <div id="loginForm" style="display:none;">
+            <input type="text" id="loginUser" placeholder="Username">
+            <input type="password" id="loginPass" placeholder="Password (123)">
+            <button id="loginBtn" style="width:100%;">Sign In</button>
+            <div class="booker-list" id="bookerList"></div>
+            <p style="font-size:10px;">All passwords: 123 | Admin: admin/123</p>
+        </div>
     </div>
 
     <div id="mainApp" style="display: none;">
         <div class="header">
             <div class="logo"><h2>📋 Shop Visit Tracker</h2><p id="shopCountDisplay"></p></div>
-            <div class="user-info"><span>👤 <span id="currentUserDisplay"></span></span><button id="logoutBtn" class="danger" style="padding:4px 10px;">Logout</button></div>
+            <div class="user-info"><span>👤 <span id="currentUserDisplay"></span></span><button id="logoutBtn" class="danger">Logout</button></div>
         </div>
         <div class="tabs" id="tabs"></div>
         
         <div id="tab-visit" class="tab-content">
             <div class="search-bar">
-                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search by shop name or phone..."></div>
+                <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Search shop..."></div>
                 <div class="filter-group">
                     <button id="filterAll">All</button>
                     <button id="filterVisited">Visited Today</button>
@@ -78,102 +71,96 @@
             </div>
             <div class="stats" id="stats"></div>
             <div style="overflow-x: auto; max-height: 65vh; overflow-y: auto;">
-                <table id="shopsTable">
-                    <thead><tr><th>Shop Name / Address</th><th>Phone</th><th>Status</th><th>Action</th></tr></thead>
-                    <tbody id="shopsBody"></tbody>
-                </table>
+                <table><thead><tr><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Status</th><th>Action</th></tr></thead><tbody id="shopsBody"></tbody></table>
             </div>
         </div>
         
         <div id="tab-report" class="tab-content">
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                <div><label>From: <input type="date" id="reportFrom" style="width:auto; display:inline-block;"></label></div>
-                <div><label>To: <input type="date" id="reportTo" style="width:auto; display:inline-block;"></label></div>
+                <input type="date" id="reportFrom"> to <input type="date" id="reportTo">
                 <button id="applyReport">Filter</button>
-                <button id="exportExcel">📎 Export Excel</button>
+                <button id="exportExcel">📎 Export</button>
             </div>
             <div style="overflow-x: auto; max-height: 65vh; overflow-y: auto;">
-                <table id="reportTable">
-                    <thead><tr><th>Date</th><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Time</th></tr></thead>
-                    <tbody id="reportBody"></tbody>
-                </table>
+                <table><thead><tr><th>Date</th><th>Shop Name</th><th>Phone</th><th>Booker</th><th>Time</th></tr></thead><tbody id="reportBody"></tbody></table>
             </div>
         </div>
         
         <div id="tab-admin" class="tab-content">
-            <div class="admin-panel">
+            <div style="background: #fef9e3; padding: 15px; border-radius: 20px;">
                 <h3>👑 Admin Controls</h3>
-                <div style="background:#e6f7ff; padding:10px; border-radius:16px; margin-bottom:15px; font-size:12px;">
+                <div style="background:#e6f7ff; padding:10px; border-radius:16px; margin-bottom:15px;">
                     📊 <strong>Total Shops:</strong> <span id="totalShopCount">0</span> &nbsp;|&nbsp;
                     👥 <strong>Total Bookers:</strong> <span id="totalBookerCount">0</span>
                 </div>
-                <h4>➕ Add New Shop</h4>
-                <input type="text" id="newShopName" placeholder="Shop name / address">
-                <input type="text" id="newShopPhone" placeholder="Phone number">
+                <h4>➕ Add Shop</h4>
+                <input type="text" id="newShopName" placeholder="Shop name">
+                <input type="text" id="newShopPhone" placeholder="Phone">
                 <select id="newShopBooker"></select>
                 <button id="addShopBtn" class="success">Add Shop</button>
                 <hr>
                 <h4>📋 Manage Bookers</h4>
                 <input type="text" id="newBookerName" placeholder="New booker name">
                 <button id="addBookerBtn">Add Booker</button>
-                <select id="removeBookerSelect" style="margin-top:10px;"></select>
-                <button id="removeBookerBtn" class="danger">Remove Booker</button>
+                <select id="removeBookerSelect"></select>
+                <button id="removeBookerBtn" class="danger">Remove</button>
                 <hr>
-                <h4>🔄 Admin Override</h4>
+                <h4>🔄 Reset Today's Visit</h4>
                 <select id="resetShopSelect"></select>
-                <button id="resetVisitBtn" class="warning">Mark as NOT Visited Today</button>
-                <hr>
-                <h4>🔗 Share App Link</h4>
-                <input type="text" id="shareUrl" readonly value="Copy this link to share with bookers" style="background:#f0f0f0;">
-                <button id="copyUrlBtn">Copy Link</button>
+                <button id="resetVisitBtn" class="warning">Mark as NOT Visited</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ============================================================
-    // COMPLETE SHOP DATA FROM YOUR EXCEL FILE (ALL 2800+ SHOPS)
-    // ============================================================
-    const SHOP_DATA = [
-        ["Al Falah Com Liaqatabad Al Karam Square - 0309 2894296","AHMED"],["AL MANSOOR COMM /AHMED - 0345-3331133","AHMED"],["3 M COMMUNICATION B 1 AREA CATTLE CHOWK LIAQATABAD - 0334-3994525","AHMED"],["7 Star Com Gol Market Nazimabad 3 Near K Electric - 0345 2226214","AHMED"],["A TO Z 2 COMMUNICATION AL HASSAN CHOWK NEAR AGHA J - 0325-2997785","AHMED"],["A to Z Com Amir Golimar Phool Gali - 0345 2487178","AHMED"],["AA Com 1 Arsalan Liaquat Chowk Golimar - 0313 1313633","AHMED"],["AA Com 4 B1 Area Cattle Chowk - 0332 3214276","AHMED"],["AA Com Asim Chandni Chowk Nazimabad 5 - 0320 2951781","AHMED"],["AA Com Gol Tanki Pak Colony - 0300 0443964","AHMED"],["AAA Com Gol Market Nazimabad Near Rashed Qorma - 0342 0808088","AHMED"],["Aaliyan Com Liaqatabad No 4 Amjad Sabri Street - 0313 3344773","AHMED"],["AAZ Com Opp Maa Com Al Hassan Nazmibad - 0313 2287783","AHMED"],["AB Com Firdos Shopping Center Liaqatabad 6 Number - 0318 2952267","AHMED"],["AB Com Shop #6 ML Terrace Jamshed Road - 0300 9257212","AHMED"],["Abdullah Com Pak Colony Gol Tanki - 0313 0202309","AHMED"],["ADEEL COM NEAR TOTAL PUMP SULTANABAD - 0345.4823261","AHMED"],["Adnan Accessories Shop #25 Gate 4 Centeral Market - 0313 2397070","AHMED"],["AE Com Golimar Near Yousuf Burger - 0340 2490332","AHMED"],["Affan Communication Post Office Liaqatabad - 0333 3151228","AHMED"],["AH Com Memon Mobile Market Liaqatabad - 0319 7712314","AHMED"],["Ahad Computer Phool Gali Golimar Nazimabad - 0315 2582345","AHMED"],["AHMED COM NEAR MAIRAJ SHERMALL GOLIMAR - 0313-2941706","AHMED"],["AHMED COM OLD GOLIMAR OPPOSIT SHELL PETROL PUMP NA - 0311-2229006","AHMED"],["AHMED COM PAK COLONY NEAR MUSTAFA MASJID - 0316-2914159","AHMED"],["AHMED COM SHOP # LCC-12 OLD NUMAIESH HANIFIA MASJI - 03082526600","AHMED"],["AHMED COM/AHMED - 0345-3475324","AHMED"],["AHMED MEHMOOD (SALES MAN) - 0370-0315359","AHMED"],["AHMED QURESHI COM SHOP # 24 MEMON MOBILE MARKET - 0317 6362550","AHMED"],["Ahmed Saeed Com Pak Colony Near Shahzain Com - 0348 8593396","AHMED"],["AHSAN COM NEAR GHOUSIA MASJID LQT NO 7 - 03172587996","AHMED"],["Ajwa Com Main Chandni Chowk Nazimabad 5 - 0314 2300075","AHMED"],["AK TECH PLOT # 392 SHOP #3 PIB COLONY - 0333 2404848","AHMED"],["AKS COM PIB COLONY NEAR CENTERAL JAIL - 0321-2731297","AHMED"],["AKS MOBILE BURNS ROAD SADDAR - 0321-3814223","AHMED"],["AL HUSSAIN COM POST OFFICE DAKANA LIAQATABD - 0332-3010691","AHMED"],["AL MANSOOR COM (CLOSE) PAK COLONY/AHMED - 03453331133","AHMED"],["Al Razzaq com near majestic restaurant nazimabad - 0317 2690870","AHMED"],["Al Rehman Com Shop #1 Near 420 Hotel Liaqatabad nu - 0328 2315141","AHMED"],["AL SHIWANI COM OPP YADGAR FISH JAMSHED ROAD - 0330.1424032","AHMED"],["Alay Com Shop #18 Near Ghosia Bakery B1 Area Liaqa - 03129210173","AHMED"],["ALI COM C 1 AREA ANSARI MEDICAL - 0314-7310000","AHMED"],["Ali Murtaza shop #3/661 corner shop near Dr abdali - 0343 5237660","AHMED"],["ALI NOOR COM /AHMED - 0323-1204881","AHMED"],["AM COM C1 AREA - 0317-4706773","AHMED"],["AMAN COM /AHMED - 0315-7377237","AHMED"],["AMAN COM CATTLE CHOWK B1 AREA LIAQATABAD - 0317 2229099","AHMED"],["AMANI COM SHOP #12 MEMON MOBILE MARKET LIAQATABAD - 0321 3429407","AHMED"],["AMIR COM (BILAL) SHOP #13 #1 NEAR QUDSIA MASJID - 0341 8111011","AHMED"],["AN com opp Naseer pan shop Taya hotel street liaqu - 0324 3473853","AHMED"],["ANAS COM 1 C1 LIAQUATABAD /AHMED - 0314-8850185","AHMED"],["ANAS COM 2 GOLIMAR /AHMED - 03442449128","AHMED"],["ANAS COM DAKHANA /AHMED - 0320-1257533","AHMED"],["ANSARI COMMUNICATION - 0333-7077992","AHMED"],["ANSHARA COM PHOOL GALI GOLIMAR/AHMED - 0345-3795666","AHMED"],["ANUS COMMUNICATION KHILAFAT CHOWK - 0334-2920635","AHMED"],["APOLLO COMM/AHMED - 0312-8692866","AHMED"],["APPLE ZONE GOLIMAR - 0313-1159374","AHMED"],["AQ TELECOM SHOP #3 JAMSHED ROAD #3 - 03152894076","AHMED"],["AQIB COMMUNICATION - -","AHMED"],["AR DIGITAL STUDIO SHOP #1 ML PLAZA FATIMA JINNAH - 300 2042893","AHMED"],["ARSHAD COM NEAR HAROON COM KAMOSH COLONY - 0347-2510912","AHMED"],["AS COM 2 LIAQATABAD GHOSIA MASJID - 0317-2587996","AHMED"],["As Com Near Star Zone Waheedabad Golimar - 0312 2299187","AHMED"],["AS COM WAHEEDABAD (CLOSE)GOLIMAR /AHMED - 0304-2588944","AHMED"],["AS TRADER PAK COLONY WILAYATABAD  MANGOPIR ROAD - 0341 2261191","AHMED"],["ASAD COM /AHMED - 0347-3700826","AHMED"],["Ashraf & sons near Rehmania masjid jawaid medical - 0311 0217696","AHMED"],["ATIF COMMUNICATION - 0312-2074398","AHMED"],["Attari Com Shop #2 Bisma Garden Fatima Jinnah Road - 0333 8778577","AHMED"],["AY ENTERPRISE SHOP #13 MEMON MOBILE MARKET LIAQATA - 0313 2524662","AHMED"],["AYAZ COM KAMOSH COLONY TUHEED MASJID - 0343-3044544","AHMED"],["Ayesha com near bilal masjid pappi pan - 0304-2045504","AHMED"],["AZ COMMUNICATION LIAQATABAD FIRDOUS - 03132446205","AHMED"],["AZAM COM PAK COLONY/AHMED - 0343-2559218","AHMED"],["BC COMM NAZIMABAD #2 - 0308-7222450","AHMED"],["BILAL COM LASBELLA /AHMED - 0336-3416672","AHMED"],["BILAL COM SHOP #1 ZAMINDAR HOTEL GULBAHAR #1 - 0313 3171529","AHMED"],["BILAL COMMUNICATION KHILAFAT CHOWK - 0321-2475428","AHMED"],["BISMILLAH COM 2 ( FAROOQ) C1 AREA LIAQATABAD - 03171207577","AHMED"],["BISMILLAH COM C1 AREA LIAQUTABAD - 0331-2904748","AHMED"],["BISMILLAH COM GOL MARKET /AHMED - 0311-0222901","AHMED"],["BK COM NEAR SAIFULLAH NAZIMABAD #3 - 0344-2027500","AHMED"],["BM COM 3 OPP M HUSSAIN COM NEAR TAYYABA MASJID - 0315-2266514","AHMED"],["BM Com Liaqatabad 6 Number Near 420 Hotel - 0331 3000750","AHMED"],["BM COM NEAR SAIFULLAH NAZIMABAD#3 - 0300 2634842","AHMED"],["BRAND ACCESSORIES NAZIMABAD #1 - 0310-1129621","AHMED"],["BS COM CHANDNI ARCADE LASBELLA - 0313 2402482","AHMED"],["BS COM NEAR PETAL GALI GOLIMAR - -","AHMED"],["CLOSE AY COM - 0343-3044544","AHMED"],["COMBO COMM SHOP A7 C1 AREA LIAQUATABAD - 0304-1329383","AHMED"],["Danish Com (CLOSE) Phool Gali Golimar - 0341 3257009","AHMED"],["DAWOOD COMMUNICATION PIB COLONY - 0321-8726646","AHMED"],["DUA COM OPPOSITE YAAD GAAR FISH JAMSHED ROAD - 0300.2877340","AHMED"],["Dua Com(Ahsan) Chandni Chowk Nazimabad - 0315 3890443","AHMED"],["ENZ COM (CLOSE) C1 AREA LIAQATABAD - 0319 1398041","AHMED"],["EXTREME COMMUNICATION (CLOSE) - 0332-3543107","AHMED"],["FAHAD COMMUNICATION - 0347-8354003","AHMED"],["FAHAD MOBILE SHOP GOLIMAR DISPENSARY WALI GALI - 0348 2762306","AHMED"],["FAISAL COM KAMOSH COLONY - 0313-9223921","AHMED"],["FAIZAN COMMUNICATION KHILAFAT CHOWK MOBILE MARKET - 0300 9286781","AHMED"],["Faraz Com Near Al Karam Square FB Area - 0316 8880045","AHMED"],["Fatima Com Near Al Kazmin Imam Bargha Golimar - 0331 1375715","AHMED"],["FATIMA COMMUNICATION GOLIMAR - 0345-3216669","AHMED"],["FIVE STAR COM SHOP #234 NEAR BANK AL HABID STREET - 03462600775","AHMED"],["FOJI COM/AHMED - 03152739995","AHMED"],["FOUR EVER COMMUNICATION - 0313-8998590","AHMED"],["FRIENDS COM FIRDOS SHOPPING CENTER - 03132727961","AHMED"],["FRIENDS COM SAIF ULLAH NAZIMABAD - 0312-2116152","AHMED"],["Friends Com(Ahmed) Shop #22 Center Mobile Market K - 0314 2023748","AHMED"],["FS STAR COM B1 AREA NEAR JUMMA GUJJAR NIHARI L - 0341 2757232","AHMED"],["GALAXY MOBILE KHILAFAT CHOWK NAZIMABAD - 0311-3290006","AHMED"],["GENTLEMAN COM DAKHANA /AHMED - 0343-2709621","AHMED"],["GHAZI COM/AHMED - 0317-4740822","AHMED"],["GOOD LUCK CHANDNI CHOWK LASBELLA/AHMED - +92 321 229544","AHMED"],["H.I COM GOLIMAR /AHMED - 0317-10922761","AHMED"],["HA com opp AY com memon mobile market liaqatabad - 0317 1232014","AHMED"],["Habib Com Khamosh Colony Opp Faisal com - 0348 2280350","AHMED"],["HAFIZ COM IRUM BAKERY OPP MUJAHID PAN SHOP LIAQATA - 0311-0207681","AHMED"],["HAFIZ COMM CHANDNI CHOWK - 0331-4583786","AHMED"],["Haider Com Near Ansari Medical Liaqatabad C1 Area - 0340 8720573","AHMED"],["HAIDER COM NEAR TOTAL PUMP SOLDIER BAZAR/AHMED - 0331 2277855","AHMED"],["HAIDER HAIDER COM SOLDIER BAZAAR TAJ PETROL/AHMED - 03312277855","AHMED"],["HAMZA COM 3/AHMED - 0315-2739995","AHMED"],["HARIS COM CHANDNI CHOWK NAZIMABAD - 0311-9333766","AHMED"],["HAROON COMM KHAMOSH COLONY - 0333-9223921","AHMED"],["HELLO COMMUNICATION AL HASSAN NEAR AGHA JUICE - 0346-2649188","AHMED"],["HK Com  Golimar Phool Gail - 0319 8982166","AHMED"],["HM WORLD PHOOL GALI - 0317-2523626","AHMED"],["HR COMM/AHMED - 0319-3660995","AHMED"],["HRZ COM (CLOSE) ALI BASTI GOLIMAR/AHMED - 03327336884","AHMED"],["IMRAN COM OPP YASIR COM PANKHA GALI SHERSHA - 03112255771","AHMED"],["Islam com plot #797 Block 3 liaqatabad - 03463186321","AHMED"],["JHOLY LAL COM (CLOSE)KHILAFAT CHOWK MOBILE MARKET - 0342-8077861","AHMED"],["JIBRAN COM NEAR REHMANI MASJID LIAQATABAD #3 - 0315-5540090","AHMED"],["K2 COMM CHANDNI ARCADE GARDEN / AHMED - 0320-8262168","AHMED"],["KARACHI MOBILE KAMOSH COLONY/AHMED - 0313-9292729","AHMED"],["KAREEM COM/AHMED - 0315-2739995","AHMED"],["KHICKI COMM NAZIMABAD # 2 RASHEED QORMA - 0313-7580824","AHMED"],["Khuja Com Siraj Colony Nazimabad - 03148399433","AHMED"],["KING COM FISH MARKET OPP UBL BANK LASBELLA - 0312.0220209","AHMED"],["M ALI COM KHILAFAT CHOWK MOBILE MARKET NAZIMABAD - 0335 7989154","AHMED"],["M COMMUNICATION TAHIRI MASJID MANSFIELD STREET - 0332-7865453","AHMED"],["M MUSTQEEM COM MEMON MOBILE MARKET LIAQATABAD - 0300 2243031","AHMED"],["M. HUSSAIN COM FIRDOS SHOPPING CENTER - 03102581513","AHMED"],["MA Com 3 Near Jhanda Chowk Liaqatabad Number 2 - 0342 2040385","AHMED"],["MA Com(Aman) Plot # 323 Block-1 Near Rehmania Masj - 0323 8225625","AHMED"],["MA MOBILE ZONE MEMON MOBILE MARKET LIAQATABAD - 03432326592","AHMED"],["MAA COMM NAZIMABAD AGHA JUICE - 0334-1895985","AHMED"],["MADINA COMM CHANDNI ARCADE GARDEN - 0322-2396393","AHMED"],["MADINA COMM KHILAFAT CHOWK - 0313-2397070","AHMED"],["MAKKAH COM OPP MADINA MART FATIMA JINNAH COLONY - 0330 8739864","AHMED"],["MALIK COM SAIF ULLAH SIRAJ COLONY - 0323-1200522","AHMED"],["MALIK MOHSIN COM MEMON MOBILE MARKET - 0331-3601860","AHMED"],["Manahil Com Phool Gali Golimar - 03324535836","AHMED"],["MARTIN DOW C/O FARHAN BHAI ZSM - 0324-8530344","AHMED"],["Maryam Com Near Jhanda Chowk Liaqatabad 4 Number - 0324 2434280","AHMED"],["MASHALLAH COM CHANDNI ARCADE GARDEN - 0312-2379997","AHMED"],["MASHALLAH COM SHOP #1 JUMMA GALI NEAR WEAPON MARKE - 03429298884","AHMED"],["MASHALLAH COM USMANIA GOLIMAR - 0343-1289554","AHMED"],["MATEEN LINKER MEMON MOBILE MARKET - 0307-2890074","AHMED"],["MEMON MOBILE SHOP # 50-51 MEMON MOBILE MARKET - 0318 1234773","AHMED"],["MISTER COMM KHLAFAT CHOWK - 0316-9000998","AHMED"],["MKS COM PANKHA GALI SHERSHA - 03112161641","AHMED"],["MOBILE CITY RASHEED QORMA - 0320-2090904","AHMED"],["MOBILE COMMUNICATION/AHMED SM - 0314-2161713","AHMED"],["MOBILE EXPO KHILAFAT CHOWK - 0335-2565896","AHMED"],["MOBILE LIFE COM SHOP# 46 MEMON MOBILE MARKET - 0315 2849436","AHMED"],["MOBILE PALACE ANAYA MOBILE MARKET GURUMANDIR - 0311 2765142","AHMED"],["MOBILE SOLUTION SHOP # 3 CHANDNI ARCADE GARDEN WES - 0309-2175149","AHMED"],["MOBILEO COMM (CLOSE) KETTLE CHOWK B1 AREA - 03142161713","AHMED"],["MOBY LAB COM PIB COLONY - 0323-2989897","AHMED"],["Motu patlu shop #18 memon mobile Market liaqatabad - 03042359190","AHMED"],["MS COM 3 SHOP #75 GOLIMAR NAZIMABAD - 0312 2847037","AHMED"],["MS COM SHOP # 3/797 LIAQATABAD #4 - 03133185079","AHMED"],["MUHAMMAD COMM DANISH VILLA GARDEN - 0332-2836361","AHMED"],["N.S COM SOLDIER BAZAR 1 TAJ PETROLEUM /AHMED - +92 313 227879","AHMED"],["Naqash Com Shop #152/6 Aurangabad Near Babu Siraj - 03101109781","AHMED"],["NAWAB COMMUNICATION SHOP # 3 PLOT # 764 PIB COLNY - 0316-2982878","AHMED"],["NOMAN COM B1 AREA NEAR JUMMA GUJJAR NIHARI - 0322 2716465","AHMED"],["NOMAN COMMUNICATION 1 PHOOL GALI GOLIMAR - 0331-3091666","AHMED"],["NOMAN COMMUNICATION LIAQATABAD #4 - 0343-5237660","AHMED"],["NOORANI COM (CLOSE) KAMOSH COLONY FAISAL COLONY - 0342-2646016","AHMED"],["NORANI COMMUNICATION - 0342-2646016","AHMED"],["NZ COM OPPOSITE MADINA MART FATIMA JINNAH COLONY J - 0300.2201333","AHMED"],["OWAIS COM MEMON MOBILE MARKET LIAQATABAD - 0315-8837267","AHMED"],["PIB STUDIO SHOP #1,390 PIB COLONY - 0316 0260856","AHMED"],["PRICE COM NEAR MEMON MOBILE MARKET - 0308-2613820","AHMED"],["PRINCE COMM (CLOSE) ROAD LASBAILA MOBILE MARKET - 0316-6198208","AHMED"],["QADRI COMM 2 PHOOL GALI GOLIMAR - 0347-2500155","AHMED"],["QADRI COMMUNICATION 1 (CLOSE)  PHOOL GALI GOLIMAR - 0317-2889801","AHMED"],["Qureshi Com Bada Board Near Saeed Com Bada Board G - 0310 1294242","AHMED"],["Raees Com Near Bismillah Hotel Pak Colony - 0342 2655586","AHMED"],["RAFAY PAN SHOP AL KARAM SQUARE - 0316-2003083","AHMED"],["RAHAT COM SHOP 1 BUILDING 30C RAHAT COMMERCIAL - 0332-3347774","AHMED"],["RAJA COM OPP IMRAN COMMUNICATION PANKHA GALI SHERS - 03460932423","AHMED"],["RED ZONE COM CATTLE CHOWK B1 AREA LIAQATABAD - 0300 3926252","AHMED"],["S.R COM PAKCOLONY GOOL TANKI - 0340-8354899","AHMED"],["SAAD COM 420 HOTEL LIAQATABAD - 03123601399","AHMED"],["SAADI TECH COM (CLOSE)PIB COLONY plot 296 shop 1b - 0336-0218035","AHMED"],["SAEED COM BADA  BOARD /AHMED - 0344-2882181","AHMED"],["SAMREEN COMPUTER C 1 AREA - 0333-3731959","AHMED"],["SANNAN COMMUNICATION GOLIMAR - 0312-1213215","AHMED"],["SHAH COM C1 AREA LIAQATABAD - 03452781422","AHMED"],["SHAH JAHAN COM GOLIMAR SHERIN SWEET - 0312-2788887","AHMED"],["Shaheen Com Liaqatabad 7 Number Opp Quba Masjid - -","AHMED"],["SHAHRUKH COM PAK COLONY MUSTAFA MASJID - +92 347 650594","AHMED"],["SHAHZAIN COM PAK COLONY NEAR BARA BOARD GOL TANKI - 0312-8756685","AHMED"],["SHAKIR COMMUNICATION - 0312-8291825","AHMED"],["SHANI COMMUNICATION AL KAZMIAN IMAM BARGAH GOLIMAR - 0344-8055292","AHMED"],["SHAYAN COM LIAQATABAD C 1 AREA MUSTAFA CHOWK - 0314-2332776","AHMED"],["SHEHZAD COM BADA BOARD SIGNAL - 0300-9288482","AHMED"],["SHEIKH COM 2 LIAQUATABAD/AHMED - 0321-2180980","AHMED"],["SHEIKH COMMUNICATION - 0311-2010176","AHMED"],["SHERAZ COM LIAQUATABAD NO 8/AHMED ( LIAQUATABAD ) - 0333-2344557","AHMED"],["SHERRY COMM KHILAFAT CHOWK NEAR MR COMM - 0347-3825572","AHMED"],["SHEZI COM GOLMAR LIAQAT CHOWK PITAL STREET - 0313-2724606","AHMED"],["SHOAIB COM LIAQATABAD #3 NEAR RAJA STATE - 0320 2102148","AHMED"],["SHUJAT & MOIZ COM SHOP # 20-7 MEMON MOBILE MARKET - 0300 2097941","AHMED"],["SMART PHONE SHOP #27 STAR MARKET ABDULLAH HAROON - 0318 2789699","AHMED"],["SS COM LIAQATABAD 8 NO - 03709123976","AHMED"],["SS COM PAK COLONY NEAR IBRAHIM ALI BHAI SCHOOL - +92 315 109898","AHMED"],["SS Com( Bilal) Shop #9 Memon Mobile Market Liaqata - 0314 2370025","AHMED"],["SS COMMUNICATION/AHMED - 03111013598","AHMED"],["STAR ZONE 1 PHOOL GALI GOLIMAR SR - 0311-2898148","AHMED"],["STAR ZONE 2 PHOOL GALI GOLIMAR JR - 0315-1068328","AHMED"],["STAR ZONE 3 (CLOSE) KHILAFAT CHOWK NAZIMABAD - 0346-3596403","AHMED"],["SULTAN COM NEAR ABBASI HOSPITAL EMERGENCY GATE NZD - 0315 3176129","AHMED"],["Sultan Com Near Nawab Com Pib Colony - 0322 2948676","AHMED"],["SW Com PIB Colony Near Zubair PCO - 0334 3136034","AHMED"],["SYED COM AL KARAM SQUARE - 0336-0264623","AHMED"],["SYED TRADERS PAK COLONY NEAR MUSTAFA MASJID - 03171075118","AHMED"],["TAJ COM LIAQATABAD 8 NO - 0300-2445271","AHMED"],["TALHA COM SHOP #2 DAKHNI MASJID PAKISTAN CHOWK - 0348-0326840","AHMED"],["TANVEER COMMUNICATION PIB COLINY - 0312-3090151","AHMED"],["TAWAKAL COM FA611 GULBAHAR #1 NEAR HANIFIA MASJID - 0334-3344322","AHMED"],["TAYYAB COM PIB COLONY - 0313-1180238","AHMED"],["TECH ZONE 627 PIB COLONY - 0310 3075119","AHMED"],["TECH ZONE COM PIB COLONY - 0312-4979979","AHMED"],["TECH ZONE SHOP #LS-14 LOWER 2ND FLOOR AMMA TOWER - 0324 2112527","AHMED"],["TECHNOVA COM SHOP #54 MEMON MOBILE MARKET - 0327 2137927","AHMED"],["TELECOM TRADER BADA BOARD NEAR SHAHZAIB COM - 0345 3182779","AHMED"],["Telezone Com Shop #104 Center Mobile Market Khilaf - 0321 2393794","AHMED"],["TIK TOK COM NEAR SAIFULLAH - 0315-2739995","AHMED"],["Time Com 3 Khilafat Chowk Nazimabad - 0340 8089407","AHMED"],["TIME COMMUNICATION 1 KHILAFAT CHOWK NAZIMABAD - 0312-2155052","AHMED"],["TIME COMMUNICATION 2 - 0311-9284896","AHMED"],["UBAID COMMUNICATION SOHAIL TOWER NEAR WHITE MAZAR - 0301-2729966","AHMED"],["UMAIR COMMUNICATION NEAR TAUHEED MASJID KHAMOSH CO - 0322-9223921","AHMED"],["Umar Com(Nasir) Shop #2 Near Jhanda Chowk Liaqatab - 0318 2870024","AHMED"],["UMER COM 2 /AHMED - -","AHMED"],["UNIQUE COMMUNICATION MEMON MOBILE MARKET LIAQATABA - 0305-9101317","AHMED"],["UNIQUE ZONE OXFORD SCHOOL GUL BAHAR/AHMED - 0316-1009805","AHMED"],["UROOJ COM JAHANGIR ROAD LAL MASJID - 0344 2548817","AHMED"],["VOHRA COM SHOP 9/19C LIAQATABAD - 03080263009","AHMED"],["Waqas com old Golimar - 0300 0202573","AHMED"],["WAQAS COMMUNICATION AMJAD SABRI GALI LIAQATABAD # - 0303-2107400","AHMED"],["WARSI ELECTRIC MEMON MOBILE MARKET - 0300-2372597","AHMED"],["WASEEM COM NEAR AZRA BEAUTY SALON LIAQATABAD - 03002152126","AHMED"],["Wasi Com Usmania Colony  Golimar - 0314 2166398","AHMED"],["wasi corner nazimabad - 0314 2166398","AHMED"],["Y J COM 2 /AHMED - 0312-6299977","AHMED"],["YASEEM BAIG COMM NEAR ERUM BAKERY - 0346-6967911","AHMED"],["YJ COMMUNICATION PHOOL GALI GOLIMAR - 0316-2909030","AHMED"],["YOUSUF COM NEAR ASIFIA MASJID PAK COLONY - +92 347 280759","AHMED"],["Z F COMMUNICATION 1 (CLOSE) PHOOL GALI GOLIMAR - 0314-2175519","AHMED"],["ZAHRA COM NEAR WASEEM COM LIAQATABAD # 9 - 03053322357","AHMED"],["ZF COMMUNICATION 2 (CLOSE) PHOOl GALI GOLIMAR - 0312-0802271","AHMED"],["ZOHAIB COMMUNICATION 3 RASHEED QORMA NAZIMABAD - 0300-2277124","AHMED"],["ZONG COM (CLOSE) KHAILAFAT CHOWK - 0334 7149543","AHMED"],["ZUBAIR COMMUNICATION 2 PIB COLONY - 0333-2360599","AHMED"],["ZUBAIR PCO PIB COLONY - 0333-2333244","AHMED"],["(SHOP CLOSE)BISMILLAH COM NEAR EATON FOOD DHA PH 2 - 0302 2410035","ALI"],["AL SADAT COM SHOP 6 16-C DEFANCE PH 2/DANISH - 0300 2222174","ALI"],["MADINA COM & PHOTO STATE NEAR POST OFFICE DEFENCE - 0310 9426300","ALI"],["SM MOBILE SHOP 4 PLOT 17 OPP DEFANCE PH 2/DANISH - 0320 8251556","ALI"],["TECH UNION COM SHOP #1 DEFANCE PHASE 2 /DANISH - 0300 2253352","ALI"],["AA com 2 shah Rasool colony Clifton - 0320 9570614","ALI"],["AA COM 2 SHOP #20 SHAHBAZ COMMERCIAL STREET 2 DEFE - 0302 8535821","ALI"],["AA COM TOUHEED COMMERCIAL DEFENCE PHASE 5 - 0304-1125215","ALI"],["AA MOBILE COM SHOP # 19 SHAHBAZ COMMERCIAL STREET - 0301 2645031","ALI"],["Abbasi Com Shop #4 Rahat Milk Street Sunset Lane 2 - 0300 8207058","ALI"],["Abdul Basit com chanesar Goth near iblaghul masjid - 0300 2378819","ALI"],["Abdul hafeez mob repair shop #11 Essa center near - 0324 2020302","ALI"],["Abrar com mehmodabad gate # 6 - 03232440921","ALI"],["ADIL COM NEAR POST OFFICE PHASE 2 DEFENCE - -","ALI"],["AFFAN COM MAIN GIZRI MARBLE MARKET - 0346 3056055","ALI"],["Agha Com Near Peshawari Ice Cream Azam Basti Mehmo - 03000352400","ALI"],["AGHA STORE HAROONABAD SHERSHAH/DANISH - 0300-9251303","ALI"],["AGHA WAQAR COM BADA BUKHARI DEFENCE - 0310 2330280","ALI"],["Ahmed Com Shop # 27 A Near Tipu Burger Shopping Ar - 03252100106","ALI"],["AKKS COM SHOP #1 YOUSUF PLAZA MAIN GIZRI CLIFTON - 0331-2054717","ALI"],["Akz Com(Haider) Near Peshawari Ice Cream Azam Bast - 0328 2211485","ALI"],["Al Harmain Com Near Quba Masjid Manzoor Colony - 03062169297","ALI"],["AL LAKSHBANDI COM BADA BUKHARI DEFENCE - 0313 2006100","ALI"],["AL MAKKAH COM SUNSET LANE 1 DEFENCE PHASE 2 - 0301 2337795","ALI"],["AL MUHAMMAD COM SHERSHAH/DANISH - +92 323 250886","ALI"],["AL NASEER  COM KASHMIR COLONY - 0312-1260973","ALI"],["ALI COM BADAR COMMERCIAL DEFENCE - 0331 2614207","ALI"],["ALI COMPUTER SHOP #3 AMEER CLINIC MEHMOODABAD - 0345-3278050","ALI"],["ALI GENERAL STORE BADA BUKHARI DEFENCE - 0346 3413883","ALI"],["All Right way Com Shop #1 Near Shafiq Biryani Dehl - 03402641420","ALI"],["AN COM SHOP #3 37-C 24TH COM STREET DEFENCE PH 2 - 0308 8408438","ALI"],["AR 2 COM MEHMOODABAD #3 NEAR KABAB JEES - 0311 8232182","ALI"],["AR Com(Arsalan) Shop #24 Clifton Shopping Arcade C - 0315 2637922","ALI"],["AR COMPUTER MEHMOODABAD GATE NEAR MASTER BIRYANI - 0346 2392898","ALI"],["AR STUDIO G-40 CLIFTON SHOPPING GALLERIA NEAR PSO - 0333 7245588","ALI"],["ARAIN MOBILE AMAN TOWER KORANGI CROSSING - 0308 3626042","ALI"],["ARHAM COM LANE 29 CHOTA BUKHARI DEFENCE - 300 4151037","ALI"],["ARWA MOBILE NEAR ASHANA BUILDING PUNJAB CHORANGI - 0333 3229215","ALI"],["ARYANA GENERAL STORE BADA BUKHARI DEFENCE - 0303 6386034","ALI"],["AS MOBILE MART SHOP #6 NEAR BANK AL HABIB DILLI MA - 0312 9111000","ALI"],["ASAD COM SHOP #6 DEHLI COLONY CLIFTON - 0323-2461976","ALI"],["Ashir Com Opp Al Naz Biryani Center Dehli Colony D - 03132303076","ALI"],["ASKARI PCO & COM BUILDING 84 C SHOP 6 DEFANCE PH 2 - 0300 3485856","ALI"],["AWAN COM KASHMIR COLONY DEFENCE - 0321:7286726","ALI"],["AYAN COM CHOTA BUKHARI DEFENCE - 308 2999900","ALI"],["AZ COM DEHLI COLONY - 03039111000","ALI"],["AZ SONS MAIN GIZRI BRIDGE - 0316 1275131","ALI"],["AZEEM COM & MOBILE MAIN GIZRI CLIFTON - 0304 5895691","ALI"],["Baba Com 2 Near Jalal Bakery Dehli Colony Defence - 03021263009","ALI"],["BABA COM DEHLI COLONY NEAR VEGETABLES MARKET - 0344-2565249","ALI"],["BABA COM MEHMOODABAD NO 1 - 0323 2011273","ALI"],["BALI MOBILE NEAR AL MAKKAH COM DEFENCE PHASE 2 - 0334-3695201","ALI"],["BILAL COM SEC 50-D KORANGI 3.5 - 03114802299","ALI"],["Bilal com shop #12 Essa center opp Dehli masjid De - 0305 7141913","ALI"],["BILAL COM SUNSET LANE 1 DEFENCE PHASE 2/DANISH - 0300 2594243","ALI"],["BISMILLAH COM 2 SUNSET LANE 1 DEFANCE PH 2 DANISH - 0300 3334916","ALI"],["BMW COM MEHMOODABAD NO 1 NEAR ASLAM MIILK - 0341 2353790","ALI"],["BOLAN COM SHOP NO 3 BIDG 12-C SUNSET LANE DEFANCE - 0310 2482359","ALI"],["BONAIR COM SHOP #2 PLOT C-88 SHAH RASOOL COLONY - 0346-2485786","ALI"],["BUKHARI COM SHAH RASOOL COLONY CLIFTON - 0316 2224494","ALI"],["Burhan Com Near Rajput Medical Manzoor Colony - 03160130892","ALI"],["CALL AND CALL COM BADAR COMMERCIAL DEFENCE - 0300:2016993","ALI"],["CENTRAL MART & MADICOS 4TH KHALID COMMERCIAL ST PH - 0329 2203300","ALI"],["CHAHCHI COM MAIN STREET KASHMIR COLONY - 303 2091065","ALI"],["CITY COMPUTER SHOP#25 GD FLOOR SASI ARCADE CLIFTON - 0322 3501150","ALI"],["DABANG COM PHASE 2 NEAR RAHAT MILK CORNER DEFENCE - 306 0020100","ALI"],["Dani Com Bada Shehbaz Commercial Defence - 03045019900","ALI"],["DANISH COM BADA BUKHARI DEFENCE - 0332 0774229","ALI"],["DANISH COM DEHLI COLONY NEAR VEGETABLES MARKET - 0318 0192528","ALI"],["DARWESH COM SHOP #4 15-C DEFANCE PH 2 /DANISH - 0333 2222059","ALI"],["DECENT COM BUILDING 84/C SHOP #3 DEFANCE PH 2 - 0345 8076768","ALI"],["DECENT COM SHOP #12 AL KHALIFA BUILDING DEHLI - 0345-2231220","ALI"],["DK COM KASHMIR COLONY - 0344-2580919","ALI"],["DOLMEN MALL CLIFTON - 0312 2944045","ALI"],["FAIZAN COM CHOTA BUKHARI DEFANCE - 300 2527785","ALI"],["FAMOUS 2 COM MAIN ROAD NEAR CANT STATION - 0300 2464346","ALI"],["FAMOUS COM NEAR MAIN ROAD CANT STATION - 0318 7381978","ALI"],["FASIH MOBILE ACCESSORIES PLOT # 36-C STREET - -","ALI"],["FAZAL COMPUTER TOUHEED COMMERCIAL DEFENCE PHASE 5 - 0301-8152322","ALI"],["FIVE STAR COM 52-D PECHS FURNITURE MARKET - 0333 2208708","ALI"],["FK TECHNOLOGY SHOP # 40 SASI ARCADE CLIFTON - 0322 2815838","ALI"],["FS COM MEHMOODABAD #2 NEAR HBL BANK - 0303 0225113","ALI"],["Fs Electronic(Farhan) Shop B-25 Clifton Shopping A - 0325 2100106","ALI"],["Ghori Com Mehmoodabad 4 Opp Allah wala Shermall - 03231831373","ALI"],["GLOBAL COM MAIN GIZRI CLIFTON - 0333-1341689","ALI"],["GUL E GULZAR COM JAMI COMMERCIAL PHASE 7 - 0305- 8822126","ALI"],["GULL COM QAYYUMABAD C AREA - 0336 3639414","ALI"],["H Com(Qudrat) Opp Peshawari Ice Cream Azam Basti M - 0313 1130576","ALI"],["HAJIS MOBILE BADAR COMMERCIAL DEFENCE PHASE 5 26TH - 0309 0700012","ALI"],["Hashmi Mart Defence Phase 4 - 0301 7288406","ALI"],["HH COM SHOPPING ARCADE CLIFTON - 0317 2671149","ALI"],["HONEY COM MEHMOODABAD #2 NEAR FS COM - 0314 2224555","ALI"],["HUB MOBILE SHOP MAIN SHAHBAZ COMMERCIAL - 0344 1074478","ALI"],["Hussain Com Badar Commercial Defence - 03069309525","ALI"],["JADOON COM SHOP # 2 AGHA MOBILE MARKET QUAIDABAD - 03458944490","ALI"],["JS COM SHOP # 02 DEFENCE PHASE 2 EXTENSION 19C - 0308 2089757","ALI"],["KARSAZ COM SHOP #1 NEAR TAJ MASJID MEHMOODABAD NO - -","ALI"],["KASHIF COM MAIN GIZRI BRIDGE - 0307 9454612","ALI"],["Kashmir Mobile Shop Opp Zong Franchise Mehmoodabad - 03487129786","ALI"],["KHAN COM KASHMIR COLONY NEAR MAIN STREET - 0300-2723007","ALI"],["KHAN COM MEHMOODABAD GATE NEAR MASTER BIRYANI - 0310 1094831","ALI"],["Khokhar com opp Taj masjid mehmodabad - 03119800143","ALI"],["M LINK 1 COM NEAR AL MAKKAH HOTEL DEFENCE PHASE 2 - 03422258007","ALI"],["M LINK COM SUNSET LANE  DEFENCE PH 2 - 0310 2637844","ALI"],["MAC COM 3 51U PECHS FURNITURE MARKET - 0343 0203998","ALI"],["Madina Com Near Taj Com Azam Basti Mehmodabad - 0345 2138947","ALI"],["Malik com opp defence sweets Kashmir colony - 0300 1219756","ALI"],["MAMOOR ELECTRONIC AZAM BASTI  ROAD MEHMOODABAD - 0321 2315955","ALI"],["MINHAS COM AZAM BASTI - 0305-1122249","ALI"],["MK mobile corner near Danish com Bada Bukhari defe - 03071234901","ALI"],["MOBI GO COM SUNSET LANE 2 DEFENCE PHASE 2 - 0316 1249248","ALI"],["Mobile Care  Dehli Colony Defence - 03122 522833","ALI"],["MOBILE CARE COM SHOP # B-43 CLIFTON SHOPPING ARCAD - 0321 2602933","ALI"],["MOBILE COVER ACCESSORIES SHOP#G5CTC NEAR 3 TALWAR - 0336 2848037","ALI"],["MOBILE POINT TOUHEED COMMERCIAL DEFENCE PHASE 5 - 0324-2257488","ALI"],["MOBILE STATION SHOP #4 PLOT 82 DEFANCE PH 4 DANISH - 0318-0274866","ALI"],["MOBILE STORE COM BADAR COMMERCIAL DEFENCE - 0301 2584697","ALI"],["Move Inn Mart Near shell Pump street 3 Sword Clift - 0333 3229215","ALI"],["NABEEL COM SHOP #6 13TH COMM STREET DEFANCE PH 2 - 0340 8614409","ALI"],["New Aliez Com Main Khadda Market Defence - 0300 2552221","ALI"],["NEW DIGITAL KHADDA MARKET DEFENCE PHASE 5/DANISH - 0321 8285555","ALI"],["NF COM BOAT SHOPPING ARCADE BLOCK 5 CLIFTON - 0324 3351790","ALI"],["NF Com Opp Peshawari Ice Cream Azam Basti Mehmodab - 03063736278","ALI"],["NMC COM ALLAH WALA TOWN KORANGI CROSSING - 0332 2098482","ALI"],["NOMAN COM NEAR MEWATI SHERIN SWEETS AZAM BASTI - 0321-2338481","ALI"],["Noor General Store Near Eid Gah Chowk Manzoor Colo - 03007000544","ALI"],["ONE TEN COM BADAR COMMERCIAL DEFENCE - 0300 3781487","ALI"],["PAK COM SHEHBAZ COMMERCIAL PHASE 6 NEAR KFC - 0341 6699511","ALI"],["PANJATAN COM MAIN ROAD NEAR CANT STATION - 0320 8229890","ALI"],["PAPPA COM SHOP #1 P&T COLONY GIZRI CLIFTON - 0312 2511101","ALI"],["PRIME COMPUTER SHOP #5 PLOT#82 DEFANCE PH 4 DANISH - 0335 5883788","ALI"],["Ps Com(Manish) Opp Haji Rabri Dehli Colony Defence - 0348 2520037","ALI"],["QADRI COM KHADDA MARKET DEFENCE PHASE 5 DANISH - 0324 2468868","ALI"],["QADRI COM TOUHEED COMMERCIAL DEFENCE PHASE 5 - 0300-2282847","ALI"],["QASIM MOBILE MEHMOODABAD NO 2 - 0312 8837550","ALI"],["Ramzan Abbasi Shop # 4 Building 90C Jami Commercia - 03168604439","ALI"],["Rao Com Near Al Farooq Secondary School Manzoor Co - 03122601911","ALI"],["Rayan com near Al naz biryani dehli colony defence - 301 1256007","ALI"],["ROSHAN COM BOAT BASON SHOPPING ARCADE BLOCK 5 CLIF - 0342 2571309","ALI"],["RT COM MEHMOODABAD GATE # 1 NEAR TAJ MASJID - -","ALI"],["S&S COM MEHMOODABAD NO 4 - 0324-2486810","ALI"],["SA TRADER AMAN TOWER KORANGI CROSSING - -","ALI"],["Safie Com Shop #6 Opp Shopping Arcade Boat Bason C - 03082538131","ALI"],["SAHAR COM SAHAR COMMERCIAL DHA - 343 2357700","ALI"],["Sameer Com Shopping Arcade Clifton - 0213 5832880","ALI"],["Sell Point Near Quba Masjid Manzoor Colony - 03112224359","ALI"],["Shah Latif Com Opp Arham Com Chota Bukhari Defence - 03408110636","ALI"],["SHAHBAZ COM SHOP #14--C GROUND FLOOR SHAHBAZ COMM - 0332 2061129","ALI"],["Shahid Com Lane 11-C Rahat Commercial Phase 6 Defe - 03078228005","ALI"],["SHAHZAIN COM MAIN GIZRI CLIFTON - 0317-2945975","ALI"],["SHAMIM COM SASSI ARCADE CLIFTON - 0311-2280777","ALI"],["SHEHROZ MOBILE KHADDA MARKET DEFANCE/DANISH - 0320 2448656","ALI"],["Shobi Com Badar Commercial Defence - 03022150905","ALI"],["SIAL COM AZAM BASTI MEHMOODABAD - 340 2119372","ALI"],["SK com shehbaz commercial defence - 03021586089","ALI"],["SOHAIL COM BADA BUKHARI DEFENCE - 0315 2155597","ALI"],["Super com near Al Makkah com phase 2 defence - 03000211055","ALI"],["SUPER TELECOM BOAT BASON MOBILE MARKET CLIFTON - 0345-2988909","ALI"],["TAJ COM MEHMOODABAD GATE NEAR TAJ MASJID - 0333 8547771","ALI"],["TAJ COM SHOP 04 STREET 25 MEHMOODABAD AZAM TOWN - 0316 2815238","ALI"],["TAWWAKAL TRADERS NEAR JANI BIRYANI OPP UBL BANK - 0343 2958782","ALI"],["Tech hive com near tech zone com dehli colony defe - 03110243853","ALI"],["TECH ZONE HOUSE #38 DEHLI COLONY CLIFTON - 0331-2120650","ALI"],["THE ACS MART PLOT # 8C NISHAT COMM LINE 3 PHASE 6 - 0333 5053190","ALI"],["THE BOYS COM MEHMOODABAD NO 6 - 0343-7100146","ALI"],["THE GADGET FACTORY KHADDA MARKET DEFENCE PHASE 5 - 0314 2588863","ALI"],["THE GADGET MANIA SHOP #9 HASHOO TERRACE CLIFTON - 0320 1256113","ALI"],["TROVE TECH ZONE MEHMOODABAD #2 - 0312274805","ALI"],["UMAMA COM P&T COLONY GIZRI CLIFTON - 0333-3324522","ALI"],["UMAR COM NISHAT COMMERCIAL DEFENCE - 0334 8184701","ALI"],["Warind collection Lower Lobby Avari Tower Hotels F - 0312 2880809","ALI"],["X HOUR GADGET TUHEED COMMERCIAL PHASE 5 DEFENCE - 0320 3858244","ALI"],["Yasaa com shop #9 near tech hive com dehli colony - 0311 2149928","ALI"],["Z Com(Noman) Shop 23/C Park Avenue Sunset Lane Def - 0303 2605427","ALI"],["ZAHEER COM CLIFTON SHOPPING ARCADE SHAWN CIRCLE - 0322 8665436","ALI"],["Zaheer com street #12 Azam basti - 03412127905","ALI"],["ZAHID COM SHOP #D-26 CLIFTON SHOPPING ARCADE/ - 0321 2626221","ALI"],["ZAYAN COM SHOP #2 PLOT #A-355 K.A.E.C.H.S SOCIETY - 0316 9397137","ALI"],["A One Com Haroonabad Market Road Orangi Town - 03451269410","AQIB"],["A Rehman Mob raja mob market baldia 9no - 0305 3381627","AQIB"],["A&B Com Near Paracha Road Qasba Colony - 03402828059","AQIB"],["AA Com 2 Main Market Shershah - 0320 2002100","AQIB"],["AA com 3(Abdul Rafay) shop #2 Shershah Market - 0322-3888080","AQIB"],["Abaseen Com Mpr Colony Orangi Town - 0348 3481004","AQIB"],["Abid Mobile Zone 2 N3 Petrol Pump Mangopir Road Or - 0343 3232300","AQIB"],["Adnan Com Front Off Ghosia Masjid Nusrat Bhutto Co - 0333 3003946","AQIB"],["Afridi Com(Ali) Jinnah Road Shershah - 0341 2118462","AQIB"],["Afridi Mobile Com Shop # 1 Afridi Mobile Market Ba - 0314 2055969","AQIB"],["Aftab Com Near Safaid Chowk Near Mcb Bank Sec 11.5 - 0311 1225722","AQIB"],["AG Com Main Street Paracha Stop Shershah - 0311 3190432","AQIB"],["Aijaz Com Alamgir Road Shershah - 03140140433","AQIB"],["AJ Com(Abdul Jabbar) Nagori Market Shershah - 0316 2670526","AQIB"],["AK Mobile Accessories (Akhlaq) Street Bladia 9 - 0345 2727115","AQIB"],["Akhter Com Street Pahad Ganj Orangi Town - 0317 2951908","AQIB"],["Al Harmain Com Main Market Road MPR Colony Orangi - 0314 1189887","AQIB"],["AL KARAM COM 2ND STREET SHERSHAH - 0301 4759311","AQIB"],["Ammar Com Muhammadi Road Shershah - 0344 9499997","AQIB"],["Anas Com Pakistan Bazar Orangi Town - 0340 1260549","AQIB"],["Anus Mobile Com(Bukhtiyar) Mian Wali Road Orangi T - 0303 2538980","AQIB"],["Anwar Com Miawali Colony Orangi Town - 0340 2840175","AQIB"],["Anzal Attari Com Raees Amrohi Colony Chishti Nagar - 0311 8301790","AQIB"],["Apple services com Al kareem mobile market baldia - 0331 2200146","AQIB"],["Aryana Com Market Road MPR Colony Orangi Town - 03212482870","AQIB"],["Atta mob baldia 9no mob market -  03003895903","AQIB"],["Awan Customer Service Near Ghousia Masjid Nusrat B - 0345 6009682","AQIB"],["AZ COM SHAHEEN HOTEL SHERSHAH - 0335-2481935","AQIB"],["Azlan Com Mashallah Chowk Khairabad Orangi Town - 0316 1045663","AQIB"],["Baldia mob City Raja mob market baldia 9 no -  03142515902","AQIB"],["Bhatti Com Near Jinnah Road Shershah - 03032436582","AQIB"],["Bismillah customer service near Deer Colony Valika - 0345-2270914","AQIB"],["Call Me Com Gulshan-e-ghazi Baldia - 0345 3111870","AQIB"],["City Com(Tayyab) Near Ali Imam Bargah Qasba Colony - 0328 2944564","AQIB"],["Danish Com Main Road Chishti Nagar Orangi Town - 0308 6866958","AQIB"],["Danish Electronic & Com Shop #7  Baldia 9 - 03253344483","AQIB"],["Daniyal Com Near Muhammadi Road Shershah - 03432740359","AQIB"],["Dua Com(Ahmed Hussain) House # 1727/595 Street 2 T - 0315 9222900","AQIB"],["Dua Mobile Zone (Rehan) Main Market Baldia - 03123305119","AQIB"],["Easy Shop & Accessories Disco Mor Orangi Town 14/5 - 0345 7777335","AQIB"],["Faraz Com(Farhan) Alamgir Road Shershah - 0302 8066555","AQIB"],["Farhan Com Sector 11/5 Pakistan Bazar Orangi Town - 0336 0803650","AQIB"],["FG com baldia 3 number - 313 3529738","AQIB"],["Friends Com Qasba Colony Orangi Town - 0340 2103708","AQIB"],["Furqan Com Jinnah Road Shershah - 03328799350","AQIB"],["Future Com Near Irfan Pakwan Muhammadi Road Shersh - 03472627749","AQIB"],["Ghazi Com Near Irfan Pakwan Muhammadi Road Shersha - 03463000239","AQIB"],["GLOBAL COMM MPR COLONY ORANGI TOWN - 03438386059","AQIB"],["Hafeez Com Near Garam Chashma Naeem Mangal Market - 0306 0822082","AQIB"],["Hameed Brothers Comm Shop #1 Lal Shehbaz Road Chis - 03063666306","AQIB"],["Hamza Com Near Pakistan Bazar Orangi 11/5 - 0319 2400700","AQIB"],["Hamza Mobile Zone Shop 16 As Mobile Market Baldia - 0326 2052307","AQIB"],["HASNAIN STATIONARY SITE AREA - 0312 2370852","AQIB"],["Hassan Mobile Com Raj Mobile Market Baldia no 9 - 0311 0830135","AQIB"],["HAWK EYE COM MPR COLONY NEAR GLOBAL COM - 03702398313","AQIB"],["HOME COM SHOP #1  SHERSHAH - 300 2112784","AQIB"],["HT Com shop #2 Plot #1732/510 Dehli Makkah Colony - 0313-3429297","AQIB"],["Ikhtiyar Com Connecting Road Foot Ball Chorangi Ne - 03132571023","AQIB"],["Ismail Accessories Paracha Stop Market Shershah - 0346 2155857","AQIB"],["J N Sons Comm Shop #3 Raees Amrohi Road Chishti N - 03491839649","AQIB"],["Jabir Com Alamgir Market Street #26 Shershah Marke - 0349-8276639","AQIB"],["Jholy Lal Com Main Road Qasba Colony Orangi Town - 0345 3257805","AQIB"],["Jhulay Lal Com Naval Housing Society Hub River Roa - 03371699991","AQIB"],["Karachi Com 2 Mian Wali Colony Orangi Town - 0309 0024072","AQIB"],["Karachi Com Connecting Road F-11 Bus Stop Nusrat B - 03090024072","AQIB"],["Karachi Mobile Main Road Qasba Colony - 0349 3620382","AQIB"],["Kashif Comm Kati Pahari Road Qasba Colony Orangi T - 0342 8373779","AQIB"],["Khan Brothers Near Lal Wali Market Fareed Colony O - 0316 2527635","AQIB"],["Khan Dot Com Near Chowk Pahad Ganj - 0347 1201018","AQIB"],["Khatak Com Main Kati Pahadi Road Qasba Colony Oran - 0316 2226204","AQIB"],["Khyber Com Muhammadi Road Shershah - 03452209091","AQIB"],["Khyber Customer Com Main Chorangi Ittehad Town Bal - 03212094003","AQIB"],["KHYBER CUSTOMER SERVICE MPR ORANGI TOWN - 03443001247","AQIB"],["KPK repairing center near Arman hotel MPR Colony m - 0300 1177606","AQIB"],["Lucky Mobile 2 Com Near Urdu Bazar Shershah - 0316 7650602","AQIB"],["Lucky Mobile Shop Main Shershah Market - 0345 1970989","AQIB"],["M Zaid Com Link Road Qasba Colony Orangi Town - 03432809055","AQIB"],["MA (Anus Com) Commercial Block Naya Nazimabad - 03152473513","AQIB"],["MA Com Front Off MCB Bank Safaid Chowk Orangi Town - 0319 2952457","AQIB"],["Maryam Com(Abu Hurera) Shop # 2 Area Turk Bangash - 0319 0075799","AQIB"],["MASHALLA COM NEAR SUGHAT SWEET ORANGI 11/5 -  03135534515","AQIB"],["Mashallah Star(Abdullah Com) Shop #3 Shershah Mark - 0300-3781550","AQIB"],["Misbha Com(Shahid) Mpr Colony Orangi Town - 0370 2055021","AQIB"],["Mks Com Commander Hotel Shershah - 03112161641","AQIB"],["Mobile Store Com(Shams-Ur-Rehman Raj Market Baldia - 0311 2563600","AQIB"],["Mobile Wala Com Al Kareem Mobile Market Baldia 9 - 0317 0400958","AQIB"],["MR (Rizwan) Communication Block L Chisti Nagar Ora - 03112153726","AQIB"],["Mr Patni Com(Abdul Ghani) Shop # 3 Afridi Mobile M - 0314 2359728","AQIB"],["Ms Mobile & Repairing Shop #21 Al Kareem Mobile Ma - -","AQIB"],["Mughal com Al kareem mobile market baldia 9 number - 03102564376","AQIB"],["Mughal Com Muhammadi Road Shershah - 0308 2018959","AQIB"],["Muzammil mobile zone baldia 9 number - 0311 0827146","AQIB"],["My Pleasure Mobile Zone As Mobile Market Baldia 9 - 0321 8291984","AQIB"],["MZ Com Haroonabad Market Road Orangi Town - 03469117089","AQIB"],["Nagori Merchant Main Road Shershah - 0324 3171381","AQIB"],["Nasir Ashrafi Com Block L Orangi Town - 03152239027","AQIB"],["NDR Com Main Kati Pahari Road Qasba - 0305 2838367","AQIB"],["New Waqar com (Gujjar) Naeem Mangal Market Garam C - 0316 3044220","AQIB"],["Nice Com Main Street Shershah - 03482329450","AQIB"],["Noman Com Sec 12 Orangi Town - 0345 1333337","AQIB"],["Noman Mobile Com Shop # 23/24 Afridi Mobile Market - 03053381627","AQIB"],["Noshad Com Near Kati Pahadi Road Qasba Colony - 03120001616","AQIB"],["Parents com baldia 3 number - 0307 2075251","AQIB"],["Phone Hub Com As Mobile Market Baldia 9 - 0318 2618239","AQIB"],["Qasim Brother Com Qasba Colony Orangi Town - 03402007420","AQIB"],["Raja Com Near Sareena Hotel Muhammadi Road Shersha - 0346 0932423","AQIB"],["Rauf Com Main Road Chishti Nagar Orangi Town - 0317 2169695","AQIB"],["Rayyan Com Chishti Nagar Orangi Town - 0340 0252350","AQIB"],["Raza Com Connecting Road Foot Ball Chorangi Orangi - 03152293529","AQIB"],["Raza Com Link Road Qasba Colony Orangi Town - 0300 2834493","AQIB"],["RB Com Qasba Colony Orangi Town - 0310 3029617","AQIB"],["Rehmat Com Near Iqbal Market 11.5 1k Stop Orangi T - 03192400700","AQIB"],["RN Com Main Road Shershah - 0312 2874481","AQIB"],["RR com Shop #2 Street #4 Shershah Market - 03453232464","AQIB"],["SA Com Shah Wali-ullah Road Chishti Nagar Orangi T - 03442536078","AQIB"],["SA Com(Sami) Sec 13-C Orangi Town - 0300 2524824","AQIB"],["Saad Com Mominabad Police Station Badar Road 10 Or - 03406883275","AQIB"],["Sabir Com Street Nusrat Bhutto Colony - 0319 8504931","AQIB"],["Sabrina Com Block L Orangi Town - 0343 2000122","AQIB"],["Saeed Com Farsi Colony Pahad Ganj - 03462889293","AQIB"],["Salman mobile Raja mobile market baldia 9 number - 03461596780","AQIB"],["Sanan Com Paracha Road Shershah - 0313 2732668","AQIB"],["Shah Dot Com Main Chowk Pahad Ganj - 0314 1033404","AQIB"],["Shaheer com near sailani sweets baldia 4/5 - 0313 2903514","AQIB"],["Shahzaib Com Baldia 9 Market - 03462442726","AQIB"],["Shahzaib Com Kati Pahadi Road Qasba Colony Orangi -","AQIB"],["Shahzaib Mobile Com Afridi Mobile Market Baldia 9 - 319 3554089","AQIB"],["Shakoor Com Main Street Haroonabad - 03000317390","AQIB"],["Shani Com(Shani Memon) Shop #19 Afridi Mobile Mark - 0311 3585589","AQIB"],["Shayan Com (Saqib) Muhammadi Road Shershah - 0305 7812088","AQIB"],["Shehzad Com Near Ali Imam Bargah Qasba Colony Oran - 0313 2801649","AQIB"],["Sheraz Com Street Shop Nusrat Bhutto Colony - 0311 2604348","AQIB"],["Shoaib Accessories Khuwaja Mudassir Bakery Shersha - 03312535320","AQIB"],["Sk Comm Shop #1 As Mobile Market Baldia 9 - 0318 1278893","AQIB"],["Sk Verity Com Deer Colony Orangi Town Nazimabad - 0311 384931","AQIB"],["SM Com Shop #1 Dehli Makkah Colony Front Off Kmc O - 0303 9393550","AQIB"],["Smart Mobile Zone(Ismail) MPR Colony Orangi Town - 0340 2731985","AQIB"],["Sohail Com Mpr Colony Orangi Town - 03422175176","AQIB"],["SSD Com (Saqlain) Muhammadi Road Shershah - 0319 7275246","AQIB"],["Star Com Jinnah Road Shershah - 03458111109","AQIB"],["Stationary Com Block J North Nazimabad - 0304 3397083","AQIB"],["Talha (Zee) Comm Main Shershah Market - 0321 2218266","AQIB"],["Talha Com Abdul Mobile Market Near Faizan Hotel Sh - 0346-8382042","AQIB"],["Time Comm Main Market Haroonabad - 0341 3267567","AQIB"],["Ukasha Com Front Of Ibrahim Masjid Farid Colony Or - 03232376189","AQIB"],["Ukasha Com Main Chowk Khairabad Orangi Town - 0314 2277188","AQIB"],["Umar com near global com MPR colony orangi town - 03140660708","AQIB"],["Unique Com 2 Shop #2 As Mobile Market Baldia 9 - 0345 2482282","AQIB"],["Unique Com Faqeer Colony Orangi Town - 03332365329","AQIB"],["Usman Com Street Shop Nusrat Bhutto Colony - 0315 6180068","AQIB"],["Waseem Com Mpr Colony Orangi Town - 0342 2836240","AQIB"],["Wz Com Badar Chowk Hanifabad Orangi Town Number 10 - 0322 0271224","AQIB"],["YA Com Near Siddiqui Akber Masjid Orangi Town 11/5 - 0313 8989090","AQIB"],["Yaseen Com Mian Wali Road - 0315 2041918","AQIB"],["Yasir Com Muhammadi Road Shershah - 302 2805097","AQIB"],["Yousuf Com Block D Orangi Town - 03142351501","AQIB"],["YY com baldia town number 9 - 03478644468","AQIB"],["Zahid Com Near Turr Masjid Shershah - 03453339028","AQIB"],["Zain Com Chutta Chowk Baloch Colony Orangi Town - 0315 0001616","AQIB"],["Zara Com 1 Baldia 3 - 0312 2498479","AQIB"],["Zara Com 2 Dehli Makkah Colony Baldia 3 - 03132154639","AQIB"],["Zareen Com Near Umar Bin Khittab Masjid Pahad Ganj - 0308 9076925","AQIB"],["Zs Com Main Market Shershah - 0 317 008745","AQIB"],["Zs Com(Zulqarnain) Near Naimat-e-Sherin Main Shers - 0331 3678146","AQIB"],["Zubair Mobile Repairing Mianwali Road Orangi Town - 0323 2827110","AQIB"]
-    ];
-
-    // ============ APP LOGIC ============
+    // 🔴 IMPORTANT: REPLACE THIS URL WITH YOUR GOOGLE SHEETS CSV PUBLISH LINK 🔴
+    // How to get: File → Share → Publish to web → Link → CSV → Copy link
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR1R3GgNWGTrc17FVE7j4kjzo-hFG-GWdZ0nq3dFFNmeZxoXyvjRkAUYg_YsRoaNjt2FnqAg-z6-YTe/pub?gid=0&single=true&output=csv";
+    
     let shops = [], visits = [], users = [], currentUser = null;
     let currentFilter = 'all', searchTerm = '';
-    const todayStr = () => new Date().toISOString().slice(0,10);
     
+    function todayStr() { return new Date().toISOString().slice(0,10); }
     function extractPhone(text) { let m = text.match(/0[0-9]{2,}[0-9\s\-+]+/); return m ? m[0].trim().substring(0,15) : "N/A"; }
     
-    function loadData() {
-        let savedVisits = localStorage.getItem('shopTracker_visits');
-        let savedUsers = localStorage.getItem('shopTracker_users');
-        
-        if(savedVisits) visits = JSON.parse(savedVisits);
-        if(savedUsers) users = JSON.parse(savedUsers);
-        
-        // Load shops from SHOP_DATA
-        if(shops.length === 0) {
+    async function loadShopsFromSheet() {
+        try {
+            const response = await fetch(GOOGLE_SHEET_CSV_URL);
+            const csvText = await response.text();
+            
+            // Parse CSV
+            const rows = csvText.split('\n');
             let id = 1;
-            for(let row of SHOP_DATA) {
-                if(row[0] && row[1]) {
-                    shops.push({ id: id++, name: row[0], phone: extractPhone(row[0]), bookerAssigned: row[1] });
+            
+            // Skip header row (first row)
+            for(let i = 1; i < rows.length; i++) {
+                const line = rows[i].trim();
+                if(!line) continue;
+                
+                // Simple CSV parsing (handles quoted fields)
+                let match = line.match(/(".*?"|[^,]*)(,|$)/g);
+                if(match) {
+                    let col1 = match[0].replace(/,$/, '').replace(/^"|"$/g, '');
+                    let col2 = match[1] ? match[1].replace(/,$/, '').replace(/^"|"$/g, '') : '';
+                    
+                    if(col1 && col2) {
+                        shops.push({ 
+                            id: id++, 
+                            name: col1, 
+                            phone: extractPhone(col1), 
+                            bookerAssigned: col2.toUpperCase() 
+                        });
+                    }
                 }
             }
+            
+            console.log(`Loaded ${shops.length} shops from Google Sheets`);
+            return true;
+        } catch(e) {
+            console.error("Error loading from Google Sheets:", e);
+            return false;
         }
-        
-        // Create users from unique bookers
-        if(users.length === 0) {
-            let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
-            users = [{ username: "admin", password: "123", role: "admin" }];
-            for(let bk of uniqueBookers) {
-                if(bk && bk !== "admin" && bk !== "-") users.push({ username: bk, password: "123", role: "booker" });
-            }
-        }
-        
-        saveData();
-        updateCountDisplay();
     }
     
     function saveData() {
@@ -181,27 +168,67 @@
         localStorage.setItem('shopTracker_users', JSON.stringify(users));
     }
     
-    function updateCountDisplay() {
-        if(document.getElementById('totalShopCountDisplay')) {
-            document.getElementById('totalShopCountDisplay').innerText = shops.length;
+    async function init() {
+        document.getElementById('loadingIndicator').innerHTML = "Loading shops from Google Sheets... ⏳<br><small>This may take 10-20 seconds for 2800+ shops</small>";
+        
+        const loaded = await loadShopsFromSheet();
+        
+        if(!loaded || shops.length === 0) {
+            document.getElementById('loadingIndicator').innerHTML = `
+                ❌ Error loading shops!<br><br>
+                <strong>Please set up your Google Sheet:</strong><br>
+                1. Put your shop data in a Google Sheet (Column A = Shop Name, Column B = Booker)<br>
+                2. File → Share → Publish to web → Link → CSV<br>
+                3. Copy the link and replace GOOGLE_SHEET_CSV_URL in the code<br><br>
+                <small>Current URL: ${GOOGLE_SHEET_CSV_URL}</small>
+            `;
+            return;
         }
-        if(document.getElementById('totalShopCount')) {
-            document.getElementById('totalShopCount').innerText = shops.length;
+        
+        // Load visits and users from localStorage
+        let savedVisits = localStorage.getItem('shopTracker_visits');
+        let savedUsers = localStorage.getItem('shopTracker_users');
+        if(savedVisits) visits = JSON.parse(savedVisits);
+        if(savedUsers) users = JSON.parse(savedUsers);
+        
+        // Create users from unique bookers
+        if(users.length === 0) {
             let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
-            document.getElementById('totalBookerCount').innerText = uniqueBookers.length;
+            users = [{ username: "admin", password: "123", role: "admin" }];
+            for(let bk of uniqueBookers) {
+                if(bk && bk !== "admin") users.push({ username: bk, password: "123", role: "booker" });
+            }
+            saveData();
         }
-        if(document.getElementById('shopCountDisplay')) {
-            document.getElementById('shopCountDisplay').innerHTML = `📊 ${shops.length} Shops Loaded`;
+        
+        // Update UI
+        document.getElementById('totalShopCount').innerText = shops.length;
+        document.getElementById('shopCountDisplay').innerHTML = `📊 ${shops.length} Shops`;
+        let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
+        document.getElementById('totalBookerCount').innerText = uniqueBookers.length;
+        
+        // Create booker buttons
+        let container = document.getElementById('bookerList');
+        let allUsers = [...uniqueBookers, 'admin'];
+        container.innerHTML = '';
+        for(let user of allUsers) {
+            let btn = document.createElement('button');
+            btn.className = 'booker-btn';
+            btn.innerText = user;
+            btn.onclick = () => { document.getElementById('loginUser').value = user; document.getElementById('loginPass').value = '123'; login(); };
+            container.appendChild(btn);
         }
+        
+        document.getElementById('loadingIndicator').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
     }
     
     function isVisitedToday(shopId) { return visits.some(v => v.shopId === shopId && v.dateStr === todayStr()); }
     
     function markVisit(shopId) {
         if(!currentUser) return;
-        if(isVisitedToday(shopId)) { alert("Already visited today!"); return; }
-        let shop = shops.find(s => s.id === shopId);
-        visits.push({ id: Date.now(), shopId: shopId, visitedBy: currentUser.username, dateStr: todayStr(), timestamp: new Date().toLocaleString(), shopName: shop.name });
+        if(isVisitedToday(shopId)) { alert("Already visited!"); return; }
+        visits.push({ id: Date.now(), shopId, visitedBy: currentUser.username, dateStr: todayStr(), timestamp: new Date().toLocaleString() });
         saveData();
         renderShops();
         if(document.getElementById('tab-report').classList.contains('active')) renderReport();
@@ -210,12 +237,12 @@
     
     function resetVisit(shopId) {
         let idx = visits.findIndex(v => v.shopId === shopId && v.dateStr === todayStr());
-        if(idx === -1) { alert("No visit today to reset"); return; }
+        if(idx === -1) { alert("No visit today"); return; }
         visits.splice(idx, 1);
         saveData();
         renderShops();
         renderReport();
-        alert("✓ Visit reset");
+        alert("✓ Reset");
     }
     
     function renderShops() {
@@ -234,7 +261,7 @@
             let visited = isVisitedToday(shop.id);
             let action = !visited ? `<button class="visit-btn success" data-id="${shop.id}">✅ Mark</button>` : '';
             if(currentUser.role === 'admin' && visited) action += ` <button class="reset-btn warning" data-id="${shop.id}">🔄 Reset</button>`;
-            tbody.innerHTML += `<tr><td style="max-width:250px; word-break:break-word;">${escapeHtml(shop.name.substring(0,60))}</td><td>${shop.phone}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited Today' : '❌ Not Visited'}</span></td><td>${action}</td></tr>`;
+            tbody.innerHTML += `<tr><td style="max-width:250px; word-break:break-word;">${escapeHtml(shop.name)}</td><td>${shop.phone}</td><td>${shop.bookerAssigned}</td><td><span class="${visited ? 'visited-badge' : 'visited-badge not-visited'}">${visited ? '✓ Visited' : '❌ Not'}</span></td><td>${action}</td></tr>`;
         });
         document.querySelectorAll('.visit-btn').forEach(btn => btn.addEventListener('click', () => markVisit(parseInt(btn.dataset.id))));
         document.querySelectorAll('.reset-btn').forEach(btn => btn.addEventListener('click', () => resetVisit(parseInt(btn.dataset.id))));
@@ -245,7 +272,7 @@
         let filtered = visits.filter(v => (!from || v.dateStr >= from) && (!to || v.dateStr <= to)).sort((a,b)=>b.id-a.id);
         let tbody = document.getElementById('reportBody');
         tbody.innerHTML = '';
-        filtered.forEach(v => { let s = shops.find(s=>s.id===v.shopId); if(s) tbody.innerHTML += `<tr><td>${v.dateStr}</td><td style="max-width:200px; word-break:break-word;">${escapeHtml(s.name.substring(0,50))}</td><td>${s.phone}</td><td>${s.bookerAssigned}</td><td>${v.timestamp}</td></tr>`; });
+        filtered.forEach(v => { let s = shops.find(s=>s.id===v.shopId); if(s) tbody.innerHTML += `<tr><td>${v.dateStr}</td><td style="max-width:200px;">${escapeHtml(s.name)}</td><td>${s.phone}</td><td>${s.bookerAssigned}</td><td>${v.timestamp}</td></tr>`; });
     }
     
     function exportExcel() {
@@ -259,7 +286,6 @@
     
     function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // Admin functions
     function refreshAdmin() {
         if(!currentUser || currentUser.role !== 'admin') return;
         let bookers = users.filter(u => u.role === 'booker').map(u => u.username);
@@ -268,13 +294,11 @@
         document.getElementById('removeBookerSelect').innerHTML = '<option value="">Select booker</option>' + bookers.map(b => `<option value="${b}">${b}</option>`).join('');
     }
     
-    function addShop() { let n=document.getElementById('newShopName').value.trim(), p=document.getElementById('newShopPhone').value.trim(), b=document.getElementById('newShopBooker').value; if(!n||!b){alert("Required");return;} shops.push({id:Date.now(),name:n,phone:p||"N/A",bookerAssigned:b}); saveData(); renderShops(); refreshAdmin(); updateCountDisplay(); alert("Shop added"); }
+    function addShop() { let n=document.getElementById('newShopName').value.trim(), p=document.getElementById('newShopPhone').value.trim(), b=document.getElementById('newShopBooker').value; if(!n||!b){alert("Required");return;} shops.push({id:Date.now(),name:n,phone:p||"N/A",bookerAssigned:b}); saveData(); renderShops(); refreshAdmin(); document.getElementById('totalShopCount').innerText = shops.length; alert("Shop added"); }
     function addBooker() { let n=document.getElementById('newBookerName').value.trim().toUpperCase(); if(!n)return; if(users.find(u=>u.username===n)){alert("Exists");return;} users.push({username:n,password:"123",role:"booker"}); saveData(); refreshAdmin(); alert(`Booker ${n} added`); }
     function removeBooker() { let b=document.getElementById('removeBookerSelect').value; if(!b)return; if(confirm(`Remove ${b}?`)){users=users.filter(u=>u.username!==b);saveData();refreshAdmin();alert("Removed");} }
     function adminResetVisit() { let id=parseInt(document.getElementById('resetShopSelect').value); if(id) resetVisit(id); else alert("Select shop"); }
-    function copyUrl() { let url = window.location.href; navigator.clipboard.writeText(url); alert("Link copied! Share with bookers."); }
     
-    // Login/Logout
     function login() {
         let u = document.getElementById('loginUser').value.trim().toUpperCase();
         let p = document.getElementById('loginPass').value;
@@ -293,12 +317,13 @@
     function renderUI() {
         let tabsDiv = document.getElementById('tabs');
         tabsDiv.innerHTML = '';
-        let tabs = [{id:'tab-visit',label:'📍 Visit Shops'},{id:'tab-report',label:'📊 Reports'}];
+        let tabs = [{id:'tab-visit',label:'📍 Visit'},{id:'tab-report',label:'📊 Reports'}];
         if(currentUser.role === 'admin') tabs.push({id:'tab-admin',label:'⚙️ Admin'});
         tabs.forEach(tab => { let btn = document.createElement('button'); btn.className='tab-btn'; btn.innerText=tab.label; btn.onclick=()=>{document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); document.getElementById(tab.id).classList.add('active'); if(tab.id==='tab-report') renderReport(); if(tab.id==='tab-visit') renderShops(); if(tab.id==='tab-admin') refreshAdmin(); }; tabsDiv.appendChild(btn); });
         document.getElementById('tab-visit').classList.add('active');
         renderShops();
-        document.getElementById('reportFrom').value = todayStr(); document.getElementById('reportTo').value = todayStr();
+        let d = todayStr();
+        document.getElementById('reportFrom').value = d; document.getElementById('reportTo').value = d;
         renderReport();
         document.getElementById('filterAll').onclick = () => { currentFilter='all'; renderShops(); };
         document.getElementById('filterVisited').onclick = () => { currentFilter='visited'; renderShops(); };
@@ -306,30 +331,12 @@
         document.getElementById('searchInput').oninput = (e) => { searchTerm = e.target.value.toLowerCase(); renderShops(); };
         document.getElementById('applyReport').onclick = () => renderReport();
         document.getElementById('exportExcel').onclick = exportExcel;
-        if(currentUser.role === 'admin') { refreshAdmin(); document.getElementById('addShopBtn').onclick = addShop; document.getElementById('addBookerBtn').onclick = addBooker; document.getElementById('removeBookerBtn').onclick = removeBooker; document.getElementById('resetVisitBtn').onclick = adminResetVisit; document.getElementById('copyUrlBtn').onclick = copyUrl; document.getElementById('shareUrl').value = window.location.href; }
-    }
-    
-    // Create booker buttons
-    function createBookerButtons() {
-        let container = document.getElementById('bookerList');
-        if(!container) return;
-        let uniqueBookers = [...new Set(shops.map(s => s.bookerAssigned))];
-        let allUsers = [...uniqueBookers, 'admin'];
-        container.innerHTML = '';
-        for(let user of allUsers) {
-            let btn = document.createElement('button');
-            btn.className = 'booker-btn';
-            btn.innerText = user;
-            btn.onclick = () => { document.getElementById('loginUser').value = user; document.getElementById('loginPass').value = '123'; login(); };
-            container.appendChild(btn);
-        }
+        if(currentUser.role === 'admin') { refreshAdmin(); document.getElementById('addShopBtn').onclick = addShop; document.getElementById('addBookerBtn').onclick = addBooker; document.getElementById('removeBookerBtn').onclick = removeBooker; document.getElementById('resetVisitBtn').onclick = adminResetVisit; }
     }
     
     document.getElementById('loginBtn').onclick = login;
     document.getElementById('logoutBtn').onclick = logout;
-    loadData();
-    createBookerButtons();
-    updateCountDisplay();
+    init();
 </script>
 </body>
 </html>
