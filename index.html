@@ -431,13 +431,23 @@ const FB_URL = "https://shopvisittracker-81420-default-rtdb.firebaseio.com";
 
 const db = {
   async get(path) {
-    const r = await fetch(`${FB_URL}/${path}.json`);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return await r.json();
+    try {
+      const r = await fetch(`${FB_URL}/${path}.json`, {
+        method: 'GET',
+        mode: 'cors',
+      });
+      if (r.status === 401 || r.status === 403) throw new Error('Permission denied - check Firebase rules');
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return await r.json();
+    } catch(e) {
+      if (e.message.includes('Failed to fetch')) throw new Error('Cannot reach Firebase. Check internet connection.');
+      throw e;
+    }
   },
   async set(path, data) {
     const r = await fetch(`${FB_URL}/${path}.json`, {
       method: 'PUT',
+      mode: 'cors',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(data)
     });
@@ -447,6 +457,7 @@ const db = {
   async push(path, data) {
     const r = await fetch(`${FB_URL}/${path}.json`, {
       method: 'POST',
+      mode: 'cors',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(data)
     });
@@ -457,6 +468,7 @@ const db = {
   async update(path, data) {
     const r = await fetch(`${FB_URL}/${path}.json`, {
       method: 'PATCH',
+      mode: 'cors',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(data)
     });
@@ -464,13 +476,15 @@ const db = {
     return await r.json();
   },
   async remove(path) {
-    const r = await fetch(`${FB_URL}/${path}.json`, { method: 'DELETE' });
+    const r = await fetch(`${FB_URL}/${path}.json`, {
+      method: 'DELETE',
+      mode: 'cors'
+    });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return true;
   },
-  // Polling for live updates
   poll(path, callback, interval=5000) {
-    callback(); // immediate
+    callback();
     return setInterval(callback, interval);
   }
 };
