@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop Visit Tracker</title>
 <!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <!-- SheetJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -196,6 +196,7 @@ select option{background:var(--s2)}
         <div class="nav" data-p="allshops" onclick="go('allshops')">🗺 All Shops</div>
         <div class="nav" data-p="bookers" onclick="go('bookers')">📊 Booker Stats</div>
         <div class="nav" data-p="users" onclick="go('users')">👥 Users</div>
+        <div class="nav" data-p="addshop" onclick="go('addshop')">➕ Add Shop</div>
       </div>
     </div>
 
@@ -352,6 +353,35 @@ select option{background:var(--s2)}
         </div>
       </div>
 
+      <!-- ADD SHOP (ADMIN) -->
+      <div class="pg" id="pg-addshop">
+        <div class="ph">Add New Shop</div>
+        <div class="ps">Add a shop and assign it to a booker</div>
+        <div class="card" style="max-width:560px">
+          <div class="card-head"><div class="card-title">Shop Details</div></div>
+          <div style="padding:24px">
+            <div class="fg"><label>Shop Name *</label><input id="ns-name" type="text" placeholder="e.g. Ali General Store, Gulshan Block 5"></div>
+            <div class="fg"><label>Assign to Booker *</label><select id="ns-booker"></select></div>
+            <div style="display:flex;gap:10px;margin-top:8px">
+              <button class="btn btn-blue" onclick="saveNewShop()" style="flex:1;justify-content:center">➕ Add Shop</button>
+              <button class="btn btn-ghost" onclick="clearShopForm()">Clear</button>
+            </div>
+            <div id="ns-msg" style="margin-top:14px;font-size:13px;min-height:20px"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-head">
+            <div class="card-title" id="ns-list-title">Recently Added Shops</div>
+            <button class="btn btn-green" onclick="expNewShops()" style="padding:8px 12px;font-size:12px">⬇ Export</button>
+          </div>
+          <table>
+            <thead><tr><th>#</th><th>Shop Name</th><th>Booker</th><th>Added</th><th>Action</th></tr></thead>
+            <tbody id="ns-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -367,41 +397,3 @@ select option{background:var(--s2)}
       <button class="btn btn-ghost" onclick="cm('m-visit')">Cancel</button>
       <button class="btn btn-green" id="visit-confirm-btn" onclick="doVisit()">✓ Mark as Visited</button>
     </div>
-  </div>
-</div>
-
-<div class="overlay" id="m-adduser">
-  <div class="modal">
-    <div class="modal-h">Add User</div>
-    <div class="fg"><label>Username</label><input id="nu-name" type="text" placeholder="e.g. AHMED" style="text-transform:uppercase"></div>
-    <div class="fg"><label>Password</label><input id="nu-pass" type="password" placeholder="Default: 123"></div>
-    <div class="fg"><label>Role</label><select id="nu-role"><option value="booker">Booker</option><option value="admin">Admin</option></select></div>
-    <div class="ma">
-      <button class="btn btn-ghost" onclick="cm('m-adduser')">Cancel</button>
-      <button class="btn btn-blue" onclick="saveUser()">Save</button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay" id="m-chpass">
-  <div class="modal">
-    <div class="modal-h">Change Password</div>
-    <div style="color:var(--muted);font-size:13px;margin-bottom:16px" id="m-chpass-for"></div>
-    <div class="fg"><label>New Password</label><input id="cp-pass" type="password" placeholder="New password"></div>
-    <div class="ma">
-      <button class="btn btn-ghost" onclick="cm('m-chpass')">Cancel</button>
-      <button class="btn btn-blue" onclick="doChPass()">Update</button>
-    </div>
-  </div>
-</div>
-
-<div id="toast"></div>
-
-<script>
-// ── FIREBASE CONFIG ─────────────────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyB3IUCCrzWHZXymTRhl-AzaOjtBgCQY93M",
-  authDomain: "shopvisittracker-81420.firebaseapp.com",
-  databaseURL: "https://shopvisittracker-81420-default-rtdb.firebaseio.com",
-  projectId: "shopvisittracker-81420",
-  storageBucket: "shopvisittracker-81420.fi
